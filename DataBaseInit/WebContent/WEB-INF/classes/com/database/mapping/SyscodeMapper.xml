@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.database.dao.SyscodeDao">
+
+	<!--实体映射 -->
+	<resultMap id="SyscodeResultMap" type="Syscode">
+		<!---->
+		<id property="id" column="id" />
+		<!--key -->
+		<result property="key" column="key" />
+		<!--value -->
+		<result property="value" column="value" />
+		<!--类型 -->
+		<result property="type" column="type" />
+		<!--备注 -->
+		<result property="remark" column="remark" />
+	</resultMap>
+
+
+	<!-- 通用查询结果列 -->
+	<sql id="Base_Column_List">
+		t.id, t.key, t.value, t.type, t.remark
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="selectById" resultType="Syscode" parameterType="java.lang.String">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM u_syscode t
+		WHERE t.id = #{id}
+	</select>
+
+
+	<!-- 查询（根据条件查询集合） -->
+	<select id="selectSyscodeList" resultMap="SyscodeResultMap"
+		parameterType="Syscode">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM u_syscode t
+		<where>
+			<trim prefix=" " suffix=" " suffixOverrides=" and ">
+				<if test="id != null  and id!=''">
+					t.id = #{id}
+				</if>
+				<if test="key != null  and key!=''">
+					t.key = #{key}
+				</if>
+				<if test="value != null  and value!=''">
+					t.value = #{value}
+				</if>
+				<if test="type != null  and type!=''">
+					t.type = #{type}
+				</if>
+				<if test="remark != null  and remark!=''">
+					t.remark = #{remark}
+				</if>
+			</trim>
+		</where>
+		limit #{startRow},#{pageSize}
+	</select>
+
+	<!-- 查询（根据条件查询集合总数） -->
+	<select id="selectSyscodeCount" resultType="java.lang.Integer"
+		parameterType="Syscode">
+		SELECT count(*) FROM u_syscode t
+		<where>
+			<trim prefix=" " suffix=" " suffixOverrides=" and ">
+				<if test="id != null and id!=''">
+					t.id = #{id}
+				</if>
+				<if test="key != null and key!=''">
+					t.key = #{key}
+				</if>
+				<if test="value != null and value!=''">
+					t.value = #{value}
+				</if>
+				<if test="type != null and type!=''">
+					t.type = #{type}
+				</if>
+				<if test="remark != null and remark!=''">
+					t.remark = #{remark}
+				</if>
+			</trim>
+		</where>
+	</select>
+
+	<!--删除：根据主键ID删除 -->
+	<delete id="deleteById" parameterType="java.lang.String">
+		DELETE FROM u_syscode t
+		WHERE id = #{id}
+	</delete>
+
+	<!--删除：根据对象删除 -->
+	<delete id="deleteSyscode" parameterType="Syscode">
+		DELETE FROM u_syscode
+		WHERE id = #{id}
+	</delete>
+	<insert id="insertSyscodeList" useGeneratedKeys="true"
+		parameterType="java.util.List">
+
+		
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			INSERT INTO u_syscode
+		(id,key,value,type,remark)VALUES
+			(uuid(),
+
+			#{item.key},
+
+			#{item.value},
+
+			#{item.type},
+
+			#{item.remark})
+
+
+		</foreach>
+	</insert>
+	<!-- 添加 （匹配有值的字段） -->
+	<insert id="insertSyscode" parameterType="Syscode">
+		INSERT INTO u_syscode
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			id,
+			<if test="key != null and key!=''">
+				key,
+			</if>
+			<if test="value != null and value!=''">
+				value,
+			</if>
+			<if test="type != null and type!=''">
+				type,
+			</if>
+			<if test="remark != null and remark!=''">
+				remark,
+			</if>
+
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			uuid(),
+			<if test="key!=null and key!=''">
+				#{key},
+			</if>
+			<if test="value!=null and value!=''">
+				#{value},
+			</if>
+			<if test="type!=null and type!=''">
+				#{type},
+			</if>
+			<if test="remark!=null and remark!=''">
+				#{remark},
+			</if>
+		</trim>
+	</insert>
+
+	<!-- 修 改 -->
+	<update id="updateSyscode" parameterType="Syscode">
+		UPDATE u_syscode
+		<set>
+			<if test="key != null and key!=''">
+				key = #{key},
+			</if>
+			<if test="value != null and value!=''">
+				value = #{value},
+			</if>
+			<if test="type != null and type!=''">
+				type = #{type},
+			</if>
+			<if test="remark != null and remark!=''">
+				remark = #{remark},
+			</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+</mapper>

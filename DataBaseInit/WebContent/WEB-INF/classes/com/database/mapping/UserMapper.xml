@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.database.dao.UserDao">
+
+	<!--实体映射 -->
+	<resultMap id="UserResultMap" type="User">
+		<!---->
+		<id property="id" column="id" />
+		<!--姓名 -->
+		<result property="userName" column="user_name" />
+		<!--登录名 -->
+		<result property="loginName" column="login_name" />
+		<!--邮件地址 -->
+		<result property="emailAddress" column="email_address" />
+		<!--用户密码 -->
+		<result property="loginPass" column="login_pass" />
+		<!--创建人-->
+		<result property="createUser" column="create_user" />
+		<!--创建时间-->
+		<result property="createTime" column="create_time" />
+	</resultMap>
+
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+	 t.id,	 t.user_name,	 t.login_name,	 t.email_address,	 t.login_pass,	 t.create_user,	 t.create_time
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="selectById" resultType="User" parameterType="java.lang.String">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM u_user
+		WHERE id = #{id}
+	</select>
+
+	<!-- 登陆验证 -->
+	<select id="loginUser"  resultMap="UserResultMap"  parameterType="User">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM u_user t
+		WHERE login_name=#{loginName} and login_pass=#{loginPass}
+	</select>
+
+
+	<!-- 查询（根据条件查询集合） -->
+	<select id="selectUserList" resultMap="UserResultMap" parameterType="User">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM u_user t 
+	<where>
+		 <trim prefix=" " suffix=" " suffixOverrides=" and " >
+			<if test="id != null  and id!=''">
+				 t.id = #{id}
+			</if>
+			<if test="userName != null  and userName!=''">
+				 t.user_name = #{userName}
+			</if>
+			<if test="loginName != null  and loginName!=''">
+				 t.login_name = #{loginName}
+			</if>
+			<if test="emailAddress != null  and emailAddress!=''">
+				 t.email_address = #{emailAddress}
+			</if>
+			<if test="loginPass != null  and loginPass!=''">
+				 t.login_pass = #{loginPass}
+			</if>
+			<if test="createUser != null  and createUser!=''">
+				 t.create_user = #{createUser}
+			</if>
+			<if test="createTime != null  and createTime!=''">
+				 t.create_time = #{createTime}
+			</if>
+		 </trim>
+	</where>
+		 limit #{startRow},#{pageSize}
+	</select>
+
+
+	<!-- 查询（根据条件查询集合总数） -->
+	<select id="selectUserCount" resultType="java.lang.Integer" parameterType="User">
+		 SELECT count(*) FROM  u_user t 
+	<where>
+		 <trim prefix=" " suffix=" " suffixOverrides=" and " >
+			<if test="id != null and id!=''">
+				 t.id = #{id}
+			</if>
+			<if test="userName != null and userName!=''">
+				 t.user_name = #{userName}
+			</if>
+			<if test="loginName != null and loginName!=''">
+				 t.login_name = #{loginName}
+			</if>
+			<if test="emailAddress != null and emailAddress!=''">
+				 t.email_address = #{emailAddress}
+			</if>
+			<if test="loginPass != null and loginPass!=''">
+				 t.login_pass = #{loginPass}
+			</if>
+			<if test="createUser != null and createUser!=''">
+				 t.create_user = #{createUser}
+			</if>
+			<if test="createTime != null and createTime!=''">
+				 t.create_time = #{createTime}
+			</if>
+		 </trim>
+	</where>
+	</select>
+
+	<!--删除：根据主键ID删除 -->
+	<delete id="deleteById" parameterType="java.lang.String">
+		DELETE FROM u_user
+		WHERE id = #{id}
+	</delete>
+
+	<!--删除：根据对象删除 -->
+	<delete id="deleteUser" parameterType="User">
+		DELETE FROM u_user
+		WHERE id = #{id}
+	</delete>
+
+	<!-- 添加 （匹配有值的字段）-->
+	<insert id="insertUser" parameterType="User">
+		 INSERT INTO u_user
+		 <trim prefix="(" suffix=")" suffixOverrides="," >
+				 id,
+			<if test="userName != null and userName!=''">
+				 user_name,
+			</if>
+			<if test="loginName != null and loginName!=''">
+				 login_name,
+			</if>
+			<if test="emailAddress != null and emailAddress!=''">
+				 email_address,
+			</if>
+			<if test="loginPass != null and loginPass!=''">
+				 login_pass,
+			</if>
+			<if test="createUser != null and createUser!=''">
+				 create_user,
+			</if>
+			
+				 create_time,
+			
+
+		 </trim>
+		 <trim prefix="values (" suffix=")" suffixOverrides="," >
+				 uuid(),
+			<if test="userName!=null and userName!=''">
+				 #{userName},
+			</if>
+			<if test="loginName!=null and loginName!=''">
+				 #{loginName},
+			</if>
+			<if test="emailAddress!=null and emailAddress!=''">
+				 #{emailAddress},
+			</if>
+			<if test="loginPass!=null and loginPass!=''">
+				 #{loginPass},
+			</if>
+			<if test="createUser!=null and createUser!=''">
+				 #{createUser},
+			</if>
+			
+				 NOW(),
+			
+		 </trim>
+	</insert>
+
+	<!-- 修 改-->
+	<update id="updateUser" parameterType="User">
+		 UPDATE u_user
+ 		 <set> 
+			<if test="userName != null and userName!=''">
+				 user_name = #{userName},
+			</if>
+			<if test="emailAddress != null and emailAddress!=''">
+				 email_address = #{emailAddress},
+			</if>
+			<if test="loginPass != null and loginPass!=''">
+				 login_pass = #{loginPass},
+			</if>
+			<if test="createUser != null and createUser!=''">
+				 create_user = #{createUser},
+			</if>
+		
+				 create_time =  NOW(),
+			
+ 		 </set>
+		 WHERE id = #{id}
+	</update>
+
+
+<!-- 查询是否存在 -->
+	<select id="exist" resultType="java.lang.Integer" parameterType="User">
+		 SELECT count(*) FROM  u_user t 
+	<where>
+		 <trim prefix=" " suffix=" " suffixOverrides=" and " >
+			<if test="loginName != null and loginName!=''">
+				 t.login_name = #{loginName}
+			</if>		
+		 </trim>
+	</where>
+	</select>
+</mapper>

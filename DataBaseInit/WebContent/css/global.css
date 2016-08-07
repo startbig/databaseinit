@@ -1,0 +1,317 @@
+@charset "utf-8";
+/*清除浮动*/
+.clearfix:after {
+	
+}
+
+{
+content
+:
+ 
+"
+halfface
+";
+ 
+clear
+:both
+;
+ 
+height
+:
+0;
+ 
+visibility
+:hidden
+;
+ 
+display
+:block
+;
+}
+/* 这是对Firefox进行的处理，因为Firefox支持生成元素，而IE所有版本都不支持生成元素 */
+.clearfix {
+	
+}
+
+{
+display
+:inline-block
+;
+} /* 这是对 Mac 上的IE浏览器进行的处理 */
+/**/ /* Hides from IE-mac \*/
+* html .clearfix {
+	
+}
+
+{
+height
+:
+ 
+1%;
+}
+/* 这是对 win 上的IE浏览器进行的处理 */
+.clearfix {
+	
+}
+
+{
+display
+:
+ 
+block
+;
+}
+/* 这是对display: inline-block; 进行的修改，重置为区块元素*/
+/**/ /* End hide from IE-mac */
+.clearfix {
+	zoom: 1
+}
+
+html> /**/ body .clearfix {
+	overflow: hidden;
+}
+
+.clear {
+	clear: both;
+}
+
+/*------------------------------------------------------------------------------------------------------Globle_style*/
+body {
+	font-family: "宋体";
+	font-size: 12px;
+	padding: 0;
+	margin: 0;
+	color: #787878;
+	background-color: #fff;
+	_background-image: url(about:blank);
+	_background-attachment: fixed;
+}
+
+body, div, p, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code,
+	form, fieldset, legend, input, button, textarea {
+	margin: 0;
+	padding: 0;
+}
+
+select {
+	vertical-align: middle;
+}
+
+ul, ol, li {
+	list-style-type: none;
+}
+
+blockquote, q {
+	quotes: none;
+}
+
+img {
+	border-style: none;
+}
+/*图片点击不出现虚线框*/
+a, area {
+	blr: expression(this.onFocus = this.blur ());
+} /*For IE*/
+:focus {
+	-moz-outline-style: none;
+} /*For Firefox*/
+blockquote:before, blockquote:after, q:before, q:after {
+	content: '';
+	content: none;
+}
+
+.clear {
+	clear: both;
+}
+
+a {
+	color: #656565;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #eb3333;
+	text-decoration: none;
+}
+
+a img {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+.b {
+	font-weight: bold;
+}
+
+.font_20 {
+	font-size: 20px;
+}
+
+.font_18 {
+	font-size: 18px;
+}
+
+.font_14 {
+	font-size: 14px;
+}
+
+.font_12 {
+	font-size: 12px;
+}
+
+.n {
+	font-weight: normal;
+}
+
+.RegMsgOk {
+	color: #006600;
+}
+
+.red {
+	color: #9a0002;
+}
+
+.more {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+}
+
+.RegMsgErr {
+	color: #CC0000;
+}
+
+.red2 {
+	color: #b54c00;
+}
+
+.white {
+	color: #fff;
+}
+
+.black {
+	color: #888;
+}
+
+.black a:hover {
+	color: #333;
+}
+
+.tips li {
+	list-style-type: decimal;
+	list-style-position: outside;
+	margin: 8px 0 0 25px;
+	line-height: 18px;
+}
+
+.tips2 li {
+	list-style-type: disc;
+	list-style-position: outside;
+	margin: 2px 0 0 15px;
+	line-height: 18px;
+}
+
+.gray_frame {
+	border: 1px solid #fff;
+	background-color: #fff;
+}
+
+.dashed_line {
+	border-bottom: 1px dashed #ccc;
+	width: 100%;
+	margin: 10px 0;
+	line-height: 1px;
+	height: 1px;
+}
+
+.solid_line {
+	border-bottom: 1px #ccc solid;
+	width: 100%;
+	margin: 10px 0;
+	line-height: 1px;
+	height: 1px;
+}
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
+.center {
+	text-align: center;
+}
+
+.position {
+	text-align: left;
+	width: 1000px;
+	margin: 0 auto;
+}
+
+.gray {
+	background-color: #f2f2f2;
+}
+
+.gray1 {
+	color: #999999;
+	font-size: 14px;
+}
+
+.blue {
+	color: #36495a;
+}
+
+.text {
+	text-indent: -9999px;
+}
+
+.yahei {
+	font-family: Microsoft YaHei, calibri, verdana;
+}
+
+.bs {
+	border-style: none;
+}
+
+.black {
+	color: #000;
+	font-size: 14px;
+}
+
+.box_1000 {
+	width: 1000px;
+	margin: 0 auto;
+}
+
+.box_966 {
+	width: 966px;
+	margin: 0 auto;
+	overflow: hidden;
+}
+
+.col_01 {
+	color: #999;
+}
+
+.col_02 {
+	color: #e60012;
+}
+
+.f_EN {
+	font-family: "Times New Roman";
+}
+
+.f_EN1 {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.f_CN {
+	
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}

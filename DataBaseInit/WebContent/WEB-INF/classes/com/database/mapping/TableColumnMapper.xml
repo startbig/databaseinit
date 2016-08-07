@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.database.dao.TableColumnDao">
+
+	<!--实体映射-->
+	<resultMap id="TableColumnResultMap" type="TableColumn">
+		<!---->
+		<id property="id" column="id" />
+		<!--表id-->
+		<result property="tableId" column="table_id" />
+		<!--字段名称-->
+		<result property="columnName" column="column_name" />
+		<!--字段类型-->
+		<result property="columnType" column="column_type" />
+		<!--表备注-->
+		<result property="columnComment" column="column_comment" />
+	</resultMap>
+
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+	 t.id,	 t.table_id,	 t.column_name,	 t.column_type,	 t.column_comment
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="selectById" resultType="TableColumn" parameterType="java.lang.String">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM u_table_column t 
+		 WHERE t.id = #{id}
+	</select>
+
+	<!-- 查询（根据条件查询集合） -->
+	<select id="selectTableColumnList" resultMap="TableColumnResultMap" parameterType="TableColumn">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM u_table_column t 
+	<where>
+		 <trim prefix=" " suffix=" " suffixOverrides=" and " >
+			<if test="id != null  and id!=''">
+				 t.id = #{id}
+			</if>
+			<if test="tableId != null  and tableId!=''">
+				 t.table_id = #{tableId}
+			</if>
+			<if test="columnName != null  and columnName!=''">
+				 t.column_name = #{columnName}
+			</if>
+			<if test="columnType != null  and columnType!=''">
+				 t.column_type = #{columnType}
+			</if>
+			<if test="columnComment != null  and columnComment!=''">
+				 t.column_comment = #{columnComment}
+			</if>
+		 </trim>
+	</where>
+		 limit #{startRow},#{pageSize}
+	</select>
+
+	<!-- 查询（根据条件查询集合总数） -->
+	<select id="selectTableColumnCount" resultType="java.lang.Integer" parameterType="TableColumn">
+		 SELECT count(*) FROM  u_table_column t 
+	<where>
+		 <trim prefix=" " suffix=" " suffixOverrides=" and " >
+			<if test="id != null and id!=''">
+				 t.id = #{id}
+			</if>
+			<if test="tableId != null and tableId!=''">
+				 t.table_id = #{tableId}
+			</if>
+			<if test="columnName != null and columnName!=''">
+				 t.column_name = #{columnName}
+			</if>
+			<if test="columnType != null and columnType!=''">
+				 t.column_type = #{columnType}
+			</if>
+			<if test="columnComment != null and columnComment!=''">
+				 t.column_comment = #{columnComment}
+			</if>
+		 </trim>
+	</where>
+	</select>
+
+	<!--删除：根据主键ID删除-->
+	<delete id="deleteById" parameterType="java.lang.String">
+		 DELETE FROM u_table_column t 
+		 WHERE id = #{id}
+	</delete>
+
+	<!--删除：根据对象删除-->
+	<delete id="deleteTableColumn" parameterType="TableColumn">
+		 DELETE FROM u_table_column
+		 WHERE id = #{id}
+	</delete>
+
+	<!-- 添加 （匹配有值的字段）-->
+	<insert id="insertTableColumn" parameterType="TableColumn">
+		 INSERT INTO u_table_column
+		 <trim prefix="(" suffix=")" suffixOverrides="," >
+				 id,
+			<if test="tableId != null and tableId!=''">
+				 table_id,
+			</if>
+			<if test="columnName != null and columnName!=''">
+				 column_name,
+			</if>
+			<if test="columnType != null and columnType!=''">
+				 column_type,
+			</if>
+			<if test="columnComment != null and columnComment!=''">
+				 column_comment,
+			</if>
+
+		 </trim>
+		 <trim prefix="values (" suffix=")" suffixOverrides="," >
+				 uuid(),
+			<if test="tableId!=null and tableId!=''">
+				 #{tableId},
+			</if>
+			<if test="columnName!=null and columnName!=''">
+				 #{columnName},
+			</if>
+			<if test="columnType!=null and columnType!=''">
+				 #{columnType},
+			</if>
+			<if test="columnComment!=null and columnComment!=''">
+				 #{columnComment},
+			</if>
+		 </trim>
+	</insert>
+
+	<!-- 修 改-->
+	<update id="updateTableColumn" parameterType="TableColumn">
+		 UPDATE u_table_column
+ 		 <set> 
+			<if test="tableId != null and tableId!=''">
+				 table_id = #{tableId},
+			</if>
+			<if test="columnName != null and columnName!=''">
+				 column_name = #{columnName},
+			</if>
+			<if test="columnType != null and columnType!=''">
+				 column_type = #{columnType},
+			</if>
+			<if test="columnComment != null and columnComment!=''">
+				 column_comment = #{columnComment},
+			</if>
+ 		 </set>
+		 WHERE id = #{id}
+	</update>
+
+</mapper>

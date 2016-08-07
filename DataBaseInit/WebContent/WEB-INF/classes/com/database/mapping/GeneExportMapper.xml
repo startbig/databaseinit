@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.database.dao.GeneExportDao">
+
+	<!--实体映射-->
+	<resultMap id="GeneExportResultMap" type="GeneExport">
+		<!---->
+		<id property="id" column="id" />
+		<!--导出数-->
+		<result property="exportNum" column="export_num" />
+		<!--创建人-->
+		<result property="createUser" column="create_user" />
+		<!--创建时间-->
+		<result property="createTime" column="create_time" />
+	</resultMap>
+	<resultMap id="Result_UGeneExport" type="GeneExport">
+		<result column="id"  property="createUser"/>
+	    <result column="sumNum"  property="sumNum"/>
+	     <collection property="exportList" ofType="GeneExport" column="id" select="getUGeneExport">  
+        </collection> 
+   </resultMap>
+
+	<resultMap id="Result_UGeneExportList" type="GeneExport">
+		<result column="EXPORT_NUM"  property="exportNum"/>
+		<result column="CREATE_TIME"  property="createTime"/>
+</resultMap>
+	<select id="getUGeneExportList"  resultMap="Result_UGeneExport" >
+		select  create_user as id,sum(export_num) as sumNum from u_gene_export  
+		<where>
+		 <trim prefix=" " suffix=" " suffixOverrides=" and " >
+			<if test="id != null  and id!=''">
+				 t.id = #{id}
+			</if>
+		</trim>
+		</where>
+			group by create_user  limit #{startRow},#{pageSize}
+	</select>
+		<select id="getUGeneExportCount"  resultType="java.lang.Integer" parameterType="GeneExport" >
+	select sum(export_num) from  u_gene_export where create_user=#{createUser}
+	and create_time=#{createTime}
+	</select>
+	<select id="getUGeneExport"  resultMap="Result_UGeneExportList" >
+	select export_num,create_time from  u_gene_export where create_user=#{id}
+	</select>
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+	 t.id,	 t.export_num,	 t.create_user,	 t.create_time
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="selectById" resultType="GeneExport" parameterType="java.lang.String">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM u_gene_export t 
+		 WHERE t.id = #{id}
+	</select>
+
+	<!-- 查询（根据条件查询集合） -->
+	<select id="selectGeneExportList" resultMap="GeneExportResultMap" parameterType="GeneExport">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM u_gene_export t 
+		 
+	<where>
+		 <trim prefix=" " suffix=" " suffixOverrides=" and " >
+			<if test="id != null  and id!=''">
+				 t.id = #{id}
+			</if>
+			<if test="exportNum != null  and exportNum!=''">
+				 t.export_num = #{exportNum}
+			</if>
+			<if test="createUser != null  and createUser!=''">
+				 t.create_user = #{createUser}
+			</if>
+			<if test="createTime != null  and createTime!=''">
+				 t.create_time = #{createTime}
+			</if>
+		 </trim>
+	</where>
+		 limit #{startRow},#{pageSize}
+	</select>
+
+	<!-- 查询（根据条件查询集合总数） -->
+	<select id="selectGeneExportCount" resultType="java.lang.Integer" parameterType="GeneExport">
+		 SELECT count(*) FROM  u_gene_export t 
+	<where>
+		 <trim prefix=" " suffix=" " suffixOverrides=" and " >
+			<if test="id != null and id!=''">
+				 t.id = #{id}
+			</if>
+			<if test="exportNum != null and exportNum!=''">
+				 t.export_num = #{exportNum}
+			</if>
+			<if test="createUser != null and createUser!=''">
+				 t.create_user = #{createUser}
+			</if>
+			<if test="createTime != null and createTime!=''">
+				 t.create_time = #{createTime}
+			</if>
+		 </trim>
+	</where>
+	</select>
+
+	<!--删除：根据主键ID删除-->
+	<delete id="deleteById" parameterType="java.lang.String">
+		 DELETE FROM u_gene_export t 
+		 WHERE id = #{id}
+	</delete>
+
+	<!--删除：根据对象删除-->
+	<delete id="deleteGeneExport" parameterType="GeneExport">
+		 DELETE FROM u_gene_export
+		 WHERE id = #{id}
+	</delete>
+
+	<!-- 添加 （匹配有值的字段）-->
+	<insert id="insertGeneExport" parameterType="GeneExport">
+		 INSERT INTO u_gene_export
+		 <trim prefix="(" suffix=")" suffixOverrides="," >
+				 id,
+			<if test="exportNum != null and exportNum!=''">
+				 export_num,
+			</if>
+			<if test="createUser != null and createUser!=''">
+				 create_user,
+			</if>
+			<if test="createTime != null and createTime!=''">
+				 create_time,
+			</if>
+
+		 </trim>
+		 <trim prefix="values (" suffix=")" suffixOverrides="," >
+				 uuid(),
+			<if test="exportNum!=null and exportNum!=''">
+				 #{exportNum},
+			</if>
+			<if test="createUser!=null and createUser!=''">
+				 #{createUser},
+			</if>
+			<if test="createTime!=null and createTime!=''">
+				 #{createTime},
+			</if>
+		 </trim>
+	</insert>
+
+	<!-- 修 改-->
+	<update id="updateGeneExport" parameterType="GeneExport">
+		 UPDATE u_gene_export
+ 		 <set> 
+			<if test="exportNum != null and exportNum!=''">
+				 export_num = #{exportNum},
+			</if>
+			<if test="createUser != null and createUser!=''">
+				 create_user = #{createUser},
+			</if>
+			<if test="createTime != null and createTime!=''">
+				 create_time = #{createTime},
+			</if>
+ 		 </set>
+		 WHERE id = #{id}
+	</update>
+
+</mapper>

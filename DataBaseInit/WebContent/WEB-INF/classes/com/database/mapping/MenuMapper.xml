@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.database.dao.MenuDao">
+	<!--实体映射 -->
+	<resultMap id="MenuResultMap" type="Menu">
+		<!---->
+		<id property="id" column="id" />
+		<!--菜单名称 -->
+		<result property="menuName" column="menu_name" />
+		<!--菜单类型 -->
+		<result property="menuType" column="menu_type" />
+		<!--父亲id -->
+		<result property="parentId" column="parent_id" />
+		<!--创建时间 -->
+		<result property="createTime" column="create_time" />
+		<!--创建人 -->
+		<result property="createUser" column="create_user" />
+	</resultMap>
+	<resultMap id="MenuRolesResultMap" type="Menu">
+		<!---->
+		<id property="id" column="id" />
+		<!--菜单名称 -->
+		<result property="menuName" column="menu_name" />
+		<!--菜单类型 -->
+		<result property="menuType" column="menu_type" />
+		<!--父亲id -->
+		<result property="parentId" column="parent_id" />
+		<!--创建时间 -->
+		<result property="createTime" column="create_time" />
+		<!--创建人 -->
+		<result property="createUser" column="create_user" />
+		<result property="checked" column="checked" />
+	</resultMap>
+	<!-- 通用查询结果列 -->
+	<sql id="Base_Column_List">
+		id, menu_name, menu_type, parent_id, create_time, create_user
+	</sql>
+	<!-- 查询（根据主键ID查询） -->
+	<select id="selectById" resultType="Menu" parameterType="java.lang.String">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM u_menu
+		WHERE id = #{id}
+	</select>
+	<!-- 查询（根据主键ID查询） -->
+	<select id="selectByParentId" resultMap="MenuResultMap"
+		parameterType="java.lang.String">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM u_menu
+		WHERE parent_id = #{id}
+	</select>
+	<select id="selectRolesMenus" resultMap="MenuRolesResultMap" parameterType="java.lang.String">
+	select um.id ,case  when urm.id is not null then true else false end as checked from u_menu um left join  u_role_menu 
+	 urm on(um.id=urm.menu_id) where urm.role_Id=#{id}
+	</select>
+	<!-- 查询（根据条件查询集合） -->
+	<select id="selectMenuList" resultMap="MenuResultMap"
+		parameterType="Menu">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM u_menu
+		<where>
+			<trim prefix=" " suffix="  " suffixOverrides=" and ">
+				<if test="id != null  and id!=''">
+					id = #{id}
+				</if>
+				<if test="menuName != null  and menuName!=''">
+					menu_name = #{menuName}
+				</if>
+				<if test="menuType != null  and menuType!=''">
+					menu_type = #{menuType}
+				</if>
+				<if test="parentId != null  and parentId!=''">
+					parent_id = #{parentId}
+				</if>
+				<if test="createTime != null  and createTime!=''">
+					create_time = #{createTime}
+				</if>
+				<if test="createUser != null  and createUser!=''">
+					create_user = #{createUser}
+				</if>
+			</trim>
+		</where>
+		limit #{startRow},#{pageSize}
+	</select>
+
+	<!-- 查询（根据条件查询集合总数） -->
+	<select id="selectMenuCount" resultType="java.lang.Integer"
+		parameterType="Menu">
+		SELECT count(*) FROM u_menu
+		<where>
+			<trim prefix=" " suffix=" " suffixOverrides=" and ">
+				<if test="id != null and id!=''">
+					id = #{id}
+				</if>
+				<if test="menuName != null and menuName!=''">
+					menu_name = #{menuName}
+				</if>
+				<if test="menuType != null and menuType!=''">
+					menu_type = #{menuType}
+				</if>
+				<if test="parentId != null and parentId!=''">
+					parent_id = #{parentId}
+				</if>
+				<if test="createTime != null and createTime!=''">
+					create_time = #{createTime}
+				</if>
+				<if test="createUser != null and createUser!=''">
+					create_user = #{createUser}
+				</if>
+			</trim>
+		</where>
+	</select>
+
+	<!--删除：根据主键ID删除 -->
+	<delete id="deleteById" parameterType="java.lang.String">
+		DELETE FROM u_menu
+		WHERE id = #{id}
+	</delete>
+
+	<!--删除：根据对象删除 -->
+	<delete id="deleteMenu" parameterType="Menu">
+		DELETE FROM u_menu
+		WHERE id = #{id}
+	</delete>
+
+	<!-- 添加 （匹配有值的字段） -->
+	<insert id="insertMenu" parameterType="Menu">
+		INSERT INTO u_menu
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			id,
+			<if test="menuName != null and menuName!=''">
+				menu_name,
+			</if>
+			<if test="menuType != null and menuType!=''">
+				menu_type,
+			</if>
+			<if test="parentId != null and parentId!=''">
+				parent_id,
+			</if>
+			<if test="createTime != null and createTime!=''">
+				create_time,
+			</if>
+			<if test="createUser != null and createUser!=''">
+				create_user,
+			</if>
+
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			uuid(),
+			<if test="menuName!=null and menuName!=''">
+				#{menuName},
+			</if>
+			<if test="menuType!=null and menuType!=''">
+				#{menuType},
+			</if>
+			<if test="parentId!=null and parentId!=''">
+				#{parentId},
+			</if>
+			<if test="createTime!=null and createTime!=''">
+				#{createTime},
+			</if>
+			<if test="createUser!=null and createUser!=''">
+				#{createUser},
+			</if>
+		</trim>
+	</insert>
+
+	<!-- 修 改 -->
+	<update id="updateMenu" parameterType="Menu">
+		UPDATE u_menu
+		<set>
+			<if test="menuName != null and menuName!=''">
+				menu_name = #{menuName},
+			</if>
+			<if test="menuType != null and menuType!=''">
+				menu_type = #{menuType},
+			</if>
+			<if test="parentId != null and parentId!=''">
+				parent_id = #{parentId},
+			</if>
+			<if test="createTime != null and createTime!=''">
+				create_time = #{createTime},
+			</if>
+			<if test="createUser != null and createUser!=''">
+				create_user = #{createUser},
+			</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+</mapper>

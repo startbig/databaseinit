@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 配置映射类的别名 -->
+	<typeAliases>
+		<typeAlias alias="User" type="com.database.po.User" />
+		<typeAlias alias="Device" type="com.database.po.Device" />
+		<typeAlias alias="Menu" type="com.database.po.Menu" />
+		<typeAlias alias="Resources" type="com.database.po.Resources" />
+		<typeAlias alias="Syscode" type="com.database.po.Syscode" />
+		<typeAlias alias="Gene" type="com.database.po.Gene" />
+		<typeAlias alias="GeneChip" type="com.database.po.GeneChip" />
+		<typeAlias alias="GeneSample" type="com.database.po.GeneSample" />
+		<typeAlias alias="GeneRecord" type="com.database.po.GeneRecord" />
+		<typeAlias alias="GeneExport" type="com.database.po.GeneExport" />
+		<typeAlias alias="Task" type="com.database.po.Task" />
+		<typeAlias alias="Addpmtask" type="com.database.po.Addpmtask" />
+		<typeAlias alias="Table" type="com.database.po.Table" />
+		<typeAlias alias="Roles" type="com.database.po.Roles" />
+		<typeAlias alias="RoleMenu" type="com.database.po.RoleMenu" />
+		<typeAlias alias="TableColumn" type="com.database.po.TableColumn" />
+		<typeAlias alias="allmut" type="com.database.po.allmut" />
+	</typeAliases>
+	<!-- 配置Mapper文件的路径 -->
+	<mappers>
+	    <mapper resource="com/database/mapping/DeviceMapper.xml" />
+	    <mapper resource="com/database/mapping/allmutMapper.xml" />
+		<mapper resource="com/database/mapping/UserMapper.xml" />
+		<mapper resource="com/database/mapping/MenuMapper.xml" />
+		<mapper resource="com/database/mapping/ResourcesMapper.xml" />
+		<mapper resource="com/database/mapping/SyscodeMapper.xml" />
+		<mapper resource="com/database/mapping/GeneMapper.xml" />
+		<mapper resource="com/database/mapping/GeneRecordMapper.xml" />
+		<mapper resource="com/database/mapping/GeneExportMapper.xml" />
+		<mapper resource="com/database/mapping/TaskMapper.xml" />
+	    <mapper resource="com/database/mapping/AddpmtaskMapper.xml" />
+	    <mapper resource="com/database/mapping/TableMapper.xml" />
+	    <mapper resource="com/database/mapping/TableColumnMapper.xml" />
+	    <mapper resource="com/database/mapping/RolesMapper.xml" />
+        <mapper resource="com/database/mapping/RoleMenuMapper.xml" />
+	</mappers>
+</configuration>

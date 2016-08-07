@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.database.dao.ResourcesDao">
+
+	<!--实体映射 -->
+	<resultMap id="ResourcesResultMap" type="Resources">
+		<!---->
+		<id property="id" column="id" />
+		<!--资源名称 -->
+		<result property="resourceName" column="resource_name" />
+		<!--菜单id -->
+		<result property="menuName" column="menu_name" />
+		<!---->
+		<result property="createUser" column="create_user" />
+		<!--资源链接 -->
+		<result property="resourceUrl" column="resource_url" />
+		<!---->
+		<result property="createTime" column="create_time" />
+	</resultMap>
+
+
+	<!-- 通用查询结果列 -->
+	<sql id="Base_Column_List">
+		t.id, t.resource_name, t.menu_id, t.create_user, t.resource_url,
+		t.create_time
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="selectById" resultType="Resources" parameterType="java.lang.String">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM u_resources t
+		WHERE t.id = #{id}
+	</select>
+
+	<!-- 查询（根据条件查询集合） -->
+	<select id="selectResourcesList" resultMap="ResourcesResultMap"
+		parameterType="Resources">
+		SELECT
+		<include refid="Base_Column_List" />
+		,um.menu_name
+		FROM u_resources t left join u_menu um on(um.id=t.menu_id)
+		<where>
+			<trim prefix=" " suffix=" " suffixOverrides=" and ">
+				<if test="id != null  and id!=''">
+					t.id = #{id}
+				</if>
+				<if test="resourceName != null  and resourceName!=''">
+					t.resource_name = #{resourceName}
+				</if>
+				<if test="menuId != null  and menuId!=''">
+					t.menu_id = #{menuId}
+				</if>
+				<if test="createUser != null  and createUser!=''">
+					t.create_user = #{createUser}
+				</if>
+				<if test="resourceUrl != null  and resourceUrl!=''">
+					t.resource_url = #{resourceUrl}
+				</if>
+				<if test="createTime != null  and createTime!=''">
+					t.create_time = #{createTime}
+				</if>
+			</trim>
+		</where>
+		limit #{startRow},#{pageSize}
+	</select>
+
+	<!-- 查询（根据条件查询集合总数） -->
+	<select id="selectResourcesCount" resultType="java.lang.Integer"
+		parameterType="Resources">
+		SELECT count(*) FROM u_resources t
+		<where>
+			<trim prefix=" " suffix=" " suffixOverrides=" and ">
+				<if test="id != null and id!=''">
+					t.id = #{id}
+				</if>
+				<if test="resourceName != null and resourceName!=''">
+					t.resource_name = #{resourceName}
+				</if>
+				<if test="menuId != null and menuId!=''">
+					t.menu_id = #{menuId}
+				</if>
+				<if test="createUser != null and createUser!=''">
+					t.create_user = #{createUser}
+				</if>
+				<if test="resourceUrl != null and resourceUrl!=''">
+					t.resource_url = #{resourceUrl}
+				</if>
+				<if test="createTime != null and createTime!=''">
+					t.create_time = #{createTime}
+				</if>
+			</trim>
+		</where>
+	</select>
+
+	<!--删除：根据主键ID删除 -->
+	<delete id="deleteById" parameterType="java.lang.String">
+		DELETE FROM u_resources t
+		WHERE id = #{id}
+	</delete>
+
+	<!--删除：根据对象删除 -->
+	<delete id="deleteResources" parameterType="Resources">
+		DELETE FROM u_resources
+		WHERE id = #{id}
+	</delete>
+
+	<!-- 添加 （匹配有值的字段） -->
+	<insert id="insertResources" parameterType="Resources">
+		INSERT INTO u_resources
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			id,
+			<if test="resourceName != null and resourceName!=''">
+				resource_name,
+			</if>
+			<if test="menuId != null and menuId!=''">
+				menu_id,
+			</if>
+			<if test="createUser != null and createUser!=''">
+				create_user,
+			</if>
+			<if test="resourceUrl != null and resourceUrl!=''">
+				resource_url,
+			</if>
+			<if test="createTime != null and createTime!=''">
+				create_time,
+			</if>
+
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			uuid(),
+			<if test="resourceName!=null and resourceName!=''">
+				#{resourceName},
+			</if>
+			<if test="menuId!=null and menuId!=''">
+				#{menuId},
+			</if>
+			<if test="createUser!=null and createUser!=''">
+				#{createUser},
+			</if>
+			<if test="resourceUrl!=null and resourceUrl!=''">
+				#{resourceUrl},
+			</if>
+			<if test="createTime!=null and createTime!=''">
+				#{createTime},
+			</if>
+		</trim>
+	</insert>
+
+	<!-- 修 改 -->
+	<update id="updateResources" parameterType="Resources">
+		UPDATE u_resources
+		<set>
+			<if test="resourceName != null and resourceName!=''">
+				resource_name = #{resourceName},
+			</if>
+			<if test="menuId != null and menuId!=''">
+				menu_id = #{menuId},
+			</if>
+			<if test="createUser != null and createUser!=''">
+				create_user = #{createUser},
+			</if>
+			<if test="resourceUrl != null and resourceUrl!=''">
+				resource_url = #{resourceUrl},
+			</if>
+			<if test="createTime != null and createTime!=''">
+				create_time = #{createTime},
+			</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+</mapper>

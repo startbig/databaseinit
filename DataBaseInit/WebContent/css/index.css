@@ -1,0 +1,27 @@
+#containertoo{
+     width: 1000px;
+     margin: 0 auto;
+     height: 900px;
+	 
+	
+}
+#header img{
+	width: 1000px;
+}
+#main{
+  text-align: center;
+}
+#form{
+	text-align: left;
+}
+.text-left{
+	text-align: left;
+}
+#footer img{
+	
+	width: 1000px;
+}
+.submit{
+	text-align: center;
+	margin: 40px;
+}

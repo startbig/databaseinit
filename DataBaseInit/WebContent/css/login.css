@@ -1,0 +1,211 @@
+.login {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 300px;
+	height: 315px;
+}
+
+
+.window {
+	width: 300px;
+	height: 315px;
+	margin-left: -177px;
+	margin-top: -203px;
+	left: 50%;
+	top: 50%;
+	position: absolute;
+	background: rgb(92,92,92);
+	/* background-clip: padding-box; */
+	border-radius: 10px;
+	overflow: hidden;
+    opacity:0.6;
+}
+
+.head {
+	width: 100%;
+	height: 50px;
+	background-color: rgb(122,122,122);
+	line-height: 50px;
+	color: rgb(245,244,243);
+	font-weight: bold;
+	text-align: center;
+	font-size: 25px;
+}
+
+.btn_submit {
+	cursor: pointer;
+	width: 80%;
+	height: 35px;
+	margin: 0 0 0 25px;
+	background-color: rgb(99,140,35);
+	border: 1px #257F73 solid;
+	border-radius: 5px;
+	color: #fff;
+	text-align: center;
+	line-height: 35px;
+	font-weight: bold;
+	font-size: 19px;
+}
+.head span {
+	margin-left: 26px;
+	font-size: 19px;
+}
+
+.login_form {
+	width:80%;
+	margin: 37px auto 25px;
+}
+
+
+
+.login_form ul li {
+	border: 1px #C8C8C8 solid;
+	height: 36px;
+	margin: 24px 0 0;
+	border-radius: 5px;
+}
+
+.login_form ul li i {
+	font-size: 27px;
+	margin-left: 8px;
+	float: left;
+	margin-top: 5px;
+	width: 10%;
+	text-align: center;
+}
+
+.login_form ul li input {
+	height: 100%;
+	width: 80%;
+	border-radius: 5px;
+	font-size: 16px;
+	font-weight: bold;
+	line-height: 35px;
+	/* color: #939393; */
+	float: right;
+	border: none;
+	outline: medium;
+}
+
+.tips {
+	width: 80%;
+	margin: 15px auto 0;
+	font-size: 13px;
+	text-align: center;
+}
+
+
+
+
+
+.btn_submit span {
+	margin-left: -26px;
+}
+
+.btn_submit:hover {
+	background-color: #58C8B8;
+}
+
+.warning_txt {
+	position: absolute;
+	top: 53px;
+	width: 100%;
+	text-align: center;
+	color: red;
+	font-size: 14px;
+}
+
+body {
+	background-image: url(../resources/image/background.gif);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+	background-color: #464646;
+	height: 100%;
+}
+
+html {
+	height: 100%;
+}
+
+.deg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 500px;
+    width: 355px;
+    display: none;
+}
+.deg_form{
+    width: 85%;
+    margin: 21px auto 17px;
+}
+.deg_form ul{}
+.deg_form ul li{
+    border: 1px #C8C8C8 solid;
+    height: 36px;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+.deg_form ul li i{
+    font-size: 27px;
+    margin-left: 8px;
+    float: left;
+    margin-top: 5px;
+    width: 28px;
+    text-align: center;
+}
+.deg_form ul li input{
+    width: 258px;
+    height: 100%;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 35px;
+    color: #222;
+    float: right;
+    border:none;
+    outline:medium;
+}
+
+.deg_form ul li select{
+    width: 258px;
+    height: 100%;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 35px;
+    color: #222;
+    float: right;
+    border:none;
+    outline:none;
+}
+
+.deg_form table {
+    width: 100%;
+    margin-top: 13px;
+    color: #222;
+}
+
+.deg_form table tr {
+    height: 30px;
+}
+
+.groupWrap {
+    width: 100%;
+    height: 183px;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.close {
+    position: absolute;
+    top: 9px;
+    right: 13px;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+}
+
