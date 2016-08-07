@@ -55,7 +55,7 @@ public class StringUtil {
         case "NUMBER":
         	type="float ";
 			break;
-        case "DATETIME":
+        case "datetime":
         	type="Date ";
 			break;
         case "VARCHAR":

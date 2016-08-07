@@ -28,7 +28,16 @@ Ext.define("app.view.device.Device", {
 			{header:'镜头编号', align : 'left', dataIndex: 'deviceNum'},
 			{header:'成色', align : 'left', dataIndex: 'deviceCondition'},
 			{header:'uv镜', align : 'left', dataIndex: 'uvmirror'},
-			{header:'遮光罩', align : 'left', dataIndex: 'lenshood'},
+			{header:'遮光罩', align : 'left', dataIndex: 'lenshood',renderer:
+				function(v){
+				if(v=='1'){
+					return '原厂';
+				}else if(v=='2'){
+					return '副厂';
+				}else if(v=='3'){
+					return '无';
+				}
+			}},
 			{header:'采购价', align : 'left', dataIndex: 'price'},
 			{header:'汇率', align : 'left', dataIndex: 'rate'},
 			{header:'时间', align : 'left', dataIndex: 'storageTime'},

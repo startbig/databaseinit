@@ -5,6 +5,7 @@
 	<!-- 配置映射类的别名 -->
 	<typeAliases>
 		<typeAlias alias="User" type="com.database.po.User" />
+	    <typeAlias alias="Brand" type="com.database.po.Brand" />
 		<typeAlias alias="Device" type="com.database.po.Device" />
 		<typeAlias alias="Menu" type="com.database.po.Menu" />
 		<typeAlias alias="Resources" type="com.database.po.Resources" />
@@ -25,6 +26,7 @@
 	<!-- 配置Mapper文件的路径 -->
 	<mappers>
 	    <mapper resource="com/database/mapping/DeviceMapper.xml" />
+	    <mapper resource="com/database/mapping/BrandMapper.xml" />
 	    <mapper resource="com/database/mapping/allmutMapper.xml" />
 		<mapper resource="com/database/mapping/UserMapper.xml" />
 		<mapper resource="com/database/mapping/MenuMapper.xml" />

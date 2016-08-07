@@ -53,6 +53,15 @@ public class DeviceHandler  extends HandlerBase{
       		pageVo.setSuccess(success);	
 		return pageVo;
 	}
+	
+	@RequestMapping("/updateDevice")
+	@ResponseBody
+	public PageVo updateDevice( Device uDevice){
+		    pageVo = new PageVo();
+      		boolean success=deviceService.updateDevice(uDevice);
+      		pageVo.setSuccess(success);	
+		return pageVo;
+	}
 	@RequestMapping("/intoStorage")
 	@ResponseBody
 	public PageVo intoStorage(  Device uDevice){

@@ -258,7 +258,7 @@
 				 status = #{status},
 			</if>
 			<if test="deviceCondition != null and deviceCondition!=''">
-				 deviceCondition = #{deviceCondition},
+				 device_condition = #{deviceCondition},
 			</if>
 			<if test="uvmirror != null and uvmirror!=''">
 				 uvmirror = #{uvmirror},

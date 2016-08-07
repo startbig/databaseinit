@@ -11,6 +11,15 @@ Ext.define('app.controller.device.DeviceController', {
     	this.operationDevice('add');
     },
     operationDevice: function(type,rec) {
+    	var genderStore = Ext.create("Ext.data.Store", {
+    	    fields: ["name", "value"],
+    	    data: [
+    	        { name: "原厂", value: 1 },
+    	        { name: "副厂", value: 2 },
+    	        { name: "无", value: 3 }
+
+    	    ]
+    	});
     	   var window = Ext.create('Ext.window.Window', {
                modal: true,
                layout: 'fit',
@@ -21,7 +30,7 @@ Ext.define('app.controller.device.DeviceController', {
                title: '新增',
                items: {
                    xtype: 'form',
-                   url: 'device/insertDevice',
+                   url: type=='add'?'device/insertDevice':'device/updateDevice',
                    bodyPadding: 10,
                    border: false,
                    layout: {
@@ -29,7 +38,13 @@ Ext.define('app.controller.device.DeviceController', {
                        align: 'stretch'
                    },
                    defaultType: 'textfield',
-                   items: [	{
+                   items: [
+                    {
+      				    name: 'id',
+      				    xtype: 'textfield',
+      				    allowBlank: false,
+      				    hidden:true
+      				},{
      				    fieldLabel: '镜头编号',
       				    name: 'deviceNum',
       				    xtype: 'textfield',
@@ -47,7 +62,13 @@ Ext.define('app.controller.device.DeviceController', {
       				} ,{
       				    fieldLabel: '遮光镜',
       				    name: 'lenshood',
-      				    xtype: 'textfield',
+      				    xtype: 'combobox',
+      		            store: genderStore,
+      		            editable: false,
+      		            displayField: "name",
+      		            valueField: "value",
+      		            emptyText: "--请选择--",
+      		            queryMode: "local",
       				    allowBlank: false
       				},
       				{
@@ -93,11 +114,7 @@ Ext.define('app.controller.device.DeviceController', {
                                    failure: function(form, action) {
                                        var msg = action.result.msg;
                                        showToast(msg)
-
-
                                    }
-
-
                                })
                            }
                        }
@@ -113,14 +130,12 @@ Ext.define('app.controller.device.DeviceController', {
                        }
                    }]
                }
-
            });
     	   if(rec){
                var form = window.down('form');
                form.loadRecord(rec);
     	   }
            window.show();
-
     },
     updateDevice: function(ctx){
     	  var records = ctx.up('grid').getSelection()[0];
@@ -147,7 +162,4 @@ Ext.define('app.controller.device.DeviceController', {
               }
           });
     }
-    
-    
-
 });
