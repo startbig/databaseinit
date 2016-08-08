@@ -71,7 +71,21 @@ Ext.define("app.view.brand.Brand", {
 				]
 			}]
 		});
-	this.store.load();
-	this.callParent(arguments);
+		this.store.load();
+		this.callParent(arguments);
+	},
+	textSearch: function() {
+		var store = this.store;
+		var textField = this.down('textfield[name=searchField]').getValue();
+		if (app.Constant.isEmpty(textField)) {
+			store.load({
+			params: {
+				brandName: textField
+			}
+		});
+		}else{
+		store.load();
+		}
 	}
+
 });
