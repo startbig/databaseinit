@@ -1,16 +1,22 @@
 package com.database.action;
 
+
 import java.sql.SQLException;
 import java.util.List;
+
 import com.database.common.DataUtil;
 import com.database.common.StringUtil;
+
 
 public class InitDto {
 	public static String initDto(String tableName,String path) throws ClassNotFoundException, SQLException{
 		StringBuffer buffer= new StringBuffer();
 		buffer.append("package "+ path+";\r\n");
 		buffer.append("import java.util.Date;\r\n");
-		buffer.append("public class "+StringUtil.getClassName(tableName)+"{"+"\r\n\r\n");
+		buffer.append("import java.io.Serializable;\r\n");
+		buffer.append("import com.database.utils.Page;\r\n");
+		buffer.append("import com.fasterxml.jackson.annotation.JsonFormat;\r\n");
+		buffer.append("public class "+StringUtil.getClassName(tableName)+" extends Page implements Serializable{"+"\r\n\r\n");
 		initObj(DataUtil.objdto,DataUtil.objdtoType,DataUtil.objdtoComments,buffer);
 		initGetSet(DataUtil.objdto,DataUtil.objdtoType,buffer);
 		buffer.append("}");
@@ -27,6 +33,9 @@ public class InitDto {
 				buffer.append("\t"+"//"+comments+"\r\n");
 			}else{
 				buffer.append("\t"+"//\r\n");
+			}
+			if(StringUtil.transformType(dataType).trim().equals("Date")){
+				buffer.append("\t"+"@JsonFormat(pattern=\"yyyy-MM-dd HH:mm:ss\",timezone = \"GMT+8\")\r\n");
 			}
 			buffer.append("\t"+"private "+StringUtil.transformType(dataType)+ StringUtil.DealFiled(columnName)+";\r\n");
 		}

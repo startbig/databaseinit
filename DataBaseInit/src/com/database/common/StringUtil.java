@@ -9,6 +9,13 @@ public class StringUtil {
 		}
 		return transform;
 	}
+	public static String DealClassName(String field){
+		String transform=field.toLowerCase();
+		if(field.contains("_")){
+			transform=field.split("_")[1];
+		}
+		return transform;
+	}
 	public static String firstUpper(String field,String type){
 		
 		return type+field.substring(0, 1).toUpperCase()+field.substring(1,field.length());
@@ -22,7 +29,7 @@ public class StringUtil {
 	}
 	
 	public static String getClassName(String tableName){
-		return firstUpper(DealFiled(tableName),"");
+		return firstUpper(DealClassName(tableName),"");
 	}
 	public static String transformUpper(String[] field){
 		String first=field[0].toLowerCase();
@@ -57,12 +64,6 @@ public class StringUtil {
 			break;
         case "datetime":
         	type="Date ";
-			break;
-        case "VARCHAR":
-        	type="String ";
-			break;
-        case "DECIMAL":
-        	type="double ";
 			break;
 		default:
 			type="String ";

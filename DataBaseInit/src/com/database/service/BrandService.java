@@ -1,56 +1,55 @@
 package com.database.service;
+import com.database.po.Brand;
+
+import com.database.dao.BrandDao;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
 
 import com.database.utils.PageVo;
-import com.database.po.Brand;
-import org.apache.ibatis.annotations.Param;
 
-/**
- * 
- * BrandService数据库操作接口类
- * 
- **/
+import org.springframework.beans.factory.annotation.Autowired;
 
-public interface BrandService{
+@Service
+public class BrandService {
 
+@Autowired
+private BrandDao brandDao;
 
-	/**
-	 * 
-	 * 查询（根据主键ID查询）
-	 * 
-	 **/
-	Brand  selectById (  String id );
-	/**
-	 * 
-	 * 查询（根据条件查询集合）
-	 * 
-	 **/
-	PageVo  selectBrandList  ( Brand record);
+	public Boolean  insertBrand(Brand brand){
 
-	/**
-	 * 
-	 * 删除（根据主键ID删除）
-	 * 
-	 **/
-	boolean deleteById (  String id );
+		Boolean flag=false;
+		if(brandDao.insertBrand(brand)>0){
+		flag=true;
+		}
+		return flag;
+	}
 
-	/**
-	 * 
-	 * 删除（根据对象）
-	 * 
-	 **/
-	boolean deleteBrand( Brand record );
+	public Boolean  updateBrand(Brand brand){
 
-	/**
-	 * 
-	 * 添加 （匹配有值的字段）
-	 * 
-	 **/
-	boolean insertBrand( Brand record );
+		Boolean flag=false;
+		if(brandDao.updateBrand(brand)>0){
+		flag=true;
+		}
+		return flag;
+	}
 
-	/**
-	 * 
-	 * 修改 （匹配有值的字段）
-	 * 
-	 **/
-	boolean updateBrand( Brand record );
+	public PageVo  getBrandList(Brand brand){
+
+		PageVo  pageVo= new PageVo();
+		List<Brand> list=null;
+		list=brandDao.getBrandList(brand);
+		pageVo.setRoot(list);
+		pageVo.setTotal(brandDao.getBrandListCount(brand));
+		return pageVo;
+	}
+
+	public Brand  getBrand(String id){
+
+		Brand obj =null;
+		obj=brandDao.getBrandById(id);
+		return obj;
+	}
+
 }

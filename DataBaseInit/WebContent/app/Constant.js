@@ -8,6 +8,7 @@ Ext.define("app.Constant", {
         addSuccessMsg           : '保存成功',      // 添加成功
         editSuccessMsg          : '修改成功',   // 修改成功
         deleteSuccessMsg        : '删除成功',   // 删除成功
+        systemErrorMsg                   : '系统异常',   // 删除成功
         deleteConfirmMsg        : '<s:text name="ext.alert.msg.deleteConfirm"/>',   // 确认删除
         dataIsUse               : '<s:text name="ext.alert.msg.dataIsUse"/>',       // 数据已被使用
         alertMsg                : '<s:text name="ext.alert.msg.alertmsg"/>',        // 操作提示

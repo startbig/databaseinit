@@ -15,6 +15,7 @@ public class InitMapper {
 		buffer.append("<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\" "+"\r\n");
 		buffer.append("    \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">"+"\r\n");
 		buffer.append("<mapper namespace=\"" + Constants.getDaopath().replace("/", ".").replaceAll("src.", "") + "." + className + "Dao\">"+"\r\n"+"\r\n");
+		resultMap(className, buffer,DataUtil.objdto);
 		base(buffer,DataUtil.objdto);
 		getObj( tableName,className, buffer,DataUtil.objdto);
 		getList(tableName, className, buffer,DataUtil.objdto);
@@ -25,7 +26,17 @@ public class InitMapper {
 		return buffer.toString();
 	}
 	
-
+    public static void resultMap(String className,StringBuffer buffer, List<String> objdto) {
+    	 buffer.append("\t<!--实体映射-->"+"\r\n");
+         buffer.append("\t<resultMap id=\"" + className + "ResultMap\" type=\"" + className + "\">"+"\r\n");
+         int size = objdto.size();
+         for ( int i = 0 ; i < size ; i++ ) {
+             buffer.append("\t\t<result property=\""
+                     +StringUtil.DealFiled(objdto.get(i)) + "\" column=\"" + objdto.get(i)+ "\" />"+"\r\n");
+         }
+         buffer.append("\t</resultMap>"+"\r\n"+"\r\n");
+         
+    }
 	private static void base(StringBuffer buffer, List<String> objdto) {
 		int size = objdto.size();
 		buffer.append("\t<!-- 通用查询结果列-->"+"\r\n");
@@ -56,8 +67,8 @@ public class InitMapper {
 	public static void getList(String tableName,String className,StringBuffer buffer,List<String> objdto){
 	    int size = objdto.size();   
 	    buffer.append("\t<!-- 查询（根据条件查询集合） -->"+"\r\n");
-        buffer.append("\t<select id=\"get"+className+"List\" resultType=\""
-                + className + "\" parameterType=\"" + className + "\">"+"\r\n");
+        buffer.append("\t<select id=\"get"+className+"List\" resultMap=\""
+                + className + "ResultMap\" parameterType=\"" + className + "\">"+"\r\n");
         if(!"mysql".equals(Constants.getDatatype())){
         	 buffer.append("\t\tSELECT * FROM (SELECT A.*, ROWNUM RN FROM ("+"\r\n");
         }
@@ -121,6 +132,8 @@ public class InitMapper {
         	String objcolumn= StringUtil.DealFiled(objdto.get(i));
             if(objcolumn.equals("id")){
             	   buffer.append("\t\t\t\t " + objcolumn + ","+"\r\n");
+            }else if(objcolumn.equals("createTime")){
+         	   buffer.append("\t\t\t\t " + column + ","+"\r\n");
             }else{
             	 buffer.append("\t\t\t<if test=\"" + objcolumn + " != null and " + objcolumn + "!=''\">"+"\r\n");
                  buffer.append("\t\t\t\t " + column + ","+"\r\n");
@@ -137,6 +150,12 @@ public class InitMapper {
             	}else{
             		  buffer.append("\t\t\t\t uuid(),"+"\r\n");
             	}
+            }else if(objcolumn.equals("createTime")){
+            	if(!Constants.getDatatype().equals("mysql")){
+         		     buffer.append("\t\t\t\t sysdate,"+"\r\n");
+           	}else{
+           		  buffer.append("\t\t\t\t now(),"+"\r\n");
+           	}
             }else{
             	 buffer.append("\t\t\t<if test=\"" + objcolumn + "!=null and " + objcolumn + "!=''\">"+"\r\n");
                  buffer.append("\t\t\t\t #{" + objcolumn + "},"+"\r\n");

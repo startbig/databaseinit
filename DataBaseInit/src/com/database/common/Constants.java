@@ -7,6 +7,10 @@ public class Constants {
 	final static String daoPath="src/com/database/dao";
 	final static String servicePath="src/com/database/service";
 	final static String mapperPath="src/com/database/mapping";
+	final static String storePath="WebContent/app/store";
+	final static String viewPath="WebContent/app/view";
+	final static String controllerPath="WebContent/app/controller";
+	final static String handllerPath="src/com/database/handler";
 	final static String driverNameOracle="oracle.jdbc.driver.OracleDriver";
 	final static String dbURLOracle="jdbc:oracle:thin:@127.0.0.1:1521:orcl";
 	final static String userNameOracle="fcmerge";
@@ -59,6 +63,18 @@ public class Constants {
 	}
 	public static void setDatatype(String datatype) {
 		Constants.datatype = datatype;
+	}
+	public static String getStorepath() {
+		return storePath;
+	}
+	public static String getViewpath() {
+		return viewPath;
+	}
+	public static String getControllerpath() {
+		return controllerPath;
+	}
+	public static String getHandllerpath() {
+		return handllerPath;
 	}
 	
 	

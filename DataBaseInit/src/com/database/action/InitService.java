@@ -14,6 +14,7 @@ public class InitService {
 		buffer.append("import " +Constants.getDaopath().replaceAll("/", ".").replaceAll("src.", "")+"."+className+"Dao;\r\n\r\n");
 		buffer.append("import java.util.List;\r\n\r\n");
 		buffer.append("import org.springframework.stereotype.Service;\r\n\r\n");
+		buffer.append("import com.database.utils.PageVo;\r\n\r\n");
 		buffer.append("import org.springframework.beans.factory.annotation.Autowired;\r\n\r\n");
 		buffer.append("@Service\r\n");
 		buffer.append("public class "+className+"Service {\r\n\r\n");
@@ -22,21 +23,21 @@ public class InitService {
 		insert(className,buffer,daoName);
 		update(className,buffer,daoName);
 		getList(className,buffer,daoName);
-		getListCount(className,buffer,daoName);
+//		getListCount(className,buffer,daoName);
 		getObj(className,buffer,daoName);
 		buffer.append("}");
 		return buffer.toString();
 		
 	}
 	
-	private static void getListCount(String className, StringBuffer buffer,
-			String daoName) {
-		buffer.append("\t"+"public int  get"+className+"ListCount("+className+" "+StringUtil.firstLower(className)+"){\r\n\r\n");
-		buffer.append("\t"+"\t"+"int count=0;\r\n");
-		buffer.append("\t"+"\t"+"count="+daoName+".get"+className+"ListCount("+StringUtil.firstLower(className)+");\r\n");
-		buffer.append("\t"+"\t"+"return count;\r\n");
-		buffer.append("\t"+"}\r\n\r\n");
-	}
+//	private static void getListCount(String className, StringBuffer buffer,
+//			String daoName) {
+//		buffer.append("\t"+"public int  get"+className+"ListCount("+className+" "+StringUtil.firstLower(className)+"){\r\n\r\n");
+//		buffer.append("\t"+"\t"+"int count=0;\r\n");
+//		buffer.append("\t"+"\t"+"count="+daoName+".get"+className+"ListCount("+StringUtil.firstLower(className)+");\r\n");
+//		buffer.append("\t"+"\t"+"return count;\r\n");
+//		buffer.append("\t"+"}\r\n\r\n");
+//	}
 
 	public static void insert(String className,StringBuffer buffer,String daoName){
 		buffer.append("\t"+"public Boolean  insert"+className+"("+className+" "+StringUtil.firstLower(className)+"){"+ "\r\n\r\n");
@@ -58,13 +59,15 @@ public class InitService {
 		buffer.append("\t"+"}\r\n\r\n");
 	}
 	public static void getList(String className,StringBuffer buffer,String daoName){
-		buffer.append("\t"+"public List<"+className+">  get"+className+"List("+className+" "+StringUtil.firstLower(className)+"){\r\n\r\n");
+		buffer.append("\t"+"public PageVo  get"+className+"List("+className+" "+StringUtil.firstLower(className)+"){\r\n\r\n");
+		buffer.append("\t"+"\t"+"PageVo  pageVo= new PageVo();\r\n");
 		buffer.append("\t"+"\t"+"List<"+className+"> list=null;\r\n");
 		buffer.append("\t"+"\t"+"list="+daoName+".get"+className+"List("+StringUtil.firstLower(className)+");\r\n");
-		buffer.append("\t"+"\t"+"return list;\r\n");
+		buffer.append("\t"+"\t"+"pageVo.setRoot(list);\r\n");
+		buffer.append("\t"+"\t"+"pageVo.setTotal("+daoName+".get"+className+"ListCount("+StringUtil.firstLower(className)+"));\r\n");
+		buffer.append("\t"+"\t"+"return pageVo;\r\n");
 		buffer.append("\t"+"}\r\n\r\n");
 	}
-	
 	public static void getObj(String className,StringBuffer buffer,String daoName){
 		buffer.append("\t"+"public "+className+"  get"+className+"(String id){\r\n\r\n");
 		buffer.append("\t"+"\t"+className+ " obj =null;\r\n");

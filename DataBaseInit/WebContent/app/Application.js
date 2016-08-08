@@ -23,7 +23,8 @@ Ext.define('app.Application', {
         'app.view.task.Task',
         'app.view.table.Table',
         'app.view.roles.Roles',
-        'app.view.device.Device'
+        'app.view.device.Device',
+        'app.view.brand.Brand'
     ],
     launch: function () {
         // TODO - Launch the application

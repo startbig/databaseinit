@@ -8,9 +8,9 @@ Ext.define('app.controller.device.DeviceController', {
         'Ext.chart.*'
     ],
     insertDevice: function(){
-    	this.operationDevice('add');
+    	this.operationDevice();
     },
-    operationDevice: function(type,rec) {
+    operationDevice: function(rec) {
     	var genderStore = Ext.create("Ext.data.Store", {
     	    fields: ["name", "value"],
     	    data: [
@@ -139,7 +139,7 @@ Ext.define('app.controller.device.DeviceController', {
     },
     updateDevice: function(ctx){
     	  var records = ctx.up('grid').getSelection()[0];
-    	  this.operationDevice('edit',records);
+    	  this.operationDevice(records);
     },
     intoStorage:function(ctx){
     	  var rec = ctx.up('grid').getSelection()[0];

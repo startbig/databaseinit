@@ -5,28 +5,19 @@
 
 	<!--实体映射-->
 	<resultMap id="BrandResultMap" type="Brand">
-		<!---->
-		<id property="id" column="id" />
-		<!--品牌名称-->
+		<result property="id" column="id" />
 		<result property="brandName" column="brand_name" />
-		<!--创建人-->
 		<result property="createUser" column="create_user" />
-		<!--创建时间-->
 		<result property="createTime" column="create_time" />
-		<!--修改人-->
-		<result property="updateUser" column="update_user" />
-		<!--修改时间-->
-		<result property="updateTime" column="update_time" />
 	</resultMap>
-
 
 	<!-- 通用查询结果列-->
 	<sql id="Base_Column_List">
-	 t.id,	 t.brand_name,	 t.create_user,	 t.create_time,	 t.update_user,	 t.update_time
+	 t.id,	 t.brand_name,	 t.create_user,	 t.create_time
 	</sql>
 
 	<!-- 查询（根据主键ID查询） -->
-	<select id="selectById" resultType="Brand" parameterType="java.lang.String">
+	<select id="getBrandById" resultType="Brand" parameterType="java.lang.String">
 		 SELECT
 		 <include refid="Base_Column_List" />
 		 FROM u_brand t 
@@ -34,12 +25,12 @@
 	</select>
 
 	<!-- 查询（根据条件查询集合） -->
-	<select id="selectBrandList" resultMap="BrandResultMap" parameterType="Brand">
-		 SELECT
-		 <include refid="Base_Column_List" />
-		 FROM u_brand t 
+	<select id="getBrandList" resultMap="BrandResultMap" parameterType="Brand">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM u_brand t 
 	<where>
-		 <trim prefix=" " suffix=" " suffixOverrides=" and " >
+		<trim prefix=" " suffix=" " suffixOverrides=" and " >
 			<if test="id != null  and id!=''">
 				 t.id = #{id}
 			</if>
@@ -52,60 +43,36 @@
 			<if test="createTime != null  and createTime!=''">
 				 t.create_time = #{createTime}
 			</if>
-			<if test="updateUser != null  and updateUser!=''">
-				 t.update_user = #{updateUser}
-			</if>
-			<if test="updateTime != null  and updateTime!=''">
-				 t.update_time = #{updateTime}
-			</if>
 		 </trim>
 	</where>
 		 limit #{startRow},#{pageSize}
 	</select>
 
 	<!-- 查询（根据条件查询集合总数） -->
-	<select id="selectBrandCount" resultType="java.lang.Integer" parameterType="Brand">
-		 SELECT count(*) FROM  u_brand t 
+	<select id="getBrandListCount" resultType="java.lang.Integer" parameterType="Brand">
+		SELECT count(*) FROM u_brand t 
 	<where>
-		 <trim prefix=" " suffix=" " suffixOverrides=" and " >
-			<if test="id != null and id!=''">
+		<trim prefix=" " suffix=" " suffixOverrides=" and " >
+			<if test="id != null  and id!=''">
 				 t.id = #{id}
 			</if>
-			<if test="brandName != null and brandName!=''">
+			<if test="brandName != null  and brandName!=''">
 				 t.brand_name = #{brandName}
 			</if>
-			<if test="createUser != null and createUser!=''">
+			<if test="createUser != null  and createUser!=''">
 				 t.create_user = #{createUser}
 			</if>
-			<if test="createTime != null and createTime!=''">
+			<if test="createTime != null  and createTime!=''">
 				 t.create_time = #{createTime}
-			</if>
-			<if test="updateUser != null and updateUser!=''">
-				 t.update_user = #{updateUser}
-			</if>
-			<if test="updateTime != null and updateTime!=''">
-				 t.update_time = #{updateTime}
 			</if>
 		 </trim>
 	</where>
 	</select>
 
-	<!--删除：根据主键ID删除-->
-	<delete id="deleteById" parameterType="java.lang.String">
-		 DELETE FROM u_brand t 
-		 WHERE id = #{id}
-	</delete>
-
-	<!--删除：根据对象删除-->
-	<delete id="deleteBrand" parameterType="Brand">
-		 DELETE FROM u_brand
-		 WHERE id = #{id}
-	</delete>
-
 	<!-- 添加 （匹配有值的字段）-->
 	<insert id="insertBrand" parameterType="Brand">
-		 INSERT INTO u_brand
-		 <trim prefix="(" suffix=")" suffixOverrides="," >
+		INSERT INTO u_brand
+		<trim prefix="(" suffix=")" suffixOverrides="," >
 				 id,
 			<if test="brandName != null and brandName!=''">
 				 brand_name,
@@ -113,16 +80,7 @@
 			<if test="createUser != null and createUser!=''">
 				 create_user,
 			</if>
-			<if test="createTime != null and createTime!=''">
 				 create_time,
-			</if>
-			<if test="updateUser != null and updateUser!=''">
-				 update_user,
-			</if>
-			<if test="updateTime != null and updateTime!=''">
-				 update_time,
-			</if>
-
 		 </trim>
 		 <trim prefix="values (" suffix=")" suffixOverrides="," >
 				 uuid(),
@@ -132,22 +90,14 @@
 			<if test="createUser!=null and createUser!=''">
 				 #{createUser},
 			</if>
-			<if test="createTime!=null and createTime!=''">
-				 #{createTime},
-			</if>
-			<if test="updateUser!=null and updateUser!=''">
-				 #{updateUser},
-			</if>
-			<if test="updateTime!=null and updateTime!=''">
-				 #{updateTime},
-			</if>
+				 now(),
 		 </trim>
 	</insert>
 
 	<!-- 修 改-->
 	<update id="updateBrand" parameterType="Brand">
 		 UPDATE u_brand
- 		 <set> 
+		 <set>
 			<if test="brandName != null and brandName!=''">
 				 brand_name = #{brandName},
 			</if>
@@ -156,12 +106,6 @@
 			</if>
 			<if test="createTime != null and createTime!=''">
 				 create_time = #{createTime},
-			</if>
-			<if test="updateUser != null and updateUser!=''">
-				 update_user = #{updateUser},
-			</if>
-			<if test="updateTime != null and updateTime!=''">
-				 update_time = #{updateTime},
 			</if>
  		 </set>
 		 WHERE id = #{id}
