@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.database.dao.ModelDao">
+
+	<!--实体映射-->
+	<resultMap id="ModelResultMap" type="Model">
+		<result property="id" column="id" />
+		<result property="modelName" column="model_name" />
+		<result property="brandName" column="brand_name" />
+		<result property="createUser" column="create_user" />
+		<result property="createTime" column="create_time" />
+	</resultMap>
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+	 t.id,	 t.model_name,	 t.brand_id,	 t.create_user,	 t.create_time
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="getModelById" resultType="Model" parameterType="java.lang.String">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM u_model t 
+		 WHERE t.id = #{id}
+	</select>
+
+	<!-- 查询（根据条件查询集合） -->
+	<select id="getModelList" resultMap="ModelResultMap" parameterType="Model">
+		SELECT
+    t.*,ub.brand_name FROM u_model t left join u_brand ub on(t.brand_id=ub.id)
+	<where>
+		<trim prefix=" " suffix=" " suffixOverrides=" and " >
+			<if test="id != null  and id!=''">
+				 t.id = #{id}
+			</if>
+			<if test="modelName != null  and modelName!=''">
+				 t.model_name = #{modelName}
+			</if>
+			<if test="brandId != null  and brandId!=''">
+				 t.brand_id = #{brandId}
+			</if>
+			<if test="createUser != null  and createUser!=''">
+				 t.create_user = #{createUser}
+			</if>
+			<if test="createTime != null  and createTime!=''">
+				 t.create_time = #{createTime}
+			</if>
+		 </trim>
+	</where>
+		 limit #{startRow},#{pageSize}
+	</select>
+
+	<!-- 查询（根据条件查询集合总数） -->
+	<select id="getModelListCount" resultType="java.lang.Integer" parameterType="Model">
+		SELECT count(*) FROM u_model t 
+	<where>
+		<trim prefix=" " suffix=" " suffixOverrides=" and " >
+			<if test="id != null  and id!=''">
+				 t.id = #{id}
+			</if>
+			<if test="modelName != null  and modelName!=''">
+				 t.model_name = #{modelName}
+			</if>
+			<if test="brandId != null  and brandId!=''">
+				 t.brand_id = #{brandId}
+			</if>
+			<if test="createUser != null  and createUser!=''">
+				 t.create_user = #{createUser}
+			</if>
+			<if test="createTime != null  and createTime!=''">
+				 t.create_time = #{createTime}
+			</if>
+		 </trim>
+	</where>
+	</select>
+
+	<!-- 添加 （匹配有值的字段）-->
+	<insert id="insertModel" parameterType="Model">
+		INSERT INTO u_model
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+				 id,
+			<if test="modelName != null and modelName!=''">
+				 model_name,
+			</if>
+			<if test="brandId != null and brandId!=''">
+				 brand_id,
+			</if>
+			<if test="createUser != null and createUser!=''">
+				 create_user,
+			</if>
+				 create_time,
+		 </trim>
+		 <trim prefix="values (" suffix=")" suffixOverrides="," >
+				 uuid(),
+			<if test="modelName!=null and modelName!=''">
+				 #{modelName},
+			</if>
+			<if test="brandId!=null and brandId!=''">
+				 #{brandId},
+			</if>
+			<if test="createUser!=null and createUser!=''">
+				 #{createUser},
+			</if>
+				 now(),
+		 </trim>
+	</insert>
+
+	<!-- 修 改-->
+	<update id="updateModel" parameterType="Model">
+		 UPDATE u_model
+		 <set>
+			<if test="modelName != null and modelName!=''">
+				 model_name = #{modelName},
+			</if>
+			<if test="brandId != null and brandId!=''">
+				 brand_id = #{brandId},
+			</if>
+			<if test="createUser != null and createUser!=''">
+				 create_user = #{createUser},
+			</if>
+			<if test="createTime != null and createTime!=''">
+				 create_time = #{createTime},
+			</if>
+ 		 </set>
+		 WHERE id = #{id}
+	</update>
+
+</mapper>
