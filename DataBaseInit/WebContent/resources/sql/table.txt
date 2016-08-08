@@ -1,0 +1,9 @@
+
+CREATE TABLE u_model
+(
+   id            varchar(36),
+   model_name    varchar(45),
+   brand_id      varchar(36),
+   create_user   varchar(45),
+   create_time   datetime
+);
