@@ -8,6 +8,7 @@
 		<result property="id" column="id" />
 		<result property="modelName" column="model_name" />
 		<result property="brandName" column="brand_name" />
+		<result property="brandId" column="brand_id" />
 		<result property="createUser" column="create_user" />
 		<result property="createTime" column="create_time" />
 	</resultMap>

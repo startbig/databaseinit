@@ -43,7 +43,6 @@
 	      return {
 	        userId        :   '${loginUser.id}',        // 主键，用户ID
 	        loginName     :   '${loginUser.loginName}',     // 登陆账号
-	        passWord      :   '${loginUser.loginPass}',      // 密码
 	        userName      :   '${loginUser.userName}',      // 真实姓名
 	        userEmail     :   '${loginUser.emailAddress}'    // E-mail
 	      }

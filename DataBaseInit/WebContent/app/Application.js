@@ -11,7 +11,6 @@ Ext.define('app.Application', {
         'app.Constant'
         ],
     views : [
-//            'app.view.*',
         'app.view.user.LoginUser',
         'app.view.group.Group',
         'app.view.main.chart.Chart',
@@ -25,7 +24,8 @@ Ext.define('app.Application', {
         'app.view.roles.Roles',
         'app.view.device.Device',
         'app.view.brand.Brand',
-        'app.view.model.Model'
+        'app.view.model.Model',
+        'app.view.order.Order'
     ],
     launch: function () {
         // TODO - Launch the application

@@ -5,42 +5,32 @@
 
 	<!--实体映射-->
 	<resultMap id="DeviceResultMap" type="Device">
-		<!---->
-		<id property="id" column="id" />
-		<!--设备名称-->
+		<result property="id" column="id" />
 		<result property="deviceNum" column="device_num" />
-		<!--价格-->
 		<result property="price" column="price" />
-		<!--创建时间-->
 		<result property="createTime" column="create_time" />
-		<!--创建人-->
 		<result property="createUser" column="create_user" />
-		<!--状态-->
 		<result property="status" column="status" />
-		<!--成色-->
 		<result property="deviceCondition" column="device_condition" />
-		<!--uv镜-->
 		<result property="uvmirror" column="uvmirror" />
-		<!---->
 		<result property="rate" column="rate" />
-		<!--遮光罩-->
+		<result property="brandId" column="brand_id" />
+		<result property="modelId" column="model_id" />
 		<result property="lenshood" column="lenshood" />
-		<!--供应商-->
 		<result property="supplier" column="supplier" />
-		<!---->
 		<result property="storageTime" column="storage_time" />
-		<!---->
 		<result property="remark" column="remark" />
+		<result property="brandName" column="brand_name" />
+		<result property="modelName" column="model_name" />
 	</resultMap>
-
 
 	<!-- 通用查询结果列-->
 	<sql id="Base_Column_List">
-	 t.id,	 t.device_num,	 t.price,	 t.create_time,	 t.create_user,	 t.status,	 t.device_condition,	 t.uvmirror,	 t.rate,	 t.lenshood,	 t.supplier,	 t.storage_time,	 t.remark
+	 t.id,	 t.device_num,	 t.price,	 t.create_time,	 t.create_user,	 t.status,	 t.device_condition,	 t.uvmirror,	 t.rate,	 t.lenshood,	 t.supplier,	 t.storage_time,	 t.remark,	 t.brand_id,	 t.model_id
 	</sql>
 
 	<!-- 查询（根据主键ID查询） -->
-	<select id="selectById" resultType="Device" parameterType="java.lang.String">
+	<select id="getDeviceById" resultType="Device" parameterType="java.lang.String">
 		 SELECT
 		 <include refid="Base_Column_List" />
 		 FROM u_device t 
@@ -48,12 +38,13 @@
 	</select>
 
 	<!-- 查询（根据条件查询集合） -->
-	<select id="selectDeviceList" resultMap="DeviceResultMap" parameterType="Device">
-		 SELECT
-		 <include refid="Base_Column_List" />
-		 FROM u_device t 
+	<select id="getDeviceList" resultMap="DeviceResultMap" parameterType="Device">
+		SELECT
+		t.*,ub.brand_name,um.model_name
+		FROM u_device t  left join u_brand ub on(t.brand_id=ub.id) 
+		left join u_model um on(um.id=t.model_id)
 	<where>
-		 <trim prefix=" " suffix=" " suffixOverrides=" and " >
+		<trim prefix=" " suffix=" " suffixOverrides=" and " >
 			<if test="id != null  and id!=''">
 				 t.id = #{id}
 			</if>
@@ -73,7 +64,7 @@
 				 t.status = #{status}
 			</if>
 			<if test="deviceCondition != null  and deviceCondition!=''">
-				 t.deviceCondition = #{deviceCondition}
+				 t.device_condition = #{deviceCondition}
 			</if>
 			<if test="uvmirror != null  and uvmirror!=''">
 				 t.uvmirror = #{uvmirror}
@@ -93,75 +84,75 @@
 			<if test="remark != null  and remark!=''">
 				 t.remark = #{remark}
 			</if>
+			<if test="brandId != null  and brandId!=''">
+				 t.brand_id = #{brandId}
+			</if>
+			<if test="modelId != null  and modelId!=''">
+				 t.model_id = #{modelId}
+			</if>
 		 </trim>
 	</where>
 		 limit #{startRow},#{pageSize}
 	</select>
 
 	<!-- 查询（根据条件查询集合总数） -->
-	<select id="selectDeviceCount" resultType="java.lang.Integer" parameterType="Device">
-		 SELECT count(*) FROM  u_device t 
+	<select id="getDeviceListCount" resultType="java.lang.Integer" parameterType="Device">
+		SELECT count(*) FROM u_device t 
 	<where>
-		 <trim prefix=" " suffix=" " suffixOverrides=" and " >
-			<if test="id != null and id!=''">
+		<trim prefix=" " suffix=" " suffixOverrides=" and " >
+			<if test="id != null  and id!=''">
 				 t.id = #{id}
 			</if>
-			<if test="deviceNum != null and deviceNum!=''">
+			<if test="deviceNum != null  and deviceNum!=''">
 				 t.device_num = #{deviceNum}
 			</if>
-			<if test="price != null and price!=''">
+			<if test="price != null  and price!=''">
 				 t.price = #{price}
 			</if>
-			<if test="createTime != null and createTime!=''">
+			<if test="createTime != null  and createTime!=''">
 				 t.create_time = #{createTime}
 			</if>
-			<if test="createUser != null and createUser!=''">
+			<if test="createUser != null  and createUser!=''">
 				 t.create_user = #{createUser}
 			</if>
-			<if test="status != null and status!=''">
+			<if test="status != null  and status!=''">
 				 t.status = #{status}
 			</if>
-			<if test="deviceCondition != null and deviceCondition!=''">
-				 t.deviceCondition = #{deviceCondition}
+			<if test="deviceCondition != null  and deviceCondition!=''">
+				 t.device_condition = #{deviceCondition}
 			</if>
-			<if test="uvmirror != null and uvmirror!=''">
+			<if test="uvmirror != null  and uvmirror!=''">
 				 t.uvmirror = #{uvmirror}
 			</if>
-			<if test="rate != null and rate!=''">
+			<if test="rate != null  and rate!=''">
 				 t.rate = #{rate}
 			</if>
-			<if test="lenshood != null and lenshood!=''">
+			<if test="lenshood != null  and lenshood!=''">
 				 t.lenshood = #{lenshood}
 			</if>
-			<if test="supplier != null and supplier!=''">
+			<if test="supplier != null  and supplier!=''">
 				 t.supplier = #{supplier}
 			</if>
-			<if test="storageTime != null and storageTime!=''">
+			<if test="storageTime != null  and storageTime!=''">
 				 t.storage_time = #{storageTime}
 			</if>
-			<if test="remark != null and remark!=''">
+			<if test="remark != null  and remark!=''">
 				 t.remark = #{remark}
+			</if>
+			<if test="brandId != null  and brandId!=''">
+				 t.brand_id = #{brandId}
+			</if>
+			<if test="modelId != null  and modelId!=''">
+				 t.model_id = #{modelId}
 			</if>
 		 </trim>
 	</where>
 	</select>
 
-	<!--删除：根据主键ID删除-->
-	<delete id="deleteById" parameterType="java.lang.String">
-		 DELETE FROM u_device t 
-		 WHERE id = #{id}
-	</delete>
-
-	<!--删除：根据对象删除-->
-	<delete id="deleteDevice" parameterType="Device">
-		 DELETE FROM u_device
-		 WHERE id = #{id}
-	</delete>
-
 	<!-- 添加 （匹配有值的字段）-->
 	<insert id="insertDevice" parameterType="Device">
-		 INSERT INTO u_device
-		 <trim prefix="(" suffix=")" suffixOverrides="," >
+		INSERT INTO u_device
+		<trim prefix="(" suffix=")" suffixOverrides="," >
 				 id,
 			<if test="deviceNum != null and deviceNum!=''">
 				 device_num,
@@ -197,7 +188,12 @@
 			<if test="remark != null and remark!=''">
 				 remark,
 			</if>
-
+			<if test="brandId != null and brandId!=''">
+				 brand_id,
+			</if>
+			<if test="modelId != null and modelId!=''">
+				 model_id,
+			</if>
 		 </trim>
 		 <trim prefix="values (" suffix=")" suffixOverrides="," >
 				 uuid(),
@@ -230,10 +226,16 @@
 				 #{supplier},
 			</if>
 			<if test="storageTime!=null and storageTime!=''">
-				 #{storageTime,jdbcType=TIMESTAMP},
+				 #{storageTime},
 			</if>
 			<if test="remark!=null and remark!=''">
 				 #{remark},
+			</if>
+			<if test="brandId!=null and brandId!=''">
+				 #{brandId},
+			</if>
+			<if test="modelId!=null and modelId!=''">
+				 #{modelId},
 			</if>
 		 </trim>
 	</insert>
@@ -241,7 +243,7 @@
 	<!-- 修 改-->
 	<update id="updateDevice" parameterType="Device">
 		 UPDATE u_device
- 		 <set> 
+		 <set>
 			<if test="deviceNum != null and deviceNum!=''">
 				 device_num = #{deviceNum},
 			</if>
@@ -277,6 +279,12 @@
 			</if>
 			<if test="remark != null and remark!=''">
 				 remark = #{remark},
+			</if>
+			<if test="brandId != null and brandId!=''">
+				 brand_id = #{brandId},
+			</if>
+			<if test="modelId != null and modelId!=''">
+				 model_id = #{modelId},
 			</if>
  		 </set>
 		 WHERE id = #{id}

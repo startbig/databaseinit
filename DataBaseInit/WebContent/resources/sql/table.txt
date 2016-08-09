@@ -7,3 +7,38 @@ CREATE TABLE u_model
    create_user   varchar(45),
    create_time   datetime
 );
+
+SELECT * FROM `database`.u_menu;CREATE TABLE `u_order` (
+  `id` varchar(36) NOT NULL,
+  `device_id` varchar(36) DEFAULT NULL COMMENT '设备id',
+  `startrent_time` datetime DEFAULT NULL COMMENT '起租时间',
+  `endrent_time` datetime DEFAULT NULL COMMENT '退租时间',
+  `customer` varchar(45) DEFAULT NULL COMMENT '客户',
+  `customer_name` varchar(45) DEFAULT NULL COMMENT '客户姓名',
+  `customer_phone` varchar(45) DEFAULT NULL COMMENT '客户电话',
+  `customer_address` varchar(45) DEFAULT NULL COMMENT '客户地址',
+  `remark` varchar(200) DEFAULT NULL COMMENT '备注',
+  `create_user` varchar(45) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `customer_qq` varchar(45) DEFAULT NULL COMMENT '客户qq',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `u_device` (
+  `id` varchar(36) NOT NULL,
+  `device_num` varchar(45) DEFAULT NULL COMMENT '设备名称',
+  `price` decimal(10,0) DEFAULT NULL COMMENT '价格',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_user` varchar(45) DEFAULT NULL COMMENT '创建人',
+  `status` varchar(32) DEFAULT '0' COMMENT '状态',
+  `device_condition` varchar(45) DEFAULT NULL COMMENT '成色',
+  `uvmirror` varchar(45) DEFAULT NULL COMMENT 'uv镜',
+  `rate` decimal(10,0) DEFAULT NULL,
+  `lenshood` varchar(45) DEFAULT NULL COMMENT '遮光罩',
+  `supplier` varchar(45) DEFAULT NULL COMMENT '供应商',
+  `storage_time` datetime DEFAULT NULL,
+  `remark` varchar(200) DEFAULT NULL,
+  `brand_id` varchar(36) DEFAULT NULL,
+  `model_id` varchar(36) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

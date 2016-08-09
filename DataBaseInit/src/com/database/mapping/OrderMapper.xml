@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.database.dao.OrderDao">
+
+	<!--实体映射-->
+	<resultMap id="OrderResultMap" type="Order">
+		<result property="id" column="id" />
+		<result property="deviceId" column="device_id" />
+		<result property="startrentTime" column="startrent_time" />
+		<result property="endrentTime" column="endrent_time" />
+		<result property="customer" column="customer" />
+		<result property="customerName" column="customer_name" />
+		<result property="customerPhone" column="customer_phone" />
+		<result property="customerAddress" column="customer_address" />
+		<result property="remark" column="remark" />
+		<result property="createUser" column="create_user" />
+		<result property="createTime" column="create_time" />
+	    <result property="brandName" column="brand_name" />
+		<result property="modelName" column="model_name" />
+		<result property="deviceNum" column="device_num" />
+	   <result property="customerQq" column="customer_qq" />
+	</resultMap>
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+	 t.id,	 t.device_id,	 t.startrent_time,	 t.endrent_time,	 t.customer,	 t.customer_name,	 t.customer_phone,	 t.customer_address,	 t.remark,	 t.create_user,	 t.create_time
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="getOrderById" resultType="Order" parameterType="java.lang.String">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM u_order t 
+		 WHERE t.id = #{id}
+	</select>
+
+	<!-- 查询（根据条件查询集合） -->
+	<select id="getOrderList" resultMap="OrderResultMap" parameterType="Order">
+		SELECT
+		t.*,ud.device_num,um.model_name,ub.brand_name
+		FROM u_order t left join u_device ud on(ud.id=t.device_id)
+		left join u_brand ub on(ub.id=ud.brand_id) left join 
+		u_model um on(um.id=ud.model_id)
+	<where>
+		<trim prefix=" " suffix=" " suffixOverrides=" and " >
+			<if test="id != null  and id!=''">
+				 t.id = #{id}
+			</if>
+			<if test="deviceId != null  and deviceId!=''">
+				 t.device_id = #{deviceId}
+			</if>
+			<if test="startrentTime != null  and startrentTime!=''">
+				 t.startrent_time = #{startrentTime}
+			</if>
+			<if test="endrentTime != null  and endrentTime!=''">
+				 t.endrent_time = #{endrentTime}
+			</if>
+			<if test="customer != null  and customer!=''">
+				 t.customer = #{customer}
+			</if>
+			<if test="customerName != null  and customerName!=''">
+				 t.customer_name = #{customerName}
+			</if>
+			<if test="customerPhone != null  and customerPhone!=''">
+				 t.customer_phone = #{customerPhone}
+			</if>
+			<if test="customerAddress != null  and customerAddress!=''">
+				 t.customer_address = #{customerAddress}
+			</if>
+			<if test="remark != null  and remark!=''">
+				 t.remark = #{remark}
+			</if>
+			<if test="createUser != null  and createUser!=''">
+				 t.create_user = #{createUser}
+			</if>
+			<if test="createTime != null  and createTime!=''">
+				 t.create_time = #{createTime}
+			</if>
+		 </trim>
+	</where>
+		 limit #{startRow},#{pageSize}
+	</select>
+
+	<!-- 查询（根据条件查询集合总数） -->
+	<select id="getOrderListCount" resultType="java.lang.Integer" parameterType="Order">
+		SELECT count(*) FROM u_order t 
+	<where>
+		<trim prefix=" " suffix=" " suffixOverrides=" and " >
+			<if test="id != null  and id!=''">
+				 t.id = #{id}
+			</if>
+			<if test="deviceId != null  and deviceId!=''">
+				 t.device_id = #{deviceId}
+			</if>
+			<if test="startrentTime != null  and startrentTime!=''">
+				 t.startrent_time = #{startrentTime}
+			</if>
+			<if test="endrentTime != null  and endrentTime!=''">
+				 t.endrent_time = #{endrentTime}
+			</if>
+			<if test="customer != null  and customer!=''">
+				 t.customer = #{customer}
+			</if>
+			<if test="customerName != null  and customerName!=''">
+				 t.customer_name = #{customerName}
+			</if>
+			<if test="customerPhone != null  and customerPhone!=''">
+				 t.customer_phone = #{customerPhone}
+			</if>
+			<if test="customerAddress != null  and customerAddress!=''">
+				 t.customer_address = #{customerAddress}
+			</if>
+			<if test="remark != null  and remark!=''">
+				 t.remark = #{remark}
+			</if>
+			<if test="createUser != null  and createUser!=''">
+				 t.create_user = #{createUser}
+			</if>
+			<if test="createTime != null  and createTime!=''">
+				 t.create_time = #{createTime}
+			</if>
+		 </trim>
+	</where>
+	</select>
+
+	<!-- 添加 （匹配有值的字段）-->
+	<insert id="insertOrder" parameterType="Order">
+		INSERT INTO u_order
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+				 id,
+			<if test="deviceId != null and deviceId!=''">
+				 device_id,
+			</if>
+			<if test="startrentTime != null and startrentTime!=''">
+				 startrent_time,
+			</if>
+			<if test="endrentTime != null and endrentTime!=''">
+				 endrent_time,
+			</if>
+			<if test="customer != null and customer!=''">
+				 customer,
+			</if>
+			<if test="customerName != null and customerName!=''">
+				 customer_name,
+			</if>
+			<if test="customerPhone != null and customerPhone!=''">
+				 customer_phone,
+			</if>
+			<if test="customerAddress != null and customerAddress!=''">
+				 customer_address,
+			</if>
+			<if test="remark != null and remark!=''">
+				 remark,
+			</if>
+			<if test="createUser != null and createUser!=''">
+				 create_user,
+			</if>
+			<if test="customerQq != null and customerQq!=''">
+				 customer_qq,
+			</if>
+				 create_time,
+		 </trim>
+		 <trim prefix="values (" suffix=")" suffixOverrides="," >
+				 uuid(),
+			<if test="deviceId!=null and deviceId!=''">
+				 #{deviceId},
+			</if>
+			<if test="startrentTime!=null and startrentTime!=''">
+				 #{startrentTime},
+			</if>
+			<if test="endrentTime!=null and endrentTime!=''">
+				 #{endrentTime},
+			</if>
+			<if test="customer!=null and customer!=''">
+				 #{customer},
+			</if>
+			<if test="customerName!=null and customerName!=''">
+				 #{customerName},
+			</if>
+			<if test="customerPhone!=null and customerPhone!=''">
+				 #{customerPhone},
+			</if>
+			<if test="customerAddress!=null and customerAddress!=''">
+				 #{customerAddress},
+			</if>
+			<if test="remark!=null and remark!=''">
+				 #{remark},
+			</if>
+			<if test="createUser!=null and createUser!=''">
+				 #{createUser},
+			</if>
+			<if test="customerQq != null and customerQq!=''">
+				  #{customerQq},
+			</if>
+				 now(),
+		 </trim>
+	</insert>
+
+	<!-- 修 改-->
+	<update id="updateOrder" parameterType="Order">
+		 UPDATE u_order
+		 <set>
+			<if test="deviceId != null and deviceId!=''">
+				 device_id = #{deviceId},
+			</if>
+			<if test="startrentTime != null and startrentTime!=''">
+				 startrent_time = #{startrentTime},
+			</if>
+			<if test="endrentTime != null and endrentTime!=''">
+				 endrent_time = #{endrentTime},
+			</if>
+			<if test="customer != null and customer!=''">
+				 customer = #{customer},
+			</if>
+			<if test="customerName != null and customerName!=''">
+				 customer_name = #{customerName},
+			</if>
+			<if test="customerPhone != null and customerPhone!=''">
+				 customer_phone = #{customerPhone},
+			</if>
+			<if test="customerAddress != null and customerAddress!=''">
+				 customer_address = #{customerAddress},
+			</if>
+			<if test="remark != null and remark!=''">
+				 remark = #{remark},
+			</if>
+			<if test="createUser != null and createUser!=''">
+				 create_user = #{createUser},
+			</if>
+			<if test="createTime != null and createTime!=''">
+				 create_time = #{createTime},
+			</if>
+			<if test="customerQq != null and customerQq!=''">
+				 customer_qq = #{customerQq},
+			</if>
+			
+ 		 </set>
+		 WHERE id = #{id}
+	</update>
+
+</mapper>

@@ -18,7 +18,7 @@ Ext.define("app.controller.brand.BrandController", {
 			modal: true,
 			layout: 'fit',
 			width: 400,
-			height: 390,
+			height: 120,
 			closable: true,
 			modelValidation: true,
 			title: type=='add'?'新增':'修改',
@@ -54,7 +54,7 @@ Ext.define("app.controller.brand.BrandController", {
 								var grid = Ext.ComponentQuery.query('brandpanel')[0];
 								grid.getStore().load();
 								window.close();
-								app.Constant.showMsg(app.Constant.addSuccessMsg);
+								app.Constant.showMsg(addSuccessMsg);
 							},
 							failure: function(form, action) {
 								var msg = action.result.msg;

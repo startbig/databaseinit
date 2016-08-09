@@ -1,7 +1,7 @@
 Ext.define("app.view.device.Device", {
 	extend:'Ext.grid.Panel',
 	xtype : 'devicepanel',
-	forceFit : true,
+//	forceFit : true,
 	viewConfig:{
 		stripeRows: true,
 		enableTextSelection: true
@@ -25,6 +25,8 @@ Ext.define("app.view.device.Device", {
 					return '已入库';
 				}
 			}},
+			{header:'品牌', align : 'left', dataIndex: 'brandName'},
+			{header:'型号', align : 'left', dataIndex: 'modelName'},
 			{header:'镜头编号', align : 'left', dataIndex: 'deviceNum'},
 			{header:'成色', align : 'left', dataIndex: 'deviceCondition'},
 			{header:'uv镜', align : 'left', dataIndex: 'uvmirror'},
@@ -39,7 +41,7 @@ Ext.define("app.view.device.Device", {
 				}
 			}},
 			{header:'采购价', align : 'left', dataIndex: 'price'},
-			{header:'汇率', align : 'left', dataIndex: 'rate'},
+			{header:'汇率', align : 'left', width:145,dataIndex: 'rate'},
 			{header:'时间', align : 'left', dataIndex: 'storageTime'},
 			{header:'供应商', align : 'left', dataIndex: 'supplier'},
 			{header:'备注', align : 'left', dataIndex: 'remark'},

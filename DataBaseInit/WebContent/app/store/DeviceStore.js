@@ -14,7 +14,11 @@ Ext.define("app.store.DeviceStore", {
 	    	'lenshood',
 	    	'supplier',
 	    	'storageTime',
-	    	'remark'
+	    	'remark',
+	    	'brandId',
+	    	'modelId',
+	    	'brandName',
+	    	'modelName'
 	],
 	proxy: {
 		type: 'ajax',

@@ -1,56 +1,52 @@
 package com.database.service;
+import java.util.List;
 
-import com.database.utils.PageVo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.database.dao.DeviceDao;
 import com.database.po.Device;
-import org.apache.ibatis.annotations.Param;
+import com.database.utils.PageVo;
 
-/**
- * 
- * DeviceService数据库操作接口类
- * 
- **/
+@Service
+public class DeviceService {
 
-public interface DeviceService{
+@Autowired
+private DeviceDao deviceDao;
 
+	public Boolean  insertDevice(Device device){
 
-	/**
-	 * 
-	 * 查询（根据主键ID查询）
-	 * 
-	 **/
-	Device  selectById (  String id );
-	/**
-	 * 
-	 * 查询（根据条件查询集合）
-	 * 
-	 **/
-	PageVo  selectDeviceList  ( Device record);
+		Boolean flag=false;
+		if(deviceDao.insertDevice(device)>0){
+		flag=true;
+		}
+		return flag;
+	}
 
-	/**
-	 * 
-	 * 删除（根据主键ID删除）
-	 * 
-	 **/
-	boolean deleteById (  String id );
+	public Boolean  updateDevice(Device device){
 
-	/**
-	 * 
-	 * 删除（根据对象）
-	 * 
-	 **/
-	boolean deleteDevice( Device record );
+		Boolean flag=false;
+		if(deviceDao.updateDevice(device)>0){
+		flag=true;
+		}
+		return flag;
+	}
 
-	/**
-	 * 
-	 * 添加 （匹配有值的字段）
-	 * 
-	 **/
-	boolean insertDevice( Device record );
+	public PageVo  getDeviceList(Device device){
 
-	/**
-	 * 
-	 * 修改 （匹配有值的字段）
-	 * 
-	 **/
-	boolean updateDevice( Device record );
+		PageVo  pageVo= new PageVo();
+		List<Device> list=null;
+		list=deviceDao.getDeviceList(device);
+		pageVo.setRoot(list);
+		pageVo.setTotal(deviceDao.getDeviceListCount(device));
+		return pageVo;
+	}
+
+	public Device  getDevice(String id){
+
+		Device obj =null;
+		obj=deviceDao.getDeviceById(id);
+		return obj;
+	}
+
 }

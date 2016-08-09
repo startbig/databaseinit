@@ -36,7 +36,7 @@ public class DeviceHandler  extends HandlerBase{
 		}
 		device.setPageSize(limit);
 		device.setCurrPage(page);
-		pageVo=deviceService.selectDeviceList(device);
+		pageVo=deviceService.getDeviceList(device);
 		pageVo.setSuccess(true);
 		return pageVo;
 	}

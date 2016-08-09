@@ -1,6 +1,3 @@
-/** 
- * 树状菜单，显示在主界面的左边 
- */
 Ext.define('app.view.main.menu.Menu', {
     extend: 'Ext.panel.Panel',
     requires: ['app.store.MenuStore',

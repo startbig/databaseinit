@@ -8,9 +8,25 @@ Ext.define('app.controller.device.DeviceController', {
         'Ext.chart.*'
     ],
     insertDevice: function(){
-    	this.operationDevice();
+    	this.operationDevice('add');
     },
-    operationDevice: function(rec) {
+    operationDevice: function(type,rec) {
+    	var brandStore=Ext.create('app.store.BrandStore',{
+    	    fields: ["brandName", "id"]
+		});
+    	
+    	brandStore.load();
+    	var modelStore=Ext.create('app.store.ModelStore',{
+    	    fields: ["modelName", "id"]
+		});
+		//假如是修改,则只加载这个品牌下面的型号
+		if(type=='edit'){
+			modelStore.proxy.extraParams = {
+                    'brandId': rec.get('brandId')
+            };
+			modelStore.load();
+		}
+		
     	var genderStore = Ext.create("Ext.data.Store", {
     	    fields: ["name", "value"],
     	    data: [
@@ -24,10 +40,10 @@ Ext.define('app.controller.device.DeviceController', {
                modal: true,
                layout: 'fit',
                width: 400,
-               height: 390,
+               height: 440,
                closable: true,
                modelValidation: true,
-               title: '新增',
+               title:  type=='add'?'新增':'修改',
                items: {
                    xtype: 'form',
                    url: type=='add'?'device/insertDevice':'device/updateDevice',
@@ -42,9 +58,41 @@ Ext.define('app.controller.device.DeviceController', {
                     {
       				    name: 'id',
       				    xtype: 'textfield',
-      				    allowBlank: false,
       				    hidden:true
       				},{
+    					name:'brandId',
+    					xtype: 'combobox',
+      		            store: brandStore,
+      		            editable: false,
+      		            displayField: "brandName",
+      		            valueField: "id",
+      		            emptyText: "--请选择--",
+      		            queryMode: "local",
+      				    allowBlank: false,
+    					fieldLabel: '品牌',
+    					listeners:{
+    						select:function(){
+    							var modelCombobox=Ext.getCmp("modelComboboxData");  
+    							modelCombobox.reset(); 
+    							modelStore.proxy.extraParams = {
+    			                           'brandId': this.getValue()
+    			                };
+    							modelStore.load();
+    						}
+    					}
+    				},{ 
+    					id:'modelComboboxData',
+    					name:'modelId',
+    					xtype: 'combobox',
+      		            store: modelStore,
+      		            editable: false,
+      		            displayField: "modelName",
+      		            valueField: "id",
+      		            emptyText: "--请先选择品牌--",
+      		            queryMode: "local",
+      				    allowBlank: false,
+    					fieldLabel: '型号'
+    				},{
      				    fieldLabel: '镜头编号',
       				    name: 'deviceNum',
       				    xtype: 'textfield',
@@ -139,7 +187,7 @@ Ext.define('app.controller.device.DeviceController', {
     },
     updateDevice: function(ctx){
     	  var records = ctx.up('grid').getSelection()[0];
-    	  this.operationDevice(records);
+    	  this.operationDevice('edit',records);
     },
     intoStorage:function(ctx){
     	  var rec = ctx.up('grid').getSelection()[0];
@@ -162,4 +210,5 @@ Ext.define('app.controller.device.DeviceController', {
               }
           });
     }
+  
 });

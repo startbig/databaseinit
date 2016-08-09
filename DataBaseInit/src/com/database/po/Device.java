@@ -55,7 +55,17 @@ public class Device extends Page implements Serializable {
 	private Date storageTime;
 
 	/****/
+	
+	/**辅助对象字段,品牌和型号**/
 	private String remark;
+	
+	private String  brandId;
+	
+	private String modelId;
+	
+	private String brandName;
+	
+	private String modelName;
 
 
 
@@ -165,4 +175,37 @@ public class Device extends Page implements Serializable {
 		return this.remark;
 	}
 
+	public String getBrandId() {
+		return brandId;
+	}
+
+	public void setBrandId(String brandId) {
+		this.brandId = brandId;
+	}
+
+	public String getModelId() {
+		return modelId;
+	}
+
+	public void setModelId(String modelId) {
+		this.modelId = modelId;
+	}
+
+	public String getBrandName() {
+		return brandName;
+	}
+
+	public void setBrandName(String brandName) {
+		this.brandName = brandName;
+	}
+
+	public String getModelName() {
+		return modelName;
+	}
+
+	public void setModelName(String modelName) {
+		this.modelName = modelName;
+	}
+
+	
 }
