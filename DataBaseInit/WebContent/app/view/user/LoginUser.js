@@ -1,10 +1,10 @@
 Ext.define("app.view.user.LoginUser", {
     extend: 'Ext.grid.Panel',
-    xtype: 'userpanel',
-    requires: [
-        'app.controller.user.UserController'
-        ],
-    controller: 'controlleruser',
+//    xtype: 'userpanel',
+//    requires: [
+//        'app.controller.user.UserController'
+//        ],
+//    controller: 'controlleruser',
     forceFit: true, // 自适应
 //    enableHdMenu: false,
 //    selModel: {

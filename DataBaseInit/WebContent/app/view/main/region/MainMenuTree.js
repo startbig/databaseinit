@@ -14,7 +14,7 @@ Ext.define('app.view.main.region.MainMenuTree', {
 			select : 'onMenuItemSelect'
 		},
 		expanded:true,
-	   rootVisible : false
+	    rootVisible : false
 //	useArrows : false
 
 })

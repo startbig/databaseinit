@@ -11,7 +11,7 @@ Ext.define('app.Application', {
         'app.Constant'
         ],
     views : [
-        'app.view.user.LoginUser',
+        'app.view.user.User',
         'app.view.group.Group',
         'app.view.main.chart.Chart',
         'app.view.main.menu.Menu',
