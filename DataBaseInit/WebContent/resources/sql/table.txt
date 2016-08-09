@@ -42,3 +42,10 @@ CREATE TABLE `u_device` (
   `model_id` varchar(36) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE u_user_menu
+(
+   id        varchar(36),
+   user_id   varchar(36),
+   menu_id   varchar(36)
+)

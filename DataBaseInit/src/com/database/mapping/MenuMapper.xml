@@ -52,8 +52,8 @@
 		WHERE parent_id = #{id}
 	</select>
 	<select id="selectRolesMenus" resultMap="MenuRolesResultMap" parameterType="java.lang.String">
-	select um.id ,case  when urm.id is not null then true else false end as checked from u_menu um left join  u_role_menu 
-	 urm on(um.id=urm.menu_id) where urm.role_Id=#{id}
+	select um.id ,case  when uum.id is not null then true else false end as checked from u_menu um left join  u_user_menu uum 
+	  on(um.id=uum.menu_id) where uum.user_id=#{id}
 	</select>
 	<!-- 查询（根据条件查询集合） -->
 	<select id="selectMenuList" resultMap="MenuResultMap"
