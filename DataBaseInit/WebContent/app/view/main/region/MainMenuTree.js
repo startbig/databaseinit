@@ -8,13 +8,11 @@ Ext.define('app.view.main.region.MainMenuTree', {
 		collapsible : true,
 		split : true,
 		title : '系统菜单',
-	    store:  Ext.create('app.store.MenuStore'),
 		useArrows : true,
 		listeners : {
 			select : 'onMenuItemSelect'
 		},
-		expanded:true,
-	    rootVisible : false
-//	useArrows : false
+		store:  Ext.create('app.store.MenuStore'),
+		expanded:true
 
 })

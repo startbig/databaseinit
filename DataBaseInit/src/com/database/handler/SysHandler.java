@@ -19,6 +19,7 @@ import com.database.po.Menu;
 import com.database.po.Syscode;
 import com.database.po.TreeMenu;
 import com.database.po.User;
+import com.database.po.UserMenus;
 import com.database.po.UserTreeMenu;
 import com.database.service.MenuService;
 import com.database.service.SyscodeService;
@@ -38,19 +39,15 @@ public class SysHandler extends HandlerBase {
 	@Resource
 	private MenuService menuService;
 
+	private List<Menu> menulist;
 	@RequestMapping("/login")
 	public String login(HttpServletRequest request,
 			HttpServletResponse response, User user) {
 		HttpSession session = request.getSession();
 		User check = userService.loginUser(user);
 		if (check != null) {
-			List<Menu> list = menuService.selectRolesMenus(check.getId());
-			Set<String> purviewIds = new HashSet<String>();
-			for(Menu p : list){
-				purviewIds.add(p.getId());
-			}
+			menulist = menuService.selectRolesMenus(check.getId());
 			session.setAttribute("loginUser", check);
-			session.setAttribute("userMenus", purviewIds);
 			return "redirect:index.jsp";  
 		} else {
 			session.setAttribute("errorInfo", Constant.ERRORINFO_MSG);
@@ -58,6 +55,82 @@ public class SysHandler extends HandlerBase {
 
 		}
 	}
+	
+	@RequestMapping("/getMenu")
+	@ResponseBody
+	public TreeMenu getMenu() {
+		TreeMenu purviewIds = new TreeMenu();
+		purviewIds.setText("系统菜单");
+		purviewIds.setId("root");
+		purviewIds.setLeaf(false);
+		purviewIds.setChildren(initUserMenus(getMenuListByUserId("root")));
+		return purviewIds;
+	}
+	public List<TreeMenu> initUserMenus(List<Menu> menulist) {
+		List<TreeMenu> treeList = new ArrayList<TreeMenu>();
+		if (menulist.size() > 0 && menulist != null) {
+			for (Menu menu : menulist) {
+				TreeMenu m = new TreeMenu();
+				m.setId(menu.getId());
+				m.setText(menu.getMenuName());
+				m.setXtype(menu.getMenuType());
+				List<Menu> list =getMenuListByUserId(menu.getId());
+				if (list.size() > 0 && list != null) {
+					m.setLeaf(false);
+					m.setExpanded(true);
+
+				} else {
+					m.setLeaf(true);
+				}
+				m.setChildren(initUserMenus(list));
+				treeList.add(m);
+			}
+		}
+		return treeList;
+	}
+	
+	public List<Menu> getMenuListByUserId(String id){
+		List<Menu> list =new   ArrayList<Menu>();
+		
+		int size=menulist.size();
+		Menu m;
+		for (int i = 0; i <size; i++) {
+			m=menulist.get(i);
+			if(id.equals(m.getParentId())){
+				list.add(m);
+			}
+		}
+		return list;
+	}
+//	public TreeMenu initUserMenus(List<Menu> list){
+//		TreeMenu m = new TreeMenu();
+//		List<TreeMenu> mlist = new ArrayList<TreeMenu>();
+//		Menu fmenu;
+//		Menu smenu;
+//		for (int i = 0; i < list.size(); i++) {
+//		  fmenu=list.get(i);
+//		  String fatherId = fmenu.getParentId();
+//		  if(fatherId.equals("root")){
+//			   TreeMenu userm = new TreeMenu();
+//				m.setId(fmenu.getId());
+//				m.setText(fmenu.getMenuName());
+//				m.setXtype(fmenu.getMenuType());
+//				for (int j = 0; j < list.size(); j++) {
+//					smenu=list.get(i);
+//					String sfatherId = smenu.getParentId();
+//					if(fmenu.getId().equals(sfatherId)){
+//						m.setLeaf(false);
+//						m.setChildren(children);
+//					}else{
+//						m.setLeaf(true);
+//					}
+//				}
+//				mlist.add(userm);
+//		  }
+//		}
+//		m.setChildren(mlist);
+//		return m;
+//	}
 
 	@RequestMapping("/selectSyscodeList")
 	@ResponseBody
@@ -132,6 +205,25 @@ public class SysHandler extends HandlerBase {
 	    
 	}
 	
+	@RequestMapping("/insertUserMenus")
+	@ResponseBody
+	public PageVo insertUserMenus(String[] meunsId,String userId) {
+		  pageVo = new PageVo();
+		  List<UserMenus> list=new ArrayList<UserMenus>();
+		  UserMenus menus;
+		  for (int i = 0; i < meunsId.length; i++) {
+			  menus=new UserMenus();
+			  menus.setUserId(userId);
+			  menus.setMenuId(meunsId[i]);
+			  list.add(menus);
+		  }
+		  menuService.deleteByUserId(userId);;
+		  boolean success = menuService.insertUserMenu(list);
+		  pageVo.setSuccess(success);
+		return pageVo;
+	    
+	}
+	
 	
 	
 	public List<UserTreeMenu> createCheckTreeMenu(List<Menu> menulist,Set<String> purviewIds) {
@@ -145,6 +237,7 @@ public class SysHandler extends HandlerBase {
 				List<Menu> list = menuService.selectByParentId(menu.getId());
 				if (list.size() > 0 && list != null) {
 					m.setLeaf(false);
+					m.setExpanded(true);
 				} else {
 					m.setLeaf(true);
 				}
@@ -153,32 +246,13 @@ public class SysHandler extends HandlerBase {
 				}else{
 					m.setChecked(false);
 				}
-				m.setChildren(createTreeMenu(list));
+				m.setChildren(createCheckTreeMenu(list,purviewIds));
 				treeList.add(m);
 			}
 		}
 		return treeList;
 	}
 	
-	public List<UserTreeMenu> createTreeMenu(List<Menu> menulist) {
-		List<UserTreeMenu> treeList = new ArrayList<UserTreeMenu>();
-		if (menulist.size() > 0 && menulist != null) {
-			for (Menu menu : menulist) {
-				UserTreeMenu m = new UserTreeMenu();
-				m.setId(menu.getId());
-				m.setText(menu.getMenuName());
-				m.setXtype(menu.getMenuType());
-				List<Menu> list = menuService.selectByParentId(menu.getId());
-				if (list.size() > 0 && list != null) {
-					m.setLeaf(false);
-				} else {
-					m.setLeaf(true);
-				}
-				m.setChildren(createTreeMenu(list));
-				treeList.add(m);
-			}
-		}
-		return treeList;
-	}
+	
 
 }

@@ -10,7 +10,7 @@ Ext.define('app.view.main.MainModel', {
         name: 'DataBaseInit',
         // 系统信息  
         system: {
-            name: '科服生产管理系统'
+            name: 'Extjs管理系统'
         },
 
         // 用户单位信息和用户信息  

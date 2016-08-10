@@ -7,7 +7,7 @@ Ext.define('app.store.MenuStore', {
 	},
     proxy : {
         type : 'ajax',
-        url : 'menu/getMenu',
+        url : 'getMenu',
         reader : {
             typeProperty: 'mtype'
         }

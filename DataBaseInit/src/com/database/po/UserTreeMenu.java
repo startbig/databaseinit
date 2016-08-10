@@ -9,6 +9,7 @@ public class UserTreeMenu {
 	private String xtype;
 	private boolean leaf;
 	private boolean checked;
+	private boolean  expanded;
 	private List<UserTreeMenu> children;
 	public String getId() {
 		return id;
@@ -45,6 +46,12 @@ public class UserTreeMenu {
 	}
 	public void setChecked(boolean checked) {
 		this.checked = checked;
+	}
+	public boolean isExpanded() {
+		return expanded;
+	}
+	public void setExpanded(boolean expanded) {
+		this.expanded = expanded;
 	}
 
 	

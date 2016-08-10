@@ -33,22 +33,23 @@ Ext.define('app.view.user.UserRight', {
 	},
 	saveCheckedNodes : function() {
 		var window = this.up('window');
-		var records = this.getView().getChecked(), ids = [];
-
+		var records = this.getView().getChecked(),
+		ids =new Array();;
 		Ext.Array.each(records, function(rec) {
 			ids.push(rec.get('id'));
 		});
 		Ext.Ajax.request({
-			url : 'sys/savePurviewsForRole.action',
+			url : 'insertUserMenus',
 			params : {
-				ids : Ext.JSON.encode(ids),
-				roleId : window.roleId
+				meunsId : ids,
+				userId : getLoginUser().userId
 			},
 			success : function(response) {
 				var r = Ext.JSON.decode(response.responseText);
 				if (r.success == true) {
-					showMsg(addSuccessMsg);
-				}
+					  var grid = Ext.ComponentQuery.query('leftuser')[0];
+                      grid.getStore().load();
+                      app.Constant.showMsg(app.Constant.addSuccessMsg);				}
 			},
 			failure : function(response) {
 

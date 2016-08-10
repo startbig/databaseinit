@@ -8,7 +8,7 @@
 <html lang="zh">
 <head>
 <meta charset="UTF-8">
-<title>交付中心信息管理系统</title>
+<title>Extjs管理系统</title>
 <link href="<%=basePath %>css/login.css" rel="stylesheet" type="text/css" />
 <link href="<%=basePath %>css/custom.css" rel="stylesheet" type="text/css" />
 <link href="<%=basePath %>css/global.css" rel="stylesheet" type="text/css" />
@@ -46,7 +46,7 @@
 				<div class="login_form">
 					<ul>
 						<li><i class="icon-user"></i> <input id='login_user'
-							name='loginName' type='text' placeholder="华大邮箱账号" ></li>
+							name='loginName' type='text' placeholder="账号" ></li>
 						<li><i class="icon-key"></i> <input id='login_password'
 							name='loginPass' type='password' placeholder="密码"></li>
 					</ul>

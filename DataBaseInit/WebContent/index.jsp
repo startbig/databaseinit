@@ -47,6 +47,7 @@
 	        userEmail     :   '${loginUser.emailAddress}'    // E-mail
 	      }
 	}
+	
 
 </script>
 <!-- The line below must be kept intact for Sencha Cmd to build your application -->

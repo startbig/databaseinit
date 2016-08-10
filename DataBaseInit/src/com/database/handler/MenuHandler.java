@@ -84,8 +84,6 @@ public class MenuHandler {
 	public TreeMenu getMenu() {
 		TreeMenu m = new TreeMenu();
 		pageVo = new PageVo();
-		Menu me = new Menu();
-		me.setParentId("root");
 		List<Menu> menulist = menuService.selectByParentId("root");
 		m.setText("系统菜单");
 		m.setId("root");

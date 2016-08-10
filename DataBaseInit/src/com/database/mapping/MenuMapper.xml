@@ -26,11 +26,6 @@
 		<result property="menuType" column="menu_type" />
 		<!--父亲id -->
 		<result property="parentId" column="parent_id" />
-		<!--创建时间 -->
-		<result property="createTime" column="create_time" />
-		<!--创建人 -->
-		<result property="createUser" column="create_user" />
-		<result property="checked" column="checked" />
 	</resultMap>
 	<!-- 通用查询结果列 -->
 	<sql id="Base_Column_List">
@@ -52,8 +47,8 @@
 		WHERE parent_id = #{id}
 	</select>
 	<select id="selectRolesMenus" resultMap="MenuRolesResultMap" parameterType="java.lang.String">
-	select um.id ,case  when uum.id is not null then true else false end as checked from u_menu um left join  u_user_menu uum 
-	  on(um.id=uum.menu_id) where uum.user_id=#{id}
+	select um.* from u_user_menu uum  left join u_menu um on(um.id=uum.menu_id)
+	  where uum.user_id=#{id}
 	</select>
 	<!-- 查询（根据条件查询集合） -->
 	<select id="selectMenuList" resultMap="MenuResultMap"
@@ -119,12 +114,25 @@
 		DELETE FROM u_menu
 		WHERE id = #{id}
 	</delete>
+	
+		<!--删除：根据主键ID删除 -->
+	<delete id="deleteByUserId" parameterType="java.lang.String">
+		DELETE FROM u_user_menu
+		WHERE user_id = #{id}
+	</delete>
 
 	<!--删除：根据对象删除 -->
 	<delete id="deleteMenu" parameterType="Menu">
 		DELETE FROM u_menu
 		WHERE id = #{id}
 	</delete>
+   <!-- 批量新增用户菜单 -->
+	<insert id="insertUserMenu" parameterType="java.util.List">
+	insert into u_user_menu(id,user_id,menu_id) values  
+	 <foreach collection="list" item="item" index="index" separator="," >  
+	        (uuid(),#{item.userId},#{item.menuId})  
+	    </foreach>  
+	</insert>
 
 	<!-- 添加 （匹配有值的字段） -->
 	<insert id="insertMenu" parameterType="Menu">

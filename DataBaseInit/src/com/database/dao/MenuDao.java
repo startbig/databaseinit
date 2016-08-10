@@ -1,7 +1,10 @@
 package com.database.dao;
 
  import java.util.List;
+
 import com.database.po.Menu;
+import com.database.po.UserMenus;
+
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -68,4 +71,8 @@ public interface MenuDao{
 	 * 
 	 **/
 	int updateMenu( Menu record );
+	
+	public int insertUserMenu(List<UserMenus> list);
+	
+	int deleteByUserId ( @Param("id") String id );
 }

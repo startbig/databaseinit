@@ -8,6 +8,7 @@ public class TreeMenu {
 	private String text;
 	private String xtype;
 	private boolean leaf;
+	private boolean  expanded;
 	private List<TreeMenu> children;
 	public String getId() {
 		return id;
@@ -38,6 +39,12 @@ public class TreeMenu {
 	}
 	public void setChildren(List<TreeMenu> children) {
 		this.children = children;
+	}
+	public boolean isExpanded() {
+		return expanded;
+	}
+	public void setExpanded(boolean expanded) {
+		this.expanded = expanded;
 	}
 
 	

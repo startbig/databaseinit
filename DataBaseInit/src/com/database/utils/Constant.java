@@ -19,6 +19,13 @@ public class Constant {
      	String userName=loginUser.getUserName();
 		return userName;
 	}
+	public static String getUserId(HttpServletRequest request){
+		if(loginUser==null){
+			loginUser = (User) request.getSession().getAttribute("loginUser");  
+		}
+     	String userName=loginUser.getId();
+		return userName;
+	}
 	public static String getUUID(){ 
         String s = UUID.randomUUID().toString(); 
         //去掉“-”符号 
