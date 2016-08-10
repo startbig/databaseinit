@@ -28,7 +28,7 @@ Ext.define('app.view.user.UserRight', {
 	},
 	saveCheckedNodes : function() {
 	  	var deal=Ext.getCmp('leftuser');
-		var records = deal.down('grid').getSelection()[0];
+		var id = deal.getSelection()[0].id;
 		var window = this.up('window');
 		var records = this.getView().getChecked(),
 		ids =new Array();;
@@ -39,7 +39,7 @@ Ext.define('app.view.user.UserRight', {
 			url : 'insertUserMenus',
 			params : {
 				meunsId : ids,
-				userId : records.get('id')
+				userId :id
 			},
 			success : function(response) {
 				var r = Ext.JSON.decode(response.responseText);
