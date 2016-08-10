@@ -8,12 +8,7 @@ Ext.define('app.view.user.UserRight', {
 	frame : true,
 	initComponent : function() {
 	Ext.apply(this, {
-		store : new Ext.data.TreeStore({
-			root : {
-				expanded:true
-				},
-			autoLoad : false
-		}),
+		store : {},
 	dockedItems : [ {
 			dock : 'top',
 			xtype : 'toolbar',
@@ -32,6 +27,8 @@ Ext.define('app.view.user.UserRight', {
 	this.callParent(arguments);
 	},
 	saveCheckedNodes : function() {
+	  	var deal=Ext.getCmp('leftuser');
+		var records = deal.down('grid').getSelection()[0];
 		var window = this.up('window');
 		var records = this.getView().getChecked(),
 		ids =new Array();;
@@ -42,7 +39,7 @@ Ext.define('app.view.user.UserRight', {
 			url : 'insertUserMenus',
 			params : {
 				meunsId : ids,
-				userId : getLoginUser().userId
+				userId : records.get('id')
 			},
 			success : function(response) {
 				var r = Ext.JSON.decode(response.responseText);
