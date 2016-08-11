@@ -36,117 +36,108 @@
 		 FROM u_device t 
 		 WHERE t.id = #{id}
 	</select>
-
-	<!-- 查询（根据条件查询集合） -->
+<!-- 查询（根据条件查询集合） -->
 	<select id="getDeviceList" resultMap="DeviceResultMap" parameterType="Device">
-		SELECT
+			SELECT
 		t.*,ub.brand_name,um.model_name
 		FROM u_device t  left join u_brand ub on(t.brand_id=ub.id) 
-		left join u_model um on(um.id=t.model_id)
-	<where>
-		<trim prefix=" " suffix=" " suffixOverrides=" and " >
+		left join u_model um on(um.id=t.model_id) where 1=1
 			<if test="id != null  and id!=''">
-				 t.id = #{id}
+			and 	 t.id = #{id}
 			</if>
 			<if test="deviceNum != null  and deviceNum!=''">
-				 t.device_num = #{deviceNum}
+			and	 t.device_num = #{deviceNum}
 			</if>
 			<if test="price != null  and price!=''">
-				 t.price = #{price}
+			and	 t.price = #{price}
 			</if>
 			<if test="createTime != null  and createTime!=''">
-				 t.create_time = #{createTime}
+			and	 t.create_time = #{createTime}
 			</if>
 			<if test="createUser != null  and createUser!=''">
-				 t.create_user = #{createUser}
+			and	 t.create_user = #{createUser}
 			</if>
 			<if test="status != null  and status!=''">
-				 t.status = #{status}
+			and	 t.status = #{status}
 			</if>
 			<if test="deviceCondition != null  and deviceCondition!=''">
-				 t.device_condition = #{deviceCondition}
+			and	 t.device_condition = #{deviceCondition}
 			</if>
 			<if test="uvmirror != null  and uvmirror!=''">
-				 t.uvmirror = #{uvmirror}
+				and t.uvmirror = #{uvmirror}
 			</if>
 			<if test="rate != null  and rate!=''">
-				 t.rate = #{rate}
+				and t.rate = #{rate}
 			</if>
 			<if test="lenshood != null  and lenshood!=''">
-				 t.lenshood = #{lenshood}
+				and t.lenshood = #{lenshood}
 			</if>
 			<if test="supplier != null  and supplier!=''">
-				 t.supplier = #{supplier}
+				and t.supplier = #{supplier}
 			</if>
 			<if test="storageTime != null  and storageTime!=''">
-				 t.storage_time = #{storageTime}
+				and t.storage_time = #{storageTime}
 			</if>
 			<if test="remark != null  and remark!=''">
-				 t.remark = #{remark}
+				and t.remark = #{remark}
 			</if>
 			<if test="brandId != null  and brandId!=''">
-				 t.brand_id = #{brandId}
+			and	 t.brand_id = #{brandId}
 			</if>
 			<if test="modelId != null  and modelId!=''">
-				 t.model_id = #{modelId}
+			and	 t.model_id = #{modelId}
 			</if>
-		 </trim>
-	</where>
 		 limit #{startRow},#{pageSize}
 	</select>
 
 	<!-- 查询（根据条件查询集合总数） -->
 	<select id="getDeviceListCount" resultType="java.lang.Integer" parameterType="Device">
-		SELECT count(*) FROM u_device t 
-	<where>
-		<trim prefix=" " suffix=" " suffixOverrides=" and " >
+		SELECT count(*) FROM u_device t  where 1=1 
 			<if test="id != null  and id!=''">
-				 t.id = #{id}
+			and	 t.id = #{id}
 			</if>
 			<if test="deviceNum != null  and deviceNum!=''">
-				 t.device_num = #{deviceNum}
+			and	 t.device_num = #{deviceNum}
 			</if>
 			<if test="price != null  and price!=''">
-				 t.price = #{price}
+			and	 t.price = #{price}
 			</if>
 			<if test="createTime != null  and createTime!=''">
-				 t.create_time = #{createTime}
+			and	 t.create_time = #{createTime}
 			</if>
 			<if test="createUser != null  and createUser!=''">
-				 t.create_user = #{createUser}
+			and	 t.create_user = #{createUser}
 			</if>
 			<if test="status != null  and status!=''">
-				 t.status = #{status}
+			and	 t.status = #{status}
 			</if>
 			<if test="deviceCondition != null  and deviceCondition!=''">
-				 t.device_condition = #{deviceCondition}
+				and t.device_condition = #{deviceCondition}
 			</if>
 			<if test="uvmirror != null  and uvmirror!=''">
-				 t.uvmirror = #{uvmirror}
+			and	 t.uvmirror = #{uvmirror}
 			</if>
 			<if test="rate != null  and rate!=''">
-				 t.rate = #{rate}
+			and	 t.rate = #{rate}
 			</if>
 			<if test="lenshood != null  and lenshood!=''">
-				 t.lenshood = #{lenshood}
+			and	 t.lenshood = #{lenshood}
 			</if>
 			<if test="supplier != null  and supplier!=''">
-				 t.supplier = #{supplier}
+			and	 t.supplier = #{supplier}
 			</if>
 			<if test="storageTime != null  and storageTime!=''">
-				 t.storage_time = #{storageTime}
+			and	 t.storage_time = #{storageTime}
 			</if>
 			<if test="remark != null  and remark!=''">
-				 t.remark = #{remark}
+			and	 t.remark = #{remark}
 			</if>
 			<if test="brandId != null  and brandId!=''">
-				 t.brand_id = #{brandId}
+			and	 t.brand_id = #{brandId}
 			</if>
 			<if test="modelId != null  and modelId!=''">
-				 t.model_id = #{modelId}
+			and	 t.model_id = #{modelId}
 			</if>
-		 </trim>
-	</where>
 	</select>
 
 	<!-- 添加 （匹配有值的字段）-->

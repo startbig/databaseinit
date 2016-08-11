@@ -34,7 +34,9 @@ Ext.define(
 			PMC_STATUS_DONE : 4, // 已完成
 
 			pmcInfoMsg : '如当前回复解决了您的问题，请进行“满意度调查“后<span style="color:blue;">【确认验收】</span>;<br>如当前回复未解决您的问题，请进行“回复”后<span style="color:blue;">【提交】</span>!',
-
+			warningMsgBox :function (msg) {
+	            Ext.MessageBox.alert("提示框", msg);
+	        },
 			showMsg : function(msg) {
 				Ext.toast({
 					html : msg,

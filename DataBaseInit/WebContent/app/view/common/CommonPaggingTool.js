@@ -1,6 +1,6 @@
 Ext.define('app.view.common.CommonPaggingTool',{
 	extend : 'Ext.PagingToolbar',
-	plugins : Ext.create('app.view.common.ComboPageSize'),
+//	plugins : Ext.create('app.view.common.ComboPageSize'),
     displayInfo: true,
     pageSize: 20,
     displayMsg: '当前显示 {0} - {1} 条     总共 {2}条',
