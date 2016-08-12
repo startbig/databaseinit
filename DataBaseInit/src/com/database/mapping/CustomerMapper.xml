@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.database.dao.CustomerDao">
+
+	<!--实体映射-->
+	<resultMap id="CustomerResultMap" type="Customer">
+		<result property="id" column="id" />
+		<result property="customerNum" column="customer_num" />
+		<result property="customerName" column="customer_name" />
+		<result property="orderNum" column="order_num" />
+		<result property="customerPhone" column="customer_phone" />
+		<result property="customerAddress" column="customer_address" />
+		<result property="customerQq" column="customer_qq" />
+		<result property="customerPlace" column="customer_place" />
+		<result property="createUser" column="create_user" />
+		<result property="createTime" column="create_time" />
+		<result property="updateUser" column="update_user" />
+		<result property="updateTime" column="update_time" />
+	</resultMap>
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+	 t.id,	 t.customer_num,	 t.customer_name,	 t.order_num,	 t.customer_phone,	 t.customer_address,	 t.customer_qq,	 t.customer_place,	 t.create_user,	 t.create_time,	 t.update_user,	 t.update_time
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="getCustomerById" resultType="Customer" parameterType="java.lang.String">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM u_customer t 
+		 WHERE t.id = #{id}
+	</select>
+
+	<!-- 查询（根据条件查询集合） -->
+	<select id="getCustomerList" resultMap="CustomerResultMap" parameterType="Customer">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM u_customer t 
+	<where>
+		<trim prefix=" " suffix=" " suffixOverrides=" and " >
+			<if test="id != null  and id!=''">
+				 t.id = #{id}
+			</if>
+			<if test="customerNum != null  and customerNum!=''">
+				 t.customer_num = #{customerNum}
+			</if>
+			<if test="customerName != null  and customerName!=''">
+				 t.customer_name = #{customerName}
+			</if>
+			<if test="orderNum != null  and orderNum!=''">
+				 t.order_num = #{orderNum}
+			</if>
+			<if test="customerPhone != null  and customerPhone!=''">
+				 t.customer_phone = #{customerPhone}
+			</if>
+			<if test="customerAddress != null  and customerAddress!=''">
+				 t.customer_address = #{customerAddress}
+			</if>
+			<if test="customerQq != null  and customerQq!=''">
+				 t.customer_qq = #{customerQq}
+			</if>
+			<if test="customerPlace != null  and customerPlace!=''">
+				 t.customer_place = #{customerPlace}
+			</if>
+			<if test="createUser != null  and createUser!=''">
+				 t.create_user = #{createUser}
+			</if>
+			<if test="createTime != null  and createTime!=''">
+				 t.create_time = #{createTime}
+			</if>
+			<if test="updateUser != null  and updateUser!=''">
+				 t.update_user = #{updateUser}
+			</if>
+			<if test="updateTime != null  and updateTime!=''">
+				 t.update_time = #{updateTime}
+			</if>
+		 </trim>
+	</where>
+		 limit #{startRow},#{pageSize}
+	</select>
+
+	<!-- 查询（根据条件查询集合总数） -->
+	<select id="getCustomerListCount" resultType="java.lang.Integer" parameterType="Customer">
+		SELECT count(*) FROM u_customer t 
+	<where>
+		<trim prefix=" " suffix=" " suffixOverrides=" and " >
+			<if test="id != null  and id!=''">
+				 t.id = #{id}
+			</if>
+			<if test="customerNum != null  and customerNum!=''">
+				 t.customer_num = #{customerNum}
+			</if>
+			<if test="customerName != null  and customerName!=''">
+				 t.customer_name = #{customerName}
+			</if>
+			<if test="orderNum != null  and orderNum!=''">
+				 t.order_num = #{orderNum}
+			</if>
+			<if test="customerPhone != null  and customerPhone!=''">
+				 t.customer_phone = #{customerPhone}
+			</if>
+			<if test="customerAddress != null  and customerAddress!=''">
+				 t.customer_address = #{customerAddress}
+			</if>
+			<if test="customerQq != null  and customerQq!=''">
+				 t.customer_qq = #{customerQq}
+			</if>
+			<if test="customerPlace != null  and customerPlace!=''">
+				 t.customer_place = #{customerPlace}
+			</if>
+			<if test="createUser != null  and createUser!=''">
+				 t.create_user = #{createUser}
+			</if>
+			<if test="createTime != null  and createTime!=''">
+				 t.create_time = #{createTime}
+			</if>
+			<if test="updateUser != null  and updateUser!=''">
+				 t.update_user = #{updateUser}
+			</if>
+			<if test="updateTime != null  and updateTime!=''">
+				 t.update_time = #{updateTime}
+			</if>
+		 </trim>
+	</where>
+	</select>
+
+	<!-- 添加 （匹配有值的字段）-->
+	<insert id="insertCustomer" parameterType="Customer">
+		INSERT INTO u_customer
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+				 id,
+			<if test="customerNum != null and customerNum!=''">
+				 customer_num,
+			</if>
+			<if test="customerName != null and customerName!=''">
+				 customer_name,
+			</if>
+			<if test="orderNum != null and orderNum!=''">
+				 order_num,
+			</if>
+			<if test="customerPhone != null and customerPhone!=''">
+				 customer_phone,
+			</if>
+			<if test="customerAddress != null and customerAddress!=''">
+				 customer_address,
+			</if>
+			<if test="customerQq != null and customerQq!=''">
+				 customer_qq,
+			</if>
+			<if test="customerPlace != null and customerPlace!=''">
+				 customer_place,
+			</if>
+			<if test="createUser != null and createUser!=''">
+				 create_user,
+			</if>
+				 create_time,
+			<if test="updateUser != null and updateUser!=''">
+				 update_user,
+			</if>
+			<if test="updateTime != null and updateTime!=''">
+				 update_time,
+			</if>
+		 </trim>
+		 <trim prefix="values (" suffix=")" suffixOverrides="," >
+				 uuid(),
+			<if test="customerNum!=null and customerNum!=''">
+				 #{customerNum},
+			</if>
+			<if test="customerName!=null and customerName!=''">
+				 #{customerName},
+			</if>
+			<if test="orderNum!=null and orderNum!=''">
+				 #{orderNum},
+			</if>
+			<if test="customerPhone!=null and customerPhone!=''">
+				 #{customerPhone},
+			</if>
+			<if test="customerAddress!=null and customerAddress!=''">
+				 #{customerAddress},
+			</if>
+			<if test="customerQq!=null and customerQq!=''">
+				 #{customerQq},
+			</if>
+			<if test="customerPlace!=null and customerPlace!=''">
+				 #{customerPlace},
+			</if>
+			<if test="createUser!=null and createUser!=''">
+				 #{createUser},
+			</if>
+				 now(),
+			<if test="updateUser!=null and updateUser!=''">
+				 #{updateUser},
+			</if>
+			<if test="updateTime!=null and updateTime!=''">
+				 #{updateTime},
+			</if>
+		 </trim>
+	</insert>
+
+	<!-- 修 改-->
+	<update id="updateCustomer" parameterType="Customer">
+		 UPDATE u_customer
+		 <set>
+			<if test="customerNum != null and customerNum!=''">
+				 customer_num = #{customerNum},
+			</if>
+			<if test="customerName != null and customerName!=''">
+				 customer_name = #{customerName},
+			</if>
+			<if test="orderNum != null and orderNum!=''">
+				 order_num = #{orderNum},
+			</if>
+			<if test="customerPhone != null and customerPhone!=''">
+				 customer_phone = #{customerPhone},
+			</if>
+			<if test="customerAddress != null and customerAddress!=''">
+				 customer_address = #{customerAddress},
+			</if>
+			<if test="customerQq != null and customerQq!=''">
+				 customer_qq = #{customerQq},
+			</if>
+			<if test="customerPlace != null and customerPlace!=''">
+				 customer_place = #{customerPlace},
+			</if>
+			<if test="updateUser != null and updateUser!=''">
+				 update_user = #{updateUser},
+			</if>
+				 update_time = now(),
+ 		 </set>
+		 WHERE id = #{id}
+	</update>
+
+</mapper>

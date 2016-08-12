@@ -12,7 +12,7 @@ Ext.define('app.view.main.region.MainMenuTree', {
 		listeners : {
 			select : 'onMenuItemSelect'
 		},
-		store:  Ext.create('app.store.MenuStore'),
+		store:  Ext.create('app.store.UserMenuStore'),
 		expanded:true,
 		rootVisible : false,
 

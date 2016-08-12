@@ -1,65 +1,64 @@
 package com.database.service;
+import com.database.po.Syscode;
+
+import com.database.dao.SyscodeDao;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.database.utils.PageVo;
-import com.database.po.Syscode;
 
-import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.factory.annotation.Autowired;
 
-/**
- * 
- * SyscodeService数据库操作接口类
- * 
- **/
+@Service
+public class SyscodeService {
 
-public interface SyscodeService{
+@Autowired
+private SyscodeDao syscodeDao;
 
+	public Boolean  insertSyscode(Syscode syscode){
 
-	/**
-	 * 
-	 * 查询（根据主键ID查询）
-	 * 
-	 **/
-	Syscode  selectById (  String id );
-	/**
-	 * 
-	 * 查询（根据条件查询集合）
-	 * 
-	 **/
-	PageVo  selectSyscodeList  ( Syscode record);
+		Boolean flag=false;
+		if(syscodeDao.insertSyscode(syscode)>0){
+		flag=true;
+		}
+		return flag;
+	}
 
-	/**
-	 * 
-	 * 删除（根据主键ID删除）
-	 * 
-	 **/
-	boolean deleteById (  String id );
+	public Boolean  updateSyscode(Syscode syscode){
 
-	/**
-	 * 
-	 * 删除（根据对象）
-	 * 
-	 **/
-	boolean deleteSyscode( Syscode record );
+		Boolean flag=false;
+		if(syscodeDao.updateSyscode(syscode)>0){
+		flag=true;
+		}
+		return flag;
+	}
 
-	/**
-	 * 
-	 * 添加 （匹配有值的字段）
-	 * 
-	 **/
-	boolean insertSyscode( Syscode record );
+	public PageVo  getSyscodeList(Syscode syscode){
 
-	/**
-	 * 
-	 * 批量添加 （匹配有值的字段）
-	 * 
-	 **/
-	boolean insertSyscodeList( List<Syscode> record );
-	/**
-	 * 
-	 * 修改 （匹配有值的字段）
-	 * 
-	 **/
-	boolean updateSyscode( Syscode record );
+		PageVo  pageVo= new PageVo();
+		List<Syscode> list=null;
+		list=syscodeDao.getSyscodeList(syscode);
+		pageVo.setRoot(list);
+		pageVo.setTotal(syscodeDao.getSyscodeListCount(syscode));
+		return pageVo;
+	}
+
+	public Syscode  getSyscode(String id){
+
+		Syscode obj =null;
+		obj=syscodeDao.getSyscodeById(id);
+		return obj;
+	}
+	public boolean   deleteSyscode(String id){
+
+		Boolean flag=false;
+		if(syscodeDao.deleteSyscode(id)>0){
+		flag=true;
+		}
+		return flag;
+	}
+	
+
 }

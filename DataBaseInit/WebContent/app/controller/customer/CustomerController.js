@@ -1,34 +1,30 @@
-Ext.define("app.controller.model.ModelController", {
+Ext.define("app.controller.customer.CustomerController", {
 	extend: 'Ext.app.ViewController',
-	alias: 'controller.modelcontroller',
+	alias: 'controller.customercontroller',
 	requires: [
 		'Ext.window.Window',
 		'Ext.window.Toast',
 		'Ext.form.*'
 	],
-	insertModel: function(){
+	insertCustomer: function(){
 		this.operationDevice('add');
 	},
-	updateModel: function(ctx){
+	updateCustomer: function(ctx){
 		var records = ctx.up('grid').getSelection()[0];
 		this.operationDevice('edit',records);
 	},
 	operationDevice: function(type,rec) {
-		var brandStore=Ext.create('app.store.BrandStore',{
-    	    fields: ["brandName", "id"]
-		});
-		brandStore.load();
 		var window = Ext.create('Ext.window.Window', {
 			modal: true,
 			layout: 'fit',
 			width: 400,
-			height: 150,
+			height: 350,
 			closable: true,
 			modelValidation: true,
 			title: type=='add'?'新增':'修改',
 			items: {
 				xtype: 'form',
-				url: type=='add'?'model/insertModel':'model/updateModel',
+				url: type=='add'?'customer/insertCustomer':'customer/updateCustomer',
 				bodyPadding: 10,
 				border: false,
 				layout: {
@@ -42,20 +38,33 @@ Ext.define("app.controller.model.ModelController", {
 					hidden:true
 				},
 				{
-					name:'brandId',
-					xtype: 'combobox',
-  		            store: brandStore,
-  		            editable: false,
-  		            displayField: "brandName",
-  		            valueField: "id",
-  		            emptyText: "--请选择--",
-  		            queryMode: "local",
-  				    allowBlank: false,
-					fieldLabel: '品牌'
+					name:'customerNum',
+					fieldLabel: '客户号',
+					disabled:type=='add'?false: true,
 				},
 				{
-					name:'modelName',
-					fieldLabel: '型号'
+					name:'customerName',
+					fieldLabel: '姓名'
+				},
+				{
+					name:'orderNum',
+					fieldLabel: '订单数'
+				},
+				{
+					name:'customerPhone',
+					fieldLabel: '电话'
+				},
+				{
+					name:'customerAddress',
+					fieldLabel: '地址'
+				},
+				{
+					name:'customerQq',
+					fieldLabel: 'QQ'
+				},
+				{
+					name:'customerPlace',
+					fieldLabel: '地点'
 				}
 				],
 				buttons: [{
@@ -67,7 +76,7 @@ Ext.define("app.controller.model.ModelController", {
 							method: 'post',
 							waitMsg: '上传中...',
 							success: function(form, action) {
-								var grid = Ext.ComponentQuery.query('modelpanel')[0];
+								var grid = Ext.ComponentQuery.query('customerpanel')[0];
 								grid.getStore().load();
 								window.close();
 								app.Constant.showMsg(app.Constant.addSuccessMsg);

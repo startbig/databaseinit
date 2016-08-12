@@ -13,6 +13,7 @@ public class InitController {
 		List<String> objdto=DataUtil.objdto;
 		List<String> objdtoComments=DataUtil.objdtoComments;
 		int size=objdto.size();
+		int hight=110+(20*size);
 		StringBuffer buffer = new StringBuffer();
 	    buffer.append("Ext.define(\"app.controller."+className.toLowerCase()+"."+className+"Controller\", {");
 	    buffer.append(newline);
@@ -54,7 +55,7 @@ public class InitController {
 	    buffer.append(newline);
 	    buffer.append(lable+lable+lable+"width: 400,");	
 	    buffer.append(newline);
-	    buffer.append(lable+lable+lable+"height: 390,");	
+	    buffer.append(lable+lable+lable+"height: "+hight+",");	
 	    buffer.append(newline);
 	    buffer.append(lable+lable+lable+"closable: true,");	
 	    buffer.append(newline);

@@ -1,4 +1,14 @@
 Ext.define('app.store.UserMenuStore', {
     extend: 'Ext.data.TreeStore',
-	autoLoad: false
+    root : {
+		text : '系统菜单',
+		expanded:true
+	},
+    proxy : {
+        type : 'ajax',
+        url : 'getMenu',
+        reader : {
+            typeProperty: 'mtype'
+        }
+    }
 });

@@ -1,72 +1,59 @@
 package com.database.po;
- import java.util.List;
+import java.util.Date;
 import java.io.Serializable;
 import com.database.utils.Page;
+import com.fasterxml.jackson.annotation.JsonFormat;
+public class Syscode extends Page implements Serializable{
 
-
-/**
- * 
- * 
- * 
- **/
-@SuppressWarnings("serial")
-public class Syscode extends Page implements Serializable {
-
-	/****/
+	//
 	private String id;
+	//Code
+	private String syscode;
+	//类型
+	private String systype;
+	//创建人
+	private String createUser;
+	//创建时间
+	private String createTime;
 
-	/**key**/
-	private String key;
-
-	/**value**/
-	private String value;
-
-	/**类型**/
-	private String type;
-
-	/**备注**/
-	private String remark;
-
-
-
-	public void setId(String id){
-		this.id = id;
+	public String  getId(){
+		return id;
 	}
 
-	public String getId(){
-		return this.id;
+	public void setId( String  id ){
+		this.id=id;
 	}
 
-	public void setKey(String key){
-		this.key = key;
+	public String  getSyscode(){
+		return syscode;
 	}
 
-	public String getKey(){
-		return this.key;
+	public void setSyscode( String  syscode ){
+		this.syscode=syscode;
 	}
 
-	public void setValue(String value){
-		this.value = value;
+	public String  getSystype(){
+		return systype;
 	}
 
-	public String getValue(){
-		return this.value;
+	public void setSystype( String  systype ){
+		this.systype=systype;
 	}
 
-	public void setType(String type){
-		this.type = type;
+	public String  getCreateUser(){
+		return createUser;
 	}
 
-	public String getType(){
-		return this.type;
+	public void setCreateUser( String  createUser ){
+		this.createUser=createUser;
 	}
 
-	public void setRemark(String remark){
-		this.remark = remark;
+	public String  getCreateTime(){
+		return createTime;
 	}
 
-	public String getRemark(){
-		return this.remark;
+	public void setCreateTime( String  createTime ){
+		this.createTime=createTime;
 	}
 
 }

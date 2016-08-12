@@ -40,6 +40,8 @@ public class SysHandler extends HandlerBase {
 	private MenuService menuService;
 
 	private List<Menu> menulist;
+	
+	//=================================登陆=注销================================================
 	@RequestMapping("/login")
 	public String login(HttpServletRequest request,
 			HttpServletResponse response, User user) {
@@ -56,6 +58,16 @@ public class SysHandler extends HandlerBase {
 		}
 	}
 	
+	@RequestMapping("/logout")
+	public String logout(HttpServletRequest request,
+			HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		session.removeAttribute("loginUser");
+		 return "redirect:login.jsp";  
+	}
+	
+	//=================================用户菜单=更改用户菜单================================================
+
 	@RequestMapping("/getMenu")
 	@ResponseBody
 	public TreeMenu getMenu() {
@@ -102,87 +114,7 @@ public class SysHandler extends HandlerBase {
 		}
 		return list;
 	}
-//	public TreeMenu initUserMenus(List<Menu> list){
-//		TreeMenu m = new TreeMenu();
-//		List<TreeMenu> mlist = new ArrayList<TreeMenu>();
-//		Menu fmenu;
-//		Menu smenu;
-//		for (int i = 0; i < list.size(); i++) {
-//		  fmenu=list.get(i);
-//		  String fatherId = fmenu.getParentId();
-//		  if(fatherId.equals("root")){
-//			   TreeMenu userm = new TreeMenu();
-//				m.setId(fmenu.getId());
-//				m.setText(fmenu.getMenuName());
-//				m.setXtype(fmenu.getMenuType());
-//				for (int j = 0; j < list.size(); j++) {
-//					smenu=list.get(i);
-//					String sfatherId = smenu.getParentId();
-//					if(fmenu.getId().equals(sfatherId)){
-//						m.setLeaf(false);
-//						m.setChildren(children);
-//					}else{
-//						m.setLeaf(true);
-//					}
-//				}
-//				mlist.add(userm);
-//		  }
-//		}
-//		m.setChildren(mlist);
-//		return m;
-//	}
 
-	@RequestMapping("/selectSyscodeList")
-	@ResponseBody
-	public PageVo selectSyscodeList(Integer page, Integer limit, Syscode syscode) {
-		if (syscode == null) {
-			syscode = new Syscode();
-		}
-		syscode.setPageSize(limit);
-		syscode.setCurrPage(page);
-		pageVo = syscodeService.selectSyscodeList(syscode);
-		pageVo.setSuccess(true);
-		return pageVo;
-	}
-	
-	
-
-	@RequestMapping("/updateSyscode")
-	@ResponseBody
-	public PageVo updateSyscode(@RequestBody Syscode syscode) {
-		pageVo = new PageVo();
-		boolean flag = syscodeService.updateSyscode(syscode);
-		pageVo.setSuccess(flag);
-		return pageVo;
-	}
-
-	@RequestMapping("/insertSyscode")
-	@ResponseBody
-	public PageVo insertSyscode(@RequestBody List<Syscode> syscode) {
-		   pageVo = new PageVo();
-			boolean success = syscodeService.insertSyscodeList(syscode);
-			pageVo.setSuccess(success);
-		
-		return pageVo;
-	}
-
-	@RequestMapping("/deleteSyscode")
-	@ResponseBody
-	public PageVo deleteSyscode(@RequestBody Syscode syscode) {
-		pageVo = new PageVo();
-		boolean flag = syscodeService.deleteSyscode(syscode);
-		pageVo.setSuccess(flag);
-		return pageVo;
-	}
-
-	@RequestMapping("/logout")
-	public String logout(HttpServletRequest request,
-			HttpServletResponse response) {
-		HttpSession session = request.getSession();
-		session.removeAttribute("loginUser");
-		 return "redirect:login.jsp";  
-	}
-	
 	
 	@RequestMapping("/getUserMenu")
 	@ResponseBody
@@ -252,7 +184,9 @@ public class SysHandler extends HandlerBase {
 		}
 		return treeList;
 	}
-	
+
+
+
 	
 
 }

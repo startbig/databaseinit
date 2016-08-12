@@ -19,6 +19,14 @@ Ext.define('app.controller.device.DeviceController', {
     	var modelStore=Ext.create('app.store.ModelStore',{
     	    fields: ["modelName", "id"]
 		});
+    	
+    	var genderStore=Ext.create('app.store.SyscodeStore',{
+    	    fields: ["syscode", "id"]
+		});
+    	genderStore.proxy.extraParams = {
+                'systype': '遮光镜'
+        };
+    	genderStore.load();
 		//假如是修改,则只加载这个品牌下面的型号
 		if(type=='edit'){
 			modelStore.proxy.extraParams = {
@@ -27,15 +35,7 @@ Ext.define('app.controller.device.DeviceController', {
 			modelStore.load();
 		}
 		
-    	var genderStore = Ext.create("Ext.data.Store", {
-    	    fields: ["name", "value"],
-    	    data: [
-    	        { name: "原厂", value: 1 },
-    	        { name: "副厂", value: 2 },
-    	        { name: "无", value: 3 }
-
-    	    ]
-    	});
+    	
     	   var window = Ext.create('Ext.window.Window', {
                modal: true,
                layout: 'fit',
@@ -59,6 +59,12 @@ Ext.define('app.controller.device.DeviceController', {
       				    name: 'id',
       				    xtype: 'textfield',
       				    hidden:true
+      				},{
+     				    fieldLabel: '镜头编号',
+      				    name: 'deviceNum',
+      				    xtype: 'textfield',
+      					disabled:type=='add'?false: true,
+      				    allowBlank: false
       				},{
     					name:'brandId',
     					xtype: 'combobox',
@@ -93,11 +99,6 @@ Ext.define('app.controller.device.DeviceController', {
       				    allowBlank: false,
     					fieldLabel: '型号'
     				},{
-     				    fieldLabel: '镜头编号',
-      				    name: 'deviceNum',
-      				    xtype: 'textfield',
-      				    allowBlank: false
-      				},{
      				    fieldLabel: '成色',
       				    name: 'deviceCondition',
       				    xtype: 'textfield',
@@ -113,8 +114,8 @@ Ext.define('app.controller.device.DeviceController', {
       				    xtype: 'combobox',
       		            store: genderStore,
       		            editable: false,
-      		            displayField: "name",
-      		            valueField: "value",
+      		            displayField: "syscode",
+      		            valueField: "id",
       		            emptyText: "--请选择--",
       		            queryMode: "local",
       				    allowBlank: false

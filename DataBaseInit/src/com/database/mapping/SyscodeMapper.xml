@@ -3,174 +3,137 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.database.dao.SyscodeDao">
 
-	<!--实体映射 -->
+	<!--实体映射-->
 	<resultMap id="SyscodeResultMap" type="Syscode">
-		<!---->
-		<id property="id" column="id" />
-		<!--key -->
-		<result property="key" column="key" />
-		<!--value -->
-		<result property="value" column="value" />
-		<!--类型 -->
-		<result property="type" column="type" />
-		<!--备注 -->
-		<result property="remark" column="remark" />
+		<result property="id" column="id" />
+		<result property="syscode" column="syscode" />
+		<result property="systype" column="systype" />
+		<result property="createUser" column="create_user" />
+		<result property="createTime" column="create_time" />
 	</resultMap>
 
-
-	<!-- 通用查询结果列 -->
+	<!-- 通用查询结果列-->
 	<sql id="Base_Column_List">
-		t.id, t.key, t.value, t.type, t.remark
+	 t.id,	 t.syscode,	 t.systype,	 t.create_user,	 t.create_time
 	</sql>
 
 	<!-- 查询（根据主键ID查询） -->
-	<select id="selectById" resultType="Syscode" parameterType="java.lang.String">
-		SELECT
-		<include refid="Base_Column_List" />
-		FROM u_syscode t
-		WHERE t.id = #{id}
+	<select id="getSyscodeById" resultType="Syscode" parameterType="java.lang.String">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM u_syscode t 
+		 WHERE t.id = #{id}
 	</select>
-
-
-	<!-- 查询（根据条件查询集合） -->
-	<select id="selectSyscodeList" resultMap="SyscodeResultMap"
-		parameterType="Syscode">
+	<!-- 查询所有 -->
+	<select id="getSyscodeAll" resultMap="SyscodeResultMap" parameterType="Syscode">
 		SELECT
 		<include refid="Base_Column_List" />
-		FROM u_syscode t
-		<where>
-			<trim prefix=" " suffix=" " suffixOverrides=" and ">
-				<if test="id != null  and id!=''">
-					t.id = #{id}
-				</if>
-				<if test="key != null  and key!=''">
-					t.key = #{key}
-				</if>
-				<if test="value != null  and value!=''">
-					t.value = #{value}
-				</if>
-				<if test="type != null  and type!=''">
-					t.type = #{type}
-				</if>
-				<if test="remark != null  and remark!=''">
-					t.remark = #{remark}
-				</if>
-			</trim>
-		</where>
-		limit #{startRow},#{pageSize}
+		FROM u_syscode t order by t.systype
+	</select>
+	
+	<!-- 查询（根据条件查询集合） -->
+	<select id="getSyscodeList" resultMap="SyscodeResultMap" parameterType="Syscode">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM u_syscode t 
+	<where>
+		<trim prefix=" " suffix=" " suffixOverrides=" and " >
+			<if test="id != null  and id!=''">
+				 t.id = #{id}
+			</if>
+			<if test="syscode != null  and syscode!=''">
+				 t.syscode = #{syscode}
+			</if>
+			<if test="systype != null  and systype!=''">
+				 t.systype = #{systype}
+			</if>
+			<if test="createUser != null  and createUser!=''">
+				 t.create_user = #{createUser}
+			</if>
+			<if test="createTime != null  and createTime!=''">
+				 t.create_time = #{createTime}
+			</if>
+		 </trim>
+	</where>
+		 limit #{startRow},#{pageSize}
 	</select>
 
 	<!-- 查询（根据条件查询集合总数） -->
-	<select id="selectSyscodeCount" resultType="java.lang.Integer"
-		parameterType="Syscode">
-		SELECT count(*) FROM u_syscode t
-		<where>
-			<trim prefix=" " suffix=" " suffixOverrides=" and ">
-				<if test="id != null and id!=''">
-					t.id = #{id}
-				</if>
-				<if test="key != null and key!=''">
-					t.key = #{key}
-				</if>
-				<if test="value != null and value!=''">
-					t.value = #{value}
-				</if>
-				<if test="type != null and type!=''">
-					t.type = #{type}
-				</if>
-				<if test="remark != null and remark!=''">
-					t.remark = #{remark}
-				</if>
-			</trim>
-		</where>
+	<select id="getSyscodeListCount" resultType="java.lang.Integer" parameterType="Syscode">
+		SELECT count(*) FROM u_syscode t 
+	<where>
+		<trim prefix=" " suffix=" " suffixOverrides=" and " >
+			<if test="id != null  and id!=''">
+				 t.id = #{id}
+			</if>
+			<if test="syscode != null  and syscode!=''">
+				 t.syscode = #{syscode}
+			</if>
+			<if test="systype != null  and systype!=''">
+				 t.systype = #{systype}
+			</if>
+			<if test="createUser != null  and createUser!=''">
+				 t.create_user = #{createUser}
+			</if>
+			<if test="createTime != null  and createTime!=''">
+				 t.create_time = #{createTime}
+			</if>
+		 </trim>
+	</where>
 	</select>
 
-	<!--删除：根据主键ID删除 -->
-	<delete id="deleteById" parameterType="java.lang.String">
-		DELETE FROM u_syscode t
-		WHERE id = #{id}
-	</delete>
-
-	<!--删除：根据对象删除 -->
-	<delete id="deleteSyscode" parameterType="Syscode">
-		DELETE FROM u_syscode
-		WHERE id = #{id}
-	</delete>
-	<insert id="insertSyscodeList" useGeneratedKeys="true"
-		parameterType="java.util.List">
-
-		
-		<foreach collection="list" item="item" index="index"
-			separator=",">
-			INSERT INTO u_syscode
-		(id,key,value,type,remark)VALUES
-			(uuid(),
-
-			#{item.key},
-
-			#{item.value},
-
-			#{item.type},
-
-			#{item.remark})
-
-
-		</foreach>
-	</insert>
-	<!-- 添加 （匹配有值的字段） -->
+	<!-- 添加 （匹配有值的字段）-->
 	<insert id="insertSyscode" parameterType="Syscode">
 		INSERT INTO u_syscode
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			id,
-			<if test="key != null and key!=''">
-				key,
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+				 id,
+			<if test="syscode != null and syscode!=''">
+				 syscode,
 			</if>
-			<if test="value != null and value!=''">
-				value,
+			<if test="systype != null and systype!=''">
+				 systype,
 			</if>
-			<if test="type != null and type!=''">
-				type,
+			<if test="createUser != null and createUser!=''">
+				 create_user,
 			</if>
-			<if test="remark != null and remark!=''">
-				remark,
+				 create_time,
+		 </trim>
+		 <trim prefix="values (" suffix=")" suffixOverrides="," >
+				 uuid(),
+			<if test="syscode!=null and syscode!=''">
+				 #{syscode},
 			</if>
-
-		</trim>
-		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			uuid(),
-			<if test="key!=null and key!=''">
-				#{key},
+			<if test="systype!=null and systype!=''">
+				 #{systype},
 			</if>
-			<if test="value!=null and value!=''">
-				#{value},
+			<if test="createUser!=null and createUser!=''">
+				 #{createUser},
 			</if>
-			<if test="type!=null and type!=''">
-				#{type},
-			</if>
-			<if test="remark!=null and remark!=''">
-				#{remark},
-			</if>
-		</trim>
+				 now(),
+		 </trim>
 	</insert>
 
-	<!-- 修 改 -->
+	<!-- 修 改-->
 	<update id="updateSyscode" parameterType="Syscode">
-		UPDATE u_syscode
-		<set>
-			<if test="key != null and key!=''">
-				key = #{key},
+		 UPDATE u_syscode
+		 <set>
+			<if test="syscode != null and syscode!=''">
+				 syscode = #{syscode},
 			</if>
-			<if test="value != null and value!=''">
-				value = #{value},
+			<if test="systype != null and systype!=''">
+				 systype = #{systype},
 			</if>
-			<if test="type != null and type!=''">
-				type = #{type},
+			<if test="createUser != null and createUser!=''">
+				 create_user = #{createUser},
 			</if>
-			<if test="remark != null and remark!=''">
-				remark = #{remark},
+			<if test="createTime != null and createTime!=''">
+				 create_time = #{createTime},
 			</if>
-		</set>
-		WHERE id = #{id}
+ 		 </set>
+		 WHERE id = #{id}
 	</update>
-
+    <!-- 删除-->
+    <delete id="deleteSyscode" parameterType="java.lang.String">
+    delete from u_syscode  WHERE id = #{id}
+    </delete>
 </mapper>

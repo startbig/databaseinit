@@ -3,24 +3,23 @@ Ext.define("app.store.SyscodeStore", {
 	alias:'store.syscodestore',
 	fields:[
 	'id',
-	'key',
-	'value',
-	'type',
-	'remark'
+	'syscode',
+	'systype',
+	'createUser',
+	'createTime'
 	],
+	groupField: 'systype',
 	proxy: {
 		type: 'ajax',
+		url: 'syscode/getSyscodeList',
 		reader: {
 			type: 'json',
 			rootProperty: 'root',
 			totalProperty:'total'
 		},
-		api:{
-			  read: 'selectSyscodeList',
-			  create: 'insertSyscode',
-	          update: 'updateSyscode',
-	          destroy: 'deleteSyscode'
-		}
+		 api: {
+	            destroy: 'syscode/deleteSyscode'
+	        }
 	},
 	pageSize: 20
 });
