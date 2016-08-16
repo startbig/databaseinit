@@ -39,7 +39,7 @@ public class SysHandler extends HandlerBase {
 	@Resource
 	private MenuService menuService;
 
-	private List<Menu> menulist;
+//	private List<Menu> menulist;
 	
 	//=================================登陆=注销================================================
 	@RequestMapping("/login")
@@ -48,7 +48,8 @@ public class SysHandler extends HandlerBase {
 		HttpSession session = request.getSession();
 		User check = userService.loginUser(user);
 		if (check != null) {
-			menulist = menuService.selectRolesMenus(check.getId());
+			List<Menu> menulist = menuService.selectRolesMenus(check.getId());
+			session.setAttribute("userMenu", menulist);
 			session.setAttribute("loginUser", check);
 			return "redirect:index.jsp";  
 		} else {
@@ -71,6 +72,10 @@ public class SysHandler extends HandlerBase {
 	@RequestMapping("/getMenu")
 	@ResponseBody
 	public TreeMenu getMenu() {
+		TreeMenu purviewIds = 	initMenu();
+		return purviewIds;
+	}
+	public TreeMenu initMenu() {
 		TreeMenu purviewIds = new TreeMenu();
 		purviewIds.setText("系统菜单");
 		purviewIds.setId("root");
@@ -101,9 +106,10 @@ public class SysHandler extends HandlerBase {
 		return treeList;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<Menu> getMenuListByUserId(String id){
 		List<Menu> list =new   ArrayList<Menu>();
-		
+		List<Menu> menulist=(List<Menu>) session.getAttribute("userMenu");
 		int size=menulist.size();
 		Menu m;
 		for (int i = 0; i <size; i++) {

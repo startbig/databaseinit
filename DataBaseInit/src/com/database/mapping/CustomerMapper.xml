@@ -21,7 +21,8 @@
 
 	<!-- 通用查询结果列-->
 	<sql id="Base_Column_List">
-	 t.id,	 t.customer_num,	 t.customer_name,	 t.order_num,	 t.customer_phone,	 t.customer_address,	 t.customer_qq,	 t.customer_place,	 t.create_user,	 t.create_time,	 t.update_user,	 t.update_time
+	 t.id,	 t.customer_num,	 t.customer_name,	 t.order_num,	 t.customer_phone,	 t.customer_address,
+	 	 t.customer_qq,	 t.customer_place,	 t.create_user,	 t.create_time,	 t.update_user,	 t.update_time
 	</sql>
 
 	<!-- 查询（根据主键ID查询） -->

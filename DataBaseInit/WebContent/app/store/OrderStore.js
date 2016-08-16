@@ -11,6 +11,7 @@ Ext.define("app.store.OrderStore", {
 	'customerPhone',
 	'customerAddress',
 	'remark',
+	'orderNum',
 	'createUser',
 	'createTime'
 	],

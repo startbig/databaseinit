@@ -13,13 +13,17 @@
 		<result property="customerName" column="customer_name" />
 		<result property="customerPhone" column="customer_phone" />
 		<result property="customerAddress" column="customer_address" />
+		<result property="customerPlace" column="customer_place" />
+		<result property="customerQq" column="customer_qq" />
 		<result property="remark" column="remark" />
 		<result property="createUser" column="create_user" />
 		<result property="createTime" column="create_time" />
 	    <result property="brandName" column="brand_name" />
 		<result property="modelName" column="model_name" />
 		<result property="deviceNum" column="device_num" />
-	   <result property="customerQq" column="customer_qq" />
+	    <result property="orderNum" column="order_num" />
+	   
+	   
 	</resultMap>
 
 	<!-- 通用查询结果列-->
@@ -38,10 +42,12 @@
 	<!-- 查询（根据条件查询集合） -->
 	<select id="getOrderList" resultMap="OrderResultMap" parameterType="Order">
 		SELECT
-		t.*,ud.device_num,um.model_name,ub.brand_name
+		t.*,ud.device_num,um.model_name,ub.brand_name,
+		uc.customer_num,uc.customer_name,uc.customer_phone,uc.customer_address,
+	 	uc.customer_qq,uc.customer_place 
 		FROM u_order t left join u_device ud on(ud.id=t.device_id)
 		left join u_brand ub on(ub.id=ud.brand_id) left join 
-		u_model um on(um.id=ud.model_id)
+		u_model um on(um.id=ud.model_id) left join u_customer uc on(t.customer_id=uc.id)
 	<where>
 		<trim prefix=" " suffix=" " suffixOverrides=" and " >
 			<if test="id != null  and id!=''">
@@ -138,6 +144,7 @@
 			<if test="endrentTime != null and endrentTime!=''">
 				 endrent_time,
 			</if>
+			order_num,
 			<if test="customer != null and customer!=''">
 				 customer,
 			</if>
@@ -172,6 +179,7 @@
 			<if test="endrentTime!=null and endrentTime!=''">
 				 #{endrentTime},
 			</if>
+			no_make(),
 			<if test="customer!=null and customer!=''">
 				 #{customer},
 			</if>

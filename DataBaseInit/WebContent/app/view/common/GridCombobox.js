@@ -1,4 +1,4 @@
-Ext.define('Genomics.view.common.GridCombobox',{
+Ext.define('app.view.common.GridCombobox',{
 	extend : 'Ext.form.field.ComboBox',
 	alias : 'widget.gridComboSelector',
 	triggerAction: 'all',

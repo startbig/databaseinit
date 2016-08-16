@@ -41,6 +41,8 @@ public class Order extends Page implements Serializable{
 	
 	
 	private String customerQq;
+	
+	private String orderNum;
 	public String  getId(){
 		return id;
 	}
@@ -160,5 +162,15 @@ public class Order extends Page implements Serializable{
 	public void setCustomerQq(String customerQq) {
 		this.customerQq = customerQq;
 	}
+
+	public String getOrderNum() {
+		return orderNum;
+	}
+
+	public void setOrderNum(String orderNum) {
+		this.orderNum = orderNum;
+	}
+	
+	
 
 }

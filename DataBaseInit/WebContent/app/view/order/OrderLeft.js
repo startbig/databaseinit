@@ -19,6 +19,7 @@ Ext.define("app.view.order.OrderLeft", {
 			{header:'', xtype : 'rownumberer'},
 			{header:'品牌', align : 'left', dataIndex: 'brandName'},
 			{header:'型号', align : 'left', dataIndex: 'modelName'},
+			{header:'订单编号', align : 'left', dataIndex: 'orderNum'},
 			{header:'镜头编号', align : 'left', dataIndex: 'deviceNum'},
 			{header:'起租时间', align : 'left', dataIndex: 'startrentTime'},
 			{header:'退租时间', align : 'left', dataIndex: 'endrentTime'},
