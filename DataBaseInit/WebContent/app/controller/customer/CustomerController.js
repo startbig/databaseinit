@@ -6,6 +6,37 @@ Ext.define("app.controller.customer.CustomerController", {
 		'Ext.window.Toast',
 		'Ext.form.*'
 	],
+	search_record: function(grid, rec) {
+			var customerRecordStore=Ext.create('app.store.CustomerRecordStore');
+			customerRecordStore.proxy.extraParams = {
+	                'customerId': rec.get('id')
+	        };
+			customerRecordStore.load();
+		    var gridPanel=Ext.create('Ext.grid.Panel', {
+		    forceFit : true,
+		    columnLines:true,
+			store:customerRecordStore,
+		    columns :[
+					{header:'', xtype : 'rownumberer'},
+					{header:'修改内容', align : 'left', width:480,dataIndex: 'updateContent'},
+					{header:'修改人', align : 'left', dataIndex: 'createUser'},
+					{header:'修改时间', align : 'left',width:160, dataIndex: 'createTime'}
+					],
+			bbar: Ext.create('app.view.common.CommonPaggingTool', {
+				 store: customerRecordStore
+			})
+	      });
+		  var window = Ext.create('Ext.window.Window', {
+			modal: true,
+			layout: 'fit',
+			width: 700,
+			height: 350,
+			closable: true,
+			modelValidation: true,
+			title:'查看修改记录',
+			items:gridPanel
+		  }).show();
+	},
 	insertCustomer: function(){
 		this.operationDevice('add');
 	},

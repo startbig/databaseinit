@@ -95,6 +95,6 @@ public class InitClassObj {
 	}
 	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
 	   
-		initClass("u_customer","mysql");
+		initClass("u_customer_record","mysql");
      }
 }

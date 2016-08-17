@@ -1,18 +1,17 @@
 package com.database.service;
-import com.database.po.Customer;
-
-import com.database.dao.CustomerDao;
-
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.database.dao.CustomerDao;
+import com.database.po.Customer;
+import com.database.po.CustomerRecord;
 import com.database.utils.PageVo;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
 public class CustomerService {
+
 
 @Autowired
 private CustomerDao customerDao;
@@ -50,6 +49,16 @@ private CustomerDao customerDao;
 		Customer obj =null;
 		obj=customerDao.getCustomerById(id);
 		return obj;
+	}
+	
+	public PageVo  getCustomerRecordList(CustomerRecord customerRecord){
+
+		PageVo  pageVo= new PageVo();
+		List<CustomerRecord> list=null;
+		list=customerDao.getCustomerRecordList(customerRecord);
+		pageVo.setRoot(list);
+		pageVo.setTotal(customerDao.getCustomerRecordListCount(customerRecord));
+		return pageVo;
 	}
 
 }

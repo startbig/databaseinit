@@ -19,6 +19,31 @@
 		<result property="updateTime" column="update_time" />
 	</resultMap>
 
+	<!--实体映射-->
+	<resultMap id="CustomerRecordResultMap" type="CustomerRecord">
+		<result property="id" column="id" />
+		<result property="customerId" column="customer_id" />
+		<result property="createUser" column="create_user" />
+		<result property="createTime" column="create_time" />
+		<result property="updateContent" column="update_content" />
+	</resultMap>
+
+
+
+
+	<!-- 查询（根据条件查询集合） -->
+	<select id="getCustomerRecordList" resultMap="CustomerRecordResultMap" parameterType="CustomerRecord">
+		SELECT
+		*
+		FROM u_customer_record t where	 t.customer_id = #{customerId}
+		limit #{startRow},#{pageSize}
+	</select>
+
+	<!-- 查询（根据条件查询集合总数） -->
+	<select id="getCustomerRecordListCount" resultType="java.lang.Integer" parameterType="CustomerRecord">
+		SELECT count(*) FROM u_customer_record t  where t.customer_id = #{customerId}
+	</select>
+
 	<!-- 通用查询结果列-->
 	<sql id="Base_Column_List">
 	 t.id,	 t.customer_num,	 t.customer_name,	 t.order_num,	 t.customer_phone,	 t.customer_address,

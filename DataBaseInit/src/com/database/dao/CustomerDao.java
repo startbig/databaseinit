@@ -1,5 +1,6 @@
 package com.database.dao;
 import com.database.po.Customer;
+import com.database.po.CustomerRecord;
 
 import java.util.List;
 
@@ -18,4 +19,7 @@ public int  getCustomerListCount(Customer customer);
 
 public Customer  getCustomerById(String id);
 
+public List<CustomerRecord>  getCustomerRecordList(CustomerRecord customerRecord);
+
+public int  getCustomerRecordListCount(CustomerRecord customerRecord);
 }

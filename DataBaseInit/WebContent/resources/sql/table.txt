@@ -49,3 +49,79 @@ CREATE TABLE u_user_menu
    user_id   varchar(36),
    menu_id   varchar(36)
 )
+
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `no_make`() RETURNS varchar(50) CHARSET utf8
+BEGIN
+ DECLARE  v_old_no   VARCHAR(50); #原编码
+ DECLARE  v_old_num  INT; # 原编码后五位编号
+ DECLARE  v_new_num  VARCHAR(50); #新编码后五位编号
+ DECLARE  v_maked_no VARCHAR(50); #新编码
+ DECLARE  v_date_no  VARCHAR(50); #当前日期编号
+
+ select max(substr(order_num,-11,11)) into v_old_no from u_order;#查询订单目前最大流水号
+ select substr(DATE_FORMAT( now(), '%Y%m%d'),1,8) into v_date_no;
+ 
+ if v_old_no is null or v_old_no='' then
+ set v_old_num=0;
+ else 
+set v_old_num = cast( substr(v_old_no, 10, 3) as unsigned);
+ end if;
+ #截取改编码流水号部位
+  #编码位数+1
+  set v_new_num = v_old_num + 1;
+  #如果位数小于2 则循环拼接
+  WHILE LENGTH(v_new_num) <3 do
+  
+  set  v_new_num = CONCAT('0' , v_new_num);
+  END while; 
+   #查询旧的流逝号日期是否和当前日期一致,如果不相同则重新生成编码 ,相同则叠加流水号
+  IF v_old_no IS NULL OR
+     substr(v_old_no, 1, 8) <> v_date_no
+  THEN
+   set v_maked_no = CONCAT(v_date_no,'001');
+  ELSE
+   set v_maked_no =  CONCAT(v_date_no , v_new_num);
+  END IF;
+   RETURN(v_maked_no);
+END
+
+CREATE TABLE `u_customer_record` (
+  `id` varchar(36) NOT NULL,
+  `customer_id` varchar(36) DEFAULT NULL,
+  `create_user` varchar(45) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_content` varchar(2000) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE DEFINER=`root`@`localhost` TRIGGER `database`.`u_customer_AFTER_UPDATE` before UPDATE ON `u_customer` FOR EACH ROW
+BEGIN
+declare update_name varchar(100) default '';
+declare update_phone varchar(100) default '';
+declare update_address varchar(100) default '';
+declare update_place varchar(100) default '';
+
+
+if old.customer_name is not null and old.customer_name!=new.customer_name then 
+set update_name=CONCAT('姓名从:',old.customer_name,'更改为:',new.customer_name) ;
+end if;
+if old.customer_phone is not null and old.customer_phone!=new.customer_phone then 
+set update_phone=CONCAT('电话从:',old.customer_phone,'更改为:',new.customer_phone) ;
+end if;
+
+if old.customer_address is not null and old.customer_address!=new.customer_address then 
+set update_address=CONCAT('地址从:',old.customer_address,'更改为:',new.customer_address) ;
+end if;
+
+if old.customer_place is not null and old.customer_place!=new.customer_place then 
+set update_place=CONCAT('地点从:',old.customer_place,'更改为:',new.customer_place) ;
+end if;
+
+
+if (update_name !=''or update_phone !='' or update_address  !='' or update_place  !='') then
+  insert into u_customer_record(id,customer_id,create_user,create_time,update_content)
+  value(uuid(),old.id,new.update_user,now(),CONCAT(update_name,'<br />',update_phone, '<br />',update_address, '<br />',update_place));
+end if;
+END

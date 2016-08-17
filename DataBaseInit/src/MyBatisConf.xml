@@ -5,6 +5,7 @@
 	<!-- 配置映射类的别名 -->
 	<typeAliases>
 		<typeAlias alias="Customer" type="com.database.po.Customer" />
+		<typeAlias alias="CustomerRecord" type="com.database.po.CustomerRecord" />
 		<typeAlias alias="User" type="com.database.po.User" />
 		<typeAlias alias="Order" type="com.database.po.Order" />
 		<typeAlias alias="Model" type="com.database.po.Model" />

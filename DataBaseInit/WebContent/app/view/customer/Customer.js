@@ -11,6 +11,9 @@ Ext.define("app.view.customer.Customer", {
 	requires: [
 		'app.controller.customer.CustomerController'
 	],
+	listeners:{ 
+	   rowdblclick : 'search_record'          		
+	},
 	controller: 'customercontroller',
 	initComponent : function(){
 		Ext.apply(this,{

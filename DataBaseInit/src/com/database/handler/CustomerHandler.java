@@ -1,11 +1,16 @@
 package com.database.handler;
 import javax.annotation.Resource;
-import org.springframework.stereotype.Controller;import com.database.utils.PageVo;
+
+import org.springframework.stereotype.Controller;
+import com.database.utils.PageVo;
+
 
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.database.po.Customer;
+import com.database.po.CustomerRecord;
 import com.database.service.CustomerService;
 import com.database.utils.HandlerBase;
 import com.database.utils.Constant;
@@ -18,6 +23,20 @@ public class CustomerHandler  extends HandlerBase{
 	@Resource 
 	private CustomerService customerService;
 
+	
+	@RequestMapping("/getCustomerRecordList")
+	@ResponseBody
+	public PageVo getCustomerRecordList(Integer page,Integer limit, CustomerRecord customerrecord){
+		if(customerrecord==null){
+			customerrecord=new CustomerRecord();
+		}
+		customerrecord.setPageSize(limit);
+		customerrecord.setCurrPage(page);
+		pageVo=customerService.getCustomerRecordList(customerrecord);
+		pageVo.setSuccess(true);
+		return pageVo;
+	}
+	
 	@RequestMapping("/getCustomerList")
 	@ResponseBody
 	public PageVo getCustomerList(Integer page,Integer limit, Customer customer){

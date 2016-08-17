@@ -12,7 +12,7 @@ public class StringUtil {
 	public static String DealClassName(String field){
 		String transform=field.toLowerCase();
 		if(field.contains("_")){
-			transform=field.split("_")[1];
+			transform=transformUpper(transform.substring(2,transform.length()).split("_"));
 		}
 		return transform;
 	}
