@@ -19,6 +19,23 @@
 		<result property="createUser" column="create_user" />
 		<!--创建时间-->
 		<result property="createTime" column="create_time" />
+		<!--角色名称-->
+		<result property="roleName" column="role_name" />
+	</resultMap>
+	
+	
+		<!--实体映射 -->
+	<resultMap id="LoginUserMap" type="User">
+		<!---->
+		<id property="id" column="id" />
+		<!--姓名 -->
+		<result property="userName" column="user_name" />
+		<!--登录名 -->
+		<result property="loginName" column="login_name" />
+		<!--邮件地址 -->
+		<result property="emailAddress" column="email_address" />
+	
+		<result property="roleId" column="role_id" />
 	</resultMap>
 
 
@@ -30,15 +47,15 @@
 	<!-- 查询（根据主键ID查询） -->
 	<select id="selectById" resultType="User" parameterType="java.lang.String">
 		SELECT
-		<include refid="Base_Column_List" />
-		FROM u_user
+		u.*,ur.role_name
+		FROM u_user u left join u_roles ur on(ur.id=u.role_id)
 		WHERE id = #{id}
 	</select>
 
 	<!-- 登陆验证 -->
-	<select id="loginUser"  resultMap="UserResultMap"  parameterType="User">
+	<select id="loginUser"  resultMap="LoginUserMap"  parameterType="User">
 		SELECT
-		<include refid="Base_Column_List" />
+		 t.id,	 t.user_name,	 t.login_name,	 t.email_address,t.role_id
 		FROM u_user t
 		WHERE login_name=#{loginName} and login_pass=#{loginPass}
 	</select>
@@ -47,8 +64,8 @@
 	<!-- 查询（根据条件查询集合） -->
 	<select id="selectUserList" resultMap="UserResultMap" parameterType="User">
 		 SELECT
-		 <include refid="Base_Column_List" />
-		 FROM u_user t 
+			t.*,ur.role_name
+		FROM u_user t left join u_roles ur on(ur.id=t.role_id)
 	<where>
 		 <trim prefix=" " suffix=" " suffixOverrides=" and " >
 			<if test="id != null  and id!=''">
@@ -131,6 +148,9 @@
 			<if test="loginName != null and loginName!=''">
 				 login_name,
 			</if>
+			<if test="roleId != null and roleId!=''">
+				 role_id,
+			</if>
 			<if test="emailAddress != null and emailAddress!=''">
 				 email_address,
 			</if>
@@ -152,6 +172,9 @@
 			</if>
 			<if test="loginName!=null and loginName!=''">
 				 #{loginName},
+			</if>
+				<if test="roleId != null and roleId!=''">
+				 #{roleId},
 			</if>
 			<if test="emailAddress!=null and emailAddress!=''">
 				 #{emailAddress},
@@ -180,6 +203,9 @@
 			</if>
 			<if test="loginPass != null and loginPass!=''">
 				 login_pass = #{loginPass},
+			</if>
+				<if test="roleId != null and roleId!=''">
+				 role_id = #{roleId},
 			</if>
 			<if test="createUser != null and createUser!=''">
 				 create_user = #{createUser},

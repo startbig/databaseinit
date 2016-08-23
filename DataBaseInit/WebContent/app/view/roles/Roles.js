@@ -9,6 +9,7 @@ Ext.define("app.view.roles.Roles", {
 		stripeRows: true,
 		enableTextSelection: true
 	},
+	id:'checkrolespanel',
     reference : 'rolesSelect',
 	controller:'rolesController',
 	store: Ext.create('app.store.RolesStore'),

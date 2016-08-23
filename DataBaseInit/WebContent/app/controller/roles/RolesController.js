@@ -3,6 +3,88 @@ Ext.define('app.controller.roles.RolesController', {
 	alias : 'controller.rolesController',
 	store : Ext.create('app.store.TableColumnStore'),
 	requires : [ 'app.auxiliary.SelectSyscode' ],
+	insertRoles: function(){
+		this.operationRole('add');
+	},
+	updateRoles: function(ctx){
+		var records = ctx.up('grid').getSelection()[0];
+		this.operationRole('edit',records);
+	},
+	operationRole: function(type,rec) {
+		var window = Ext.create('Ext.window.Window', {
+			modal: true,
+			layout: 'fit',
+			width: 400,
+			height: 390,
+			closable: true,
+			modelValidation: true,
+			title: type=='add'?'新增':'修改',
+			items: {
+				xtype: 'form',
+				url: type=='add'?'roles/insertRoles':'roles/updateRoles',
+				bodyPadding: 10,
+				border: false,
+				layout: {
+					type: 'vbox',
+					align: 'stretch'
+				},
+				defaultType: 'textfield',
+				items: [
+				{
+					hidden:true,
+					name:'id'
+				},
+				{
+					fieldLabel: '角色名称',
+					name:'roleName'
+				}
+				],
+				buttons: [{
+					text: '保存',
+					handler: function() {
+						var form = window.items.get(0).getForm();
+						if (form.isValid()) {
+						form.submit({
+							method: 'post',
+							waitMsg: '上传中...',
+							success: function(form, action) {
+								var grid = Ext.ComponentQuery.query('rolespanel')[0];
+								grid.getStore().load();
+								window.close();
+								app.Constant.showMsg(app.Constant.addSuccessMsg);
+							},
+							failure: function(form, action) {
+								var msg = action.result.msg;
+								if(msg){
+								showToast(msg)
+								}
+								showToast(app.Constant.systemErrorMsg);
+							}
+							})
+						}
+					}
+				},
+				{
+				text: '重置',
+					handler: function(ctx) {
+						ctx.up('window').down('form').reset();
+					}
+				},
+				{
+				text: '取消',
+					handler: function() {
+						window.close();
+					}
+				}
+			]}
+		});
+		if(rec){
+			var form = window.down('form');
+			form.loadRecord(rec)
+		}
+		window.show();
+	},
+	
 	insertRolesPower : function(ctx) {
 		var me = this;
 		var grid=ctx.up('grid');
@@ -14,79 +96,25 @@ Ext.define('app.controller.roles.RolesController', {
 					checked:false
 				},
 			    proxy : {
-			        type : 'ajax',
-			        url : 'menu/selectRolesMenus'
+			    	type : 'ajax',
+					url : "getUserMenu",
+					reader : {
+						typeProperty : 'mtype'
+					},
+					extraParams:{'id': rolesId}
 			    }
-		});
-		store.load({
-		    params: {
-		        id: rolesId
-		    }});
-		var store2 = Ext.create('app.store.RoleMenuStore');
-		var grid = Ext.create('Ext.grid.Panel', {
-			region : 'center',
-			store : store2,
-			flex : 7,
-			columns : [ {
-				header : '',
-				xtype : 'rownumberer'
-			}, {
-				header : '资源名称',
-				align : 'left',
-				dataIndex : 'resourceName',
-				editor : {
-					allowBlank : false
-				}
-			}, {
-				header : '菜单名称',
-				align : 'left',
-				dataIndex : 'menuName'
-
-			}, {
-				header : '资源链接',
-				align : 'left',
-				dataIndex : 'resourceUrl',
-				editor : {
-					allowBlank : false
-				}
-			}, {
-				header : '创建人',
-				align : 'left',
-				dataIndex : 'createUser',
-				hidden : true
-			}, {
-				header : '创建时间',
-				align : 'left',
-				dataIndex : 'createTime',
-				hidden : true
-			} ],
-			dockedItems : {
-				dock : 'top',
-				xtype : 'toolbar',
-				items : {
-					text : '保存',
-					glyph : 0xf0c7,
-					scope : this,
-					xtype : 'button',
-					style : 'margin-left:10px',
-					handler : this.addResole
-				}
-
-			}
-
-		});
+		  });
 		var tree = Ext.create('Ext.tree.Panel', {
 			region : 'west',
-			flex : 3,
 			store : store,
 			autoScroll : true,
 			useArrows : true,
 			split: true,
-			rootVisible : true,
+			rootVisible : false,
 			scope : this,
 			listeners:{
 				
-				checkchange: this.checkTree
+				checkchange: this.checkChildrens
 			},
 			dockedItems : {
 				dock : 'top',
@@ -105,80 +133,66 @@ Ext.define('app.controller.roles.RolesController', {
 
 		var window = Ext.create('Ext.window.Window', {
 			layout : 'border',
-			width : 600,
+			width : 300,
 			height : 350,
 			autoScroll : true,
 			closable : true,
 			title : '新增',
-			items : [ tree,grid ]
+			layout:'fit',
+			items : [ tree ]
 		}).show();
 	},
 	addTree:function(ctx){
+		
+		var grid=	Ext.getCmp('checkrolespanel');
+		var id = grid.getSelection()[0].id;
 		var tree=ctx.up('panel');
-		var records=tree.getView().getChecked();
-		Ext.Array.each(records,function(rec){
-			alert(rec.get('text'));
-		});
-	},
-	
-	onSync : function(ctx) {
-		var window = ctx.up('window');
-		var form = window.down('form').getValues();
-		var grid = ctx.up('grid').getStore();
-		Ext.apply(form, {
-			tableColumn : this.storearray(grid)
+		var records=tree.getView().getChecked(),
+		ids =new Array();
+		Ext.Array.each(records, function(rec) {
+			ids.push(rec.get('id'));
 		});
 		Ext.Ajax.request({
-			url : 'table/insertTableList',
-			jsonData : form,
+			url : 'insertRoleMenus',
+			params : {
+				meunsId : ids,
+				roleId :id
+			},
 			success : function(response) {
-				var grid = Ext.ComponentQuery.query('tablepanel')[0];
-				grid.getStore().load();
-				window.close();
-				app.Constant.showMsg(app.Constant.addSuccessMsg);
+				var r = Ext.JSON.decode(response.responseText);
+				if (r.success == true) {
+//					  var grid = Ext.ComponentQuery.query('leftuser')[0];
+//                      grid.getStore().load();
+                      app.Constant.showMsg(app.Constant.addSuccessMsg);	
+                      tree.up('window').close();
+                      
+				}
 			},
 			failure : function(response) {
-				var msg = action.result.msg;
-				showToast(msg)
 
 			}
 		});
 	},
-    checkTree : function(node, checked){
-    	if(node.isRoot()){
-    		node.eachChild(function(child) {   
-    			this.checkAllChildrens();
-//    			child.fireEvent('checkAllChildrens',child);
-            }); 
-    	}else{
-    		if(!node.data.leaf){
-        		node.expand();
-                node.eachChild(function(child) {          
-                	child.fireEvent('checkAllChildrens',child);
-                });  
-        	}
-    		if(checked == true && !node.parentNode.isRoot()){
-        		node.parentNode.set('checked',checked);
-        	}
-    	}
-    },
-	storearray : function(store) {
-		var listData = [];
-		store.each(function(rec) {
-			listData.push(rec.data);
-		});
-		return listData;
-	},
-	checkAllChildrens : function() {
-		 alert('1111');
-//		 node.eachChild(function(child) {  
-//				child.set('checked',checked);
-//           	if(!child.data.leaf){
-//           		child.expand();
-//           		if(child.hasChildNodes()){
-//           			checkAllChildrens(child);
-//           		}
-//           	}	
-//		 });
-	 }
+	checkChildrens : function(node, checked) {
+		if (node.isRoot()) {
+			node.eachChild(function(child) {
+				child.set('checked', checked);
+				if (!child.data.leaf) {
+					child.expand();
+					child.fireEvent('checkchange', child, checked);
+				}
+			});
+		} else {
+			if (!node.data.leaf) {
+				node.expand();
+				node.eachChild(function(child) {
+					child.set('checked', checked);
+					child.fireEvent('checkchange', child, checked);
+				});
+			}
+			if (checked == true && !node.parentNode.isRoot()) {
+				node.parentNode.set('checked', checked);
+			}
+		}
+	}
 });

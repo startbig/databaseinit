@@ -17,7 +17,7 @@ Ext.define("app.view.device.Device", {
 		Ext.apply(this,{
 			 columns :[
 			{header:'', xtype : 'rownumberer'},
-			{header:'状态', align : 'left', dataIndex: 'status',renderer:
+			{header:'状态', align : 'left', dataIndex: 'status', locked : true,renderer:
 				function(v){
 				if(v=='0'){
 					return '未入库';

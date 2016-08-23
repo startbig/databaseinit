@@ -1,56 +1,55 @@
 package com.database.service;
+import com.database.po.Roles;
+
+import com.database.dao.RolesDao;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
 
 import com.database.utils.PageVo;
-import com.database.po.Roles;
-import org.apache.ibatis.annotations.Param;
 
-/**
- * 
- * RolesService数据库操作接口类
- * 
- **/
+import org.springframework.beans.factory.annotation.Autowired;
 
-public interface RolesService{
+@Service
+public class RolesService {
 
+@Autowired
+private RolesDao rolesDao;
 
-	/**
-	 * 
-	 * 查询（根据主键ID查询）
-	 * 
-	 **/
-	Roles  selectById (  String id );
-	/**
-	 * 
-	 * 查询（根据条件查询集合）
-	 * 
-	 **/
-	PageVo  selectRolesList  ( Roles record);
+	public Boolean  insertRoles(Roles roles){
 
-	/**
-	 * 
-	 * 删除（根据主键ID删除）
-	 * 
-	 **/
-	boolean deleteById (  String id );
+		Boolean flag=false;
+		if(rolesDao.insertRoles(roles)>0){
+		flag=true;
+		}
+		return flag;
+	}
 
-	/**
-	 * 
-	 * 删除（根据对象）
-	 * 
-	 **/
-	boolean deleteRoles( Roles record );
+	public Boolean  updateRoles(Roles roles){
 
-	/**
-	 * 
-	 * 添加 （匹配有值的字段）
-	 * 
-	 **/
-	boolean insertRoles( Roles record );
+		Boolean flag=false;
+		if(rolesDao.updateRoles(roles)>0){
+		flag=true;
+		}
+		return flag;
+	}
 
-	/**
-	 * 
-	 * 修改 （匹配有值的字段）
-	 * 
-	 **/
-	boolean updateRoles( Roles record );
+	public PageVo  getRolesList(Roles roles){
+
+		PageVo  pageVo= new PageVo();
+		List<Roles> list=null;
+		list=rolesDao.getRolesList(roles);
+		pageVo.setRoot(list);
+		pageVo.setTotal(rolesDao.getRolesListCount(roles));
+		return pageVo;
+	}
+
+	public Roles  getRoles(String id){
+
+		Roles obj =null;
+		obj=rolesDao.getRolesById(id);
+		return obj;
+	}
+
 }

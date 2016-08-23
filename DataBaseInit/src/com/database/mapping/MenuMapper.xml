@@ -47,8 +47,8 @@
 		WHERE parent_id = #{id}
 	</select>
 	<select id="selectRolesMenus" resultMap="MenuRolesResultMap" parameterType="java.lang.String">
-	select um.* from u_user_menu uum  left join u_menu um on(um.id=uum.menu_id)
-	  where uum.user_id=#{id}
+	select um.* from u_role_menu uum  left join u_menu um on(um.id=uum.menu_id)
+	  where uum.role_id=#{id}
 	</select>
 	<!-- 查询（根据条件查询集合） -->
 	<select id="selectMenuList" resultMap="MenuResultMap"
@@ -116,9 +116,9 @@
 	</delete>
 	
 		<!--删除：根据主键ID删除 -->
-	<delete id="deleteByUserId" parameterType="java.lang.String">
-		DELETE FROM u_user_menu
-		WHERE user_id = #{id}
+	<delete id="deleteByRoleId" parameterType="java.lang.String">
+		DELETE FROM u_role_menu
+		WHERE role_id = #{id}
 	</delete>
 
 	<!--删除：根据对象删除 -->
@@ -127,10 +127,10 @@
 		WHERE id = #{id}
 	</delete>
    <!-- 批量新增用户菜单 -->
-	<insert id="insertUserMenu" parameterType="java.util.List">
-	insert into u_user_menu(id,user_id,menu_id) values  
+	<insert id="insertRoleMenu" parameterType="java.util.List">
+	insert into u_role_menu(id,role_id,menu_id) values  
 	 <foreach collection="list" item="item" index="index" separator="," >  
-	        (uuid(),#{item.userId},#{item.menuId})  
+	        (uuid(),#{item.roleId},#{item.menuId})  
 	    </foreach>  
 	</insert>
 

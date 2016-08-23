@@ -35,6 +35,10 @@ public class User extends Page implements Serializable {
 
 	/**创建人**/
 	private String createUser;
+	
+	private String roleId;
+	
+	private String roleName;
 
 
 	public void setId(String id){
@@ -86,12 +90,28 @@ public class User extends Page implements Serializable {
 		this.createTime = createTime;
 	}
 
-	public String getcreateUser() {
+	public String getCreateUser() {
 		return createUser;
 	}
 
-	public void setcreateUser(String createUser) {
+	public void setCreateUser(String createUser) {
 		this.createUser = createUser;
+	}
+
+	public String getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(String roleId) {
+		this.roleId = roleId;
+	}
+
+	public String getRoleName() {
+		return roleName;
+	}
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
 	}
 
 }

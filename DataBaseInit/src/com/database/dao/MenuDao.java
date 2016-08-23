@@ -2,10 +2,10 @@ package com.database.dao;
 
  import java.util.List;
 
-import com.database.po.Menu;
-import com.database.po.UserMenus;
-
 import org.apache.ibatis.annotations.Param;
+
+import com.database.po.Menu;
+import com.database.po.RoleMenus;
 
 /**
  * 
@@ -72,7 +72,7 @@ public interface MenuDao{
 	 **/
 	int updateMenu( Menu record );
 	
-	public int insertUserMenu(List<UserMenus> list);
+	public int insertRoleMenu(List<RoleMenus> list);
 	
-	int deleteByUserId ( @Param("id") String id );
+	int deleteByRoleId ( @Param("id") String id );
 }

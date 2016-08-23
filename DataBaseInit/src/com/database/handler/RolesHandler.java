@@ -1,50 +1,51 @@
 package com.database.handler;
-
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.database.po.GeneExport;
-import com.database.po.RoleMenu;
 import com.database.po.Roles;
-import com.database.service.RoleMenuService;
 import com.database.service.RolesService;
+import com.database.utils.Constant;
 import com.database.utils.HandlerBase;
 import com.database.utils.PageVo;
 
 @Controller
 @RequestMapping("/roles")
-public class RolesHandler  extends HandlerBase {
+public class RolesHandler  extends HandlerBase{
 	private PageVo pageVo = new PageVo();
-
-	@Resource
+	@Resource 
 	private RolesService rolesService;
-	@Resource
-	private RoleMenuService roleMenuService;
-	
-	@RequestMapping("/selectRolesList")
+
+	@RequestMapping("/getRolesList")
 	@ResponseBody
-	public PageVo selectRolesList(Integer page,Integer limit, Roles record){
-		if(record==null){
-			record=new Roles();
+	public PageVo getRolesList(Integer page,Integer limit, Roles roles){
+		if(roles==null){
+			roles=new Roles();
 		}
-		record.setPageSize(limit);
-		record.setCurrPage(page);
-		pageVo=rolesService.selectRolesList(record);
+		roles.setPageSize(limit);
+		roles.setCurrPage(page);
+		pageVo=rolesService.getRolesList(roles);
 		pageVo.setSuccess(true);
 		return pageVo;
 	}
-	@RequestMapping("/selectUserRolesList")
+	@RequestMapping("/insertRoles")
 	@ResponseBody
-	public PageVo selectUserRolesList(RoleMenu record){
-		if(record==null){
-			record=new RoleMenu();
-		}
-		pageVo=roleMenuService.selectRoleMenuList(record);
-		pageVo.setSuccess(true);
+	public PageVo insertRoles(Roles roles){
+		pageVo = new PageVo();
+		String userName=Constant.getUserName(request);
+		roles.setCreateUser(userName);
+		boolean success=rolesService.insertRoles(roles);
+		pageVo.setSuccess(success);
 		return pageVo;
 	}
-	
+	@RequestMapping("/updateRoles")
+	@ResponseBody
+	public PageVo updateRoles(Roles roles){
+		pageVo = new PageVo();
+		boolean success=rolesService.updateRoles(roles);
+		pageVo.setSuccess(success);
+		return pageVo;
+	}
 }

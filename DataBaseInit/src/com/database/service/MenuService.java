@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.database.dao.MenuDao;
 import com.database.po.Menu;
-import com.database.po.UserMenus;
+import com.database.po.RoleMenus;
 
 /**
  * 
@@ -111,9 +111,9 @@ private MenuDao menudao;
 		return list;
 	 }
 
-	public boolean insertUserMenu(List<UserMenus> list) {
+	public boolean insertRoleMenu(List<RoleMenus> list) {
 		// TODO Auto-generated method stub
-		 int flag=menudao.insertUserMenu( list );
+		 int flag=menudao.insertRoleMenu( list );
 		 if(flag>0){
 		 return true;
 		 }
@@ -122,8 +122,8 @@ private MenuDao menudao;
 		 }
 	}
 
-	public boolean  deleteByUserId(String id){
-		 int flag=menudao.deleteByUserId ( id );
+	public boolean  deleteByRoleId(String id){
+		 int flag=menudao.deleteByRoleId ( id );
 		 if(flag>0){
 		 return true;
 		 }

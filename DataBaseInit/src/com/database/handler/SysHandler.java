@@ -11,15 +11,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.database.po.Menu;
-import com.database.po.Syscode;
+import com.database.po.RoleMenus;
 import com.database.po.TreeMenu;
 import com.database.po.User;
-import com.database.po.UserMenus;
 import com.database.po.UserTreeMenu;
 import com.database.service.MenuService;
 import com.database.service.SyscodeService;
@@ -48,7 +46,7 @@ public class SysHandler extends HandlerBase {
 		HttpSession session = request.getSession();
 		User check = userService.loginUser(user);
 		if (check != null) {
-			List<Menu> menulist = menuService.selectRolesMenus(check.getId());
+			List<Menu> menulist = menuService.selectRolesMenus(check.getRoleId());
 			session.setAttribute("userMenu", menulist);
 			session.setAttribute("loginUser", check);
 			return "redirect:index.jsp";  
@@ -143,20 +141,20 @@ public class SysHandler extends HandlerBase {
 	    
 	}
 	
-	@RequestMapping("/insertUserMenus")
+	@RequestMapping("/insertRoleMenus")
 	@ResponseBody
-	public PageVo insertUserMenus(String[] meunsId,String userId) {
+	public PageVo insertRoleMenus(String[] meunsId,String roleId) {
 		  pageVo = new PageVo();
-		  List<UserMenus> list=new ArrayList<UserMenus>();
-		  UserMenus menus;
+		  List<RoleMenus> list=new ArrayList<RoleMenus>();
+		  RoleMenus menus;
 		  for (int i = 0; i < meunsId.length; i++) {
-			  menus=new UserMenus();
-			  menus.setUserId(userId);
+			  menus=new RoleMenus();
+			  menus.setRoleId(roleId);
 			  menus.setMenuId(meunsId[i]);
 			  list.add(menus);
 		  }
-		  menuService.deleteByUserId(userId);;
-		  boolean success = menuService.insertUserMenu(list);
+		  menuService.deleteByRoleId(roleId);;
+		  boolean success = menuService.insertRoleMenu(list);
 		  pageVo.setSuccess(success);
 		return pageVo;
 	    

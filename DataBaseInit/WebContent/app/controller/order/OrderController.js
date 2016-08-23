@@ -4,8 +4,6 @@ Ext.define("app.controller.order.OrderController", {
 	requires: [
 		'Ext.window.Window',
 		'Ext.window.Toast',
-		'app.view.customer.CustomerSelect',
-		'app.view.common.GridCombobox',
 		'Ext.form.*'
 	],
 	insertOrder: function() {

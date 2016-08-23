@@ -79,8 +79,7 @@ public class UserHandler  extends HandlerBase{
         	pageVo.setSuccess(false);
         }else{
         	String userName=loginUser.getUserName();
-            user.setcreateUser(userName);
-      		
+            user.setCreateUser(userName);
       		boolean success=userService.insertUser(user);
       		pageVo.setSuccess(success);	
         }

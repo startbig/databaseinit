@@ -9,6 +9,12 @@ Ext.define('app.controller.user.UserController', {
         'Ext.chart.*'
     ],
     insertUser: function() {
+    	
+       	var roleStore=Ext.create('app.store.RolesStore',{
+    	    fields: ["roleName", "id"]
+		});
+       	roleStore.load();
+    	
         var window = Ext.create('Ext.window.Window', {
             modal: true,
             layout: 'fit',
@@ -37,11 +43,21 @@ Ext.define('app.controller.user.UserController', {
                     name: 'userName',
                     xtype: 'textfield',
                     allowBlank: false
-                }, {
+                },{
+  				    fieldLabel: '角色',
+  				    name: 'roleId',
+  				    xtype: 'combobox',
+  		            store: roleStore,
+  		            editable: false,
+  		            displayField: "roleName",
+  		            valueField: "id",
+  		            emptyText: "--请选择--",
+  		            queryMode: "local",
+  				    allowBlank: false
+  				}, {
                     fieldLabel: '邮箱',
                     xtype: 'textfield',
                     name: 'emailAddress',
-                    // vtype: 'email',
                     allowBlank: false
 
                 }],

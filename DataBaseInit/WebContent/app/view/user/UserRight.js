@@ -31,7 +31,7 @@ Ext.define('app.view.user.UserRight', {
 		var id = deal.getSelection()[0].id;
 		var window = this.up('window');
 		var records = this.getView().getChecked(),
-		ids =new Array();;
+		ids =new Array();
 		Ext.Array.each(records, function(rec) {
 			ids.push(rec.get('id'));
 		});
