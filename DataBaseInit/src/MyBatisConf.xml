@@ -6,6 +6,7 @@
 	<typeAliases>
 		<typeAlias alias="Customer" type="com.database.po.Customer" />
 		<typeAlias alias="CustomerRecord" type="com.database.po.CustomerRecord" />
+		<typeAlias alias="RolesResources" type="com.database.po.RolesResources" />
 		<typeAlias alias="User" type="com.database.po.User" />
 		<typeAlias alias="Order" type="com.database.po.Order" />
 		<typeAlias alias="Model" type="com.database.po.Model" />
@@ -28,7 +29,9 @@
 		<typeAlias alias="allmut" type="com.database.po.allmut" />
 	</typeAliases>
 	<!-- 配置Mapper文件的路径 -->
+	
 	<mappers>
+		<mapper resource="com/database/mapping/RolesResourcesMapper.xml" />
 	    <mapper resource="com/database/mapping/CustomerMapper.xml" />
 	    <mapper resource="com/database/mapping/ModelMapper.xml" />
 	    <mapper resource="com/database/mapping/OrderMapper.xml" />

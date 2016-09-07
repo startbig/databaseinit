@@ -19,6 +19,7 @@
 <script type="text/javascript" src="app/auxiliary/Auxiliary.js"></script>
 <script type="text/javascript">
 	// 提示消息
+	var powers="";
 	    var addSuccessMsg = '<s:text name="ext.alert.msg.addsuccess"/>';//添加成功
 	    var editSuccessMsg = '<s:text name="ext.alert.msg.updatesuccess"/>';//修改成功
 	    var deleteSuccessMsg = '<s:text name="ext.alert.msg.deletesuccess"/>';//删除成功
@@ -47,7 +48,15 @@
 	        userEmail     :   '${loginUser.emailAddress}'    // E-mail
 	      }
 	}
-	
+	function hasCompetence() {
+		if(powers==""){
+			
+			  <c:forEach items="${userResources}" var="resources" varStatus="index">
+			  powers=powers+'${resources.resourceUrl}'+','; 
+			   </c:forEach>
+		}
+	  return powers ;
+	}
 
 </script>
 <!-- The line below must be kept intact for Sencha Cmd to build your application -->

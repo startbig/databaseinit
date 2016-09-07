@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.database.dao.RolesResourcesDao">
+
+	<!--实体映射-->
+	<resultMap id="RolesResourcesResultMap" type="RolesResources">
+		<result property="id" column="id" />
+		<result property="roleId" column="role_id" />
+		<result property="resourceId" column="resource_id" />
+		<result property="resourceName" column="resource_name" />
+		<result property="resourceUrl" column="resource_url" />
+	</resultMap>
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+	 t.id,	 t.role_id,	 t.resource_id
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="getRolesResourcesById" resultMap="RolesResourcesResultMap" parameterType="java.lang.String">
+		 SELECT
+		 t.id,	 t.role_id,	 t.resource_id,ur.resource_name,ur.resource_url
+		 FROM u_roles_resources t left join u_resources ur on ur.id=t.resource_id
+		 WHERE t.role_id = #{id}
+	</select>
+
+	<!-- 查询（根据条件查询集合） -->
+	<select id="getRolesResourcesList" resultMap="RolesResourcesResultMap" parameterType="RolesResources">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM u_roles_resources t 
+	<where>
+		<trim prefix=" " suffix=" " suffixOverrides=" and " >
+			<if test="id != null  and id!=''">
+				 t.id = #{id}
+			</if>
+			<if test="roleId != null  and roleId!=''">
+				 t.role_id = #{roleId}
+			</if>
+			<if test="resourceId != null  and resourceId!=''">
+				 t.resource_id = #{resourceId}
+			</if>
+		 </trim>
+	</where>
+		 limit #{startRow},#{pageSize}
+	</select>
+
+	<!-- 查询（根据条件查询集合总数） -->
+	<select id="getRolesResourcesListCount" resultType="java.lang.Integer" parameterType="RolesResources">
+		SELECT count(*) FROM u_roles_resources t 
+	<where>
+		<trim prefix=" " suffix=" " suffixOverrides=" and " >
+			<if test="id != null  and id!=''">
+				 t.id = #{id}
+			</if>
+			<if test="roleId != null  and roleId!=''">
+				 t.role_id = #{roleId}
+			</if>
+			<if test="resourceId != null  and resourceId!=''">
+				 t.resource_id = #{resourceId}
+			</if>
+		 </trim>
+	</where>
+	</select>
+
+	<!-- 添加 （匹配有值的字段）-->
+	<insert id="insertRolesResources" parameterType="RolesResources">
+		INSERT INTO u_roles_resources
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+				 id,
+			<if test="roleId != null and roleId!=''">
+				 role_id,
+			</if>
+			<if test="resourceId != null and resourceId!=''">
+				 resource_id,
+			</if>
+		 </trim>
+		 <trim prefix="values (" suffix=")" suffixOverrides="," >
+				 uuid(),
+			<if test="roleId!=null and roleId!=''">
+				 #{roleId},
+			</if>
+			<if test="resourceId!=null and resourceId!=''">
+				 #{resourceId},
+			</if>
+		 </trim>
+	</insert>
+
+	<!-- 修 改-->
+	<update id="updateRolesResources" parameterType="RolesResources">
+		 UPDATE u_roles_resources
+		 <set>
+			<if test="roleId != null and roleId!=''">
+				 role_id = #{roleId},
+			</if>
+			<if test="resourceId != null and resourceId!=''">
+				 resource_id = #{resourceId},
+			</if>
+ 		 </set>
+		 WHERE id = #{id}
+	</update>
+
+</mapper>

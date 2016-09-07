@@ -67,6 +67,17 @@ Ext.define(
 					return true;
 				}
 				return false;
+			},
+			checkResource(power){
+				var powers=hasCompetence(); 
+				if(powers.toString().indexOf(power)>-1) {
+					alert('存在');
+				    return true;//存在	
+				}else{
+					 alert('不存在');
+					    return false;
+				}
+					
 			}
 
 		},

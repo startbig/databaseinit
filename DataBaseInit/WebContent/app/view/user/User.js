@@ -110,6 +110,11 @@ Ext.define("app.view.user.User", {
         this.store.load();
         this.callParent(arguments);
     },
+    
+    onSync:function(){
+    	app.Constant.checkResource('123');
+    },
+    
     textSearch: function() {
         var store = this.store;
         var textField = this.down('textfield[name=searchField]').getValue();

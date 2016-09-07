@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.database.po.Menu;
 import com.database.po.RoleMenus;
+import com.database.po.RolesResources;
 import com.database.po.TreeMenu;
 import com.database.po.User;
 import com.database.po.UserTreeMenu;
 import com.database.service.MenuService;
+import com.database.service.RolesResourcesService;
 import com.database.service.SyscodeService;
 import com.database.service.UserService;
 import com.database.utils.Constant;
@@ -36,6 +38,9 @@ public class SysHandler extends HandlerBase {
 	private SyscodeService syscodeService;
 	@Resource
 	private MenuService menuService;
+	@Resource
+	private RolesResourcesService rolesResourcesService;
+
 
 //	private List<Menu> menulist;
 	
@@ -47,7 +52,9 @@ public class SysHandler extends HandlerBase {
 		User check = userService.loginUser(user);
 		if (check != null) {
 			List<Menu> menulist = menuService.selectRolesMenus(check.getRoleId());
+			List<RolesResources> rolesResourceslist = rolesResourcesService.getRolesResourcesById(check.getRoleId());
 			session.setAttribute("userMenu", menulist);
+			session.setAttribute("userResources", rolesResourceslist);
 			session.setAttribute("loginUser", check);
 			return "redirect:index.jsp";  
 		} else {

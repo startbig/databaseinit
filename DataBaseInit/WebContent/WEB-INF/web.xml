@@ -67,6 +67,21 @@
 	<welcome-file-list>
 		<welcome-file>login.jsp</welcome-file>
 	</welcome-file-list>
+	<!-- 
+	<filter>  
+	     <filter-name>GzipJsFilter</filter-name>  
+	     <filter-class>com.database.utils.GzipJsFilter</filter-class>  
+	     <init-param>  
+	         <param-name>headers</param-name>  
+	         <param-value>Content-Encoding=gzip</param-value>  
+	     </init-param>
+  </filter>
+  <filter-mapping>
+		<filter-name>GzipJsFilter</filter-name>
+		<url-pattern>*.gzjs</url-pattern>
+	</filter-mapping>
+  <servlet-mapping>
+   -->
 	<!--  
 		<listener>
         <listener-class> com.database.utils.SessionListener</listener-class>
